@@ -22,6 +22,10 @@ async function createOtp(params) {
 }
 
 async function verifyOtp(params) {
+
+    const { phone, otp, hash } = params;
+
+    if (phone == null || otp == null || hash == null) throw new Error("Invalid OTP")
     let [hashValue, expires] = params.hash.split('.');
 
     let now = Date.now();

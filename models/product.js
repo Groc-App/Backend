@@ -18,6 +18,6 @@ const productSchema = new Schema({
     ImageUrl: String,
 });
 
-const Product = mongoose.model("User", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;
