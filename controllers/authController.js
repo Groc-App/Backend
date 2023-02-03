@@ -14,16 +14,18 @@ exports.otpLogin = async (req, res, next) => {
 
 }
 
-exports.verifyOtp = async (req, res) => {
+exports.verifyOtp = async (req, res, next) => {
     try {
-        const resp = await verifyOtp(req.body);
 
+        const resp = await verifyOtp(req.body);
         res.status(200).send({
             message: "Success",
             data: resp
         })
     } catch (error) {
-        console.log(error);
-        return res.status(500).send(error)
+        console.log("This is error:", error);
+        return res.status(500).json({
+            mesg: error.message
+        })
     }
 }
