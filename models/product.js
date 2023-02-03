@@ -1,7 +1,8 @@
-import 'mongoose';
+// import 'mongoose';
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Category = require("./category");
 
 const productSchema = new Schema({
     Name: {
@@ -11,13 +12,13 @@ const productSchema = new Schema({
     Description: String,
     Category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Category,
+        ref: 'Category',
     },
-    Quantity: Number,
+    Quantity: String,
     Company: String,
     ImageUrl: String,
 });
 
-const Product = mongoose.model("User", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;

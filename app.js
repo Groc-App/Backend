@@ -10,7 +10,7 @@ var cors = require("cors");
 var cookieParser = require("cookie-parser");
 
 dotenv.config({ path: "./config/config.env" });
-// connectDB();
+connectDB();
 
 app.use(cookieParser());
 
@@ -24,8 +24,10 @@ if (process.env.NODE_ENV === "development") {
 /* ---------------------------  Routes --------------------------- */
 
 const authRouter = require("./routes/user/auth");
+const productRouter = require("./routes/products/product.js");
 
 app.use("/", authRouter);
+app.use("/product", productRouter);
 
 const PORT = process.env.PORT || 8000;
 
