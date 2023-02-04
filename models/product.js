@@ -10,10 +10,10 @@ const productSchema = new Schema({
     },
     Price: Number,
     Description: String,
-    Category: {
+    Category: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
-    },
+    }],
     Quantity: String,
     Company: String,
     ImageUrl: String,
