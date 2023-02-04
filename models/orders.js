@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const Category = require("./category");
 
 const orderSchema = new Schema({
-
     OrderId:String,
     TotalAmount:Number,
     OrderStatus:String,
@@ -18,10 +17,6 @@ const orderSchema = new Schema({
         Quantity:Number
     }
     ],
-    Products:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-    }],
     User:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
