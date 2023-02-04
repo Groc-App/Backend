@@ -6,7 +6,7 @@ const router = express.Router();
 router.post("/addproduct", addProduct);
 router.post("/updateproduct", updateProduct);
 router.post("/deleteproduct/:id", deleteProduct);
-router.get("/fetchproductcategory", fetchProductbyCategory);
+router.get("/fetchproductcategory/:category", fetchProductbyCategory);
 router.get("/fetchproductcid/:id", fetchProductbyId);
 
 // router.post("/login", authController.login);
