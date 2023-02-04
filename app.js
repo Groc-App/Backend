@@ -25,9 +25,11 @@ if (process.env.NODE_ENV === "development") {
 
 const authRouter = require("./routes/user/auth");
 const productRouter = require("./routes/products/product.js");
+const cartRouter = require("./routes/cart/cartitem");
 
 app.use("/", authRouter);
 app.use("/product", productRouter);
+app.use("/cart", cartRouter);
 
 const PORT = process.env.PORT || 8000;
 
