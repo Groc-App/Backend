@@ -7,10 +7,10 @@ const categorySchema = new Schema({
     Name: {
         type: String,
     },
-    Products: {
+    Products: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
-    },
+    }],
 });
 
 const Category = mongoose.model("Category", categorySchema);

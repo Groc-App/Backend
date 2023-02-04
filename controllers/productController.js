@@ -3,40 +3,40 @@ const Product = require("../models/product");
 
 exports.addProduct = async (req, res) => {
     try {
-        // const {name, price, category, description, quantity, company, imageurl} = req.body;
-        // console.log(req.body);
+        const {name, price, category, description, quantity, company, imageurl} = req.body;
+        var newProduct={};
+        console.log(req.body);
 
-        // const categ = await Category.findOne({Name: category});
-        // if(!categ)
-        // {
-        //     const newcateg = new Category({Name: category});
+        const categ = await Category.findOne({Name: category});
+        if(!categ)
+        {
+            const newcateg = new Category({Name: category});
 
-        //     const newProduct = new Product({Name: name, Price: price, Description: description, Quantity: quantity, Company: company, ImageUrl: imageurl});
+             newProduct = new Product({Name: name, Price: price, Description: description, Quantity: quantity, Company: company, ImageUrl: imageurl});
         
-        //     newProduct.Category = newcateg;
-        //     await newProduct.save();
+            newProduct.Category = newcateg._id;
+            await newProduct.save();
 
-        //     newcateg.Products = newProduct._id;
-        //     await newcateg.save();
-        // }
-        // else
-        // {
-        //     const newProduct = new Product({Name: name, Price: price, Description: description, Quantity: quantity, Company: company, ImageUrl: imageurl});
+                newCateg.Products.push(newProduct._id);
+            await newcateg.save();
+        }
+        else
+        {
+             newProduct = new Product({Name: name, Price: price, Description: description, Quantity: quantity, Company: company, ImageUrl: imageurl});
 
-        //     newProduct.Category = categ;
-        //     await newProduct.save();
+            newProduct.Category = categ._id;
+            await newProduct.save();
 
-        //     categ.Products.push(newProduct._id);
-        //     await newcateg.save();
-        // }
+            categ.Products.push(newProduct._id);
+            await newcateg.save();
+        }
+
+        res.status(200).json({
+            message:"Success",
+            data:newProduct
+        })
     
-        const newProduct = new Product({Name: name, Price: price, Description: description, Quantity: quantity, Company: company, ImageUrl: imageurl});
-        await newProduct.save();
 
-        if(!newProduct) res.status(400).json({Error: "Could not save this note"});
-        res.status(200).json({msg: "Saved Succussfully",
-    data:newProduct})
-        
     } catch (error) {
         res.status(400).json({error:error.message});
     }  
