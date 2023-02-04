@@ -2,7 +2,6 @@
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Product = require("./product");
 
 const categorySchema = new Schema({
     Name: {
