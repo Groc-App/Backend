@@ -3,11 +3,21 @@ const Category = require("../models/category")
 exports.addCatergory=async(req,res)=>{
 
     try {
-        const {name}=req.body
+        const {name}=req.body;
+        
+        const existCategory=await Category.find({Name:name});
+        if(existCategory) 
+        {
+            res.status(400).json({
+                message: "Success",
+                data: category
+            })
+        }
+
         const category=new Category({Name:name});
         await category.save();
 
-        res.status(201).send({
+        res.status(201).json({
             message: "Success",
             data: category
         })
@@ -21,7 +31,7 @@ exports.addCatergory=async(req,res)=>{
 exports.getAllCategory=async(req,res)=>{
     try {
         
-        const categories=Category.find();
+        const categories=await Category.find();
         res.status(200).send({
             message: "Success",
             data: categories
@@ -37,11 +47,44 @@ exports.getAllCategory=async(req,res)=>{
 exports.deleteCategory=async(req,res)=>{
     try {
         const {id}=req.params;
-        const category=Category.deleteOne({_id:id});
+        if(!id)
+        {
+            res.status(404).send({
+                message: "No Id Found",
+                // data: category
+            })
+        }
+        const category=await Category.deleteOne({_id:id});
         res.status(200).send({
             message: "Success",
             data: category
         })
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+
+exports.getCategoryByName=async(req,res)=>{
+    try {
+        const {name}=req.params;
+        if(!name)
+        {
+            res.status(404).send({
+                message: "No Name found",
+                
+            })
+        }
+
+        const category=await Category.findOne({Name:name}).populate('Products');
+
+        res.status(200).send({
+            message: "Success",
+            data: category
+        })
+
+
     } catch (error) {
         return res.status(500).json({
             message: error.message
