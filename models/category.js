@@ -3,19 +3,32 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const categorySchema = new Schema({
+const categorySchema = new Schema(
+  {
     Name: {
-        type: String,
+      type: String,
     },
-    Products: [{
+    Products: [
+      {
         type: Schema.ObjectId,
-        ref: 'Product',
-    }],
+        ref: "Product",
+      },
+    ],
     MainCategory: {
-        type: Schema.ObjectId,
-        ref: 'MainCategory'
-    }
-});
+      type: Schema.ObjectId,
+      ref: "MainCategory",
+    },
+  },
+  {
+    toJSON: {
+      transform: function (doc, ret) {
+        ret.categoryId = ret._id.toString();
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+  }
+);
 
 const Category = mongoose.model("Category", categorySchema);
 
