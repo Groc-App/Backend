@@ -4,13 +4,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const categorySchema = new Schema({
-    Name: {
+    name: {
         type: String,
     },
-    Products: [{
+    products: [{
         type: Schema.ObjectId,
         ref: 'Product',
     }],
+    imageUrl: String
 
 },
     {
