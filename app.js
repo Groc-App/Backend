@@ -50,6 +50,7 @@ if (process.env.NODE_ENV === "development") {
 
 const authRouter = require("./routes/user/auth");
 const productRouter = require("./routes/products/product.js");
+const categoryRouter = require('./routes/category/category')
 const cartRouter = require("./routes/cart/cartitem");
 const orderRouter = require("./routes/orders/orders");
 
@@ -57,7 +58,7 @@ app.use("/", authRouter);
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
 app.use("/order", orderRouter);
-
+app.use('/category', categoryRouter)
 const PORT = process.env.PORT || 8000;
 
 app.listen(

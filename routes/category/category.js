@@ -16,10 +16,10 @@ const router = express.Router();
 //  */
 
 router.post("/addCategory", addCatergory);
-router.get('/getAllCategory',getAllCategory)
-router.get('/getCategory/:name',getAllCategory)
-router.delete('/deleteCategory/:id',deleteCategory);
-router.put("/updateCategory", otpLogin);
+router.get('/getAllCategory', getAllCategory)
+router.get('/getCategory/:name', getAllCategory)
+router.delete('/deleteCategory/:id', deleteCategory);
+// router.put("/updateCategory", otpLogin);
 
 // router.post("/login", authController.login);
 
