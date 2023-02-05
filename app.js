@@ -9,29 +9,29 @@ const app = express();
 var cors = require("cors");
 var cookieParser = require("cookie-parser");
 
-const swaggerJSDoc=require('swagger-jsdoc');
-const swaggerUi=require('swagger-ui-express')
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express')
 
-var options={
-    definition:{
-        openapi:'3.0.0',
-        info:{
-            title:'Groc App',
-            version:"1.0.0"
+var options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Groc App',
+            version: "1.0.0"
         },
-        servers:[{
-           url: 'htpp://localhost:8000/'
+        servers: [{
+            url: 'htpp://localhost:8000/'
         }]
     },
-    apis:[
+    apis: [
         './app.js',
         './routes/category/category.js'
     ]
 }
 
-const swaggerSpec=swaggerJSDoc(options)
+const swaggerSpec = swaggerJSDoc(options)
 
-app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 dotenv.config({ path: "./config/config.env" });
 
@@ -50,11 +50,13 @@ if (process.env.NODE_ENV === "development") {
 
 const authRouter = require("./routes/user/auth");
 const productRouter = require("./routes/products/product.js");
-const categoryRouter=require('./routes/category/category')
+const cartRouter = require("./routes/cart/cartitem");
+const orderRouter = require("./routes/orders/orders");
 
 app.use("/", authRouter);
 app.use("/product", productRouter);
-app.use('/cateogry',categoryRouter)
+app.use("/cart", cartRouter);
+app.use("/order", orderRouter);
 
 const PORT = process.env.PORT || 8000;
 
