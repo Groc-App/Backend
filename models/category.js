@@ -11,7 +11,18 @@ const categorySchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Product',
     }],
-});
+
+},
+    {
+        toJSON: {
+            transform: function (doc, ret) {
+                ret.categoryId = ret._id.toString();
+                delete ret._id;
+                delete ret._v;
+            }
+        }
+    }
+);
 
 const Category = mongoose.model("Category", categorySchema);
 
