@@ -20,6 +20,14 @@ const productSchema = new Schema({
   Quantity: String,
   Company: String,
   ImageUrl: String,
+}, {
+  toJSON: {
+    transform: function (doc, ret) {
+      ret.productId = ret._id.toString();
+      delete ret._id;
+      delete ret.__v;
+    },
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);
