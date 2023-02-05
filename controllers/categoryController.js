@@ -1,7 +1,6 @@
 const Category = require("../models/category")
 
 exports.addCatergory = async (req, res) => {
-
     try {
         const { name, url } = req.body;
 
@@ -34,7 +33,6 @@ exports.addCatergory = async (req, res) => {
 
 exports.getAllCategory = async (req, res) => {
     try {
-
         const categories = await Category.find();
         res.status(200).send({
             message: "Success",
