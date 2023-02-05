@@ -1,4 +1,5 @@
-import 'mongoose';
+// import { Int32 } from 'bson';
+// import 'mongoose';
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
@@ -10,10 +11,18 @@ const userSchema = new Schema({
     Address: [{
         Flat_FLoor_Tower: String,
         Street_Society: String,
-        Recipients_Name: String
+        Recipients_Name: String,
+        City: String,
+        Pincode: Number,
     }],
-    Order: [{}],
-    CartItem: [{}]
+    Order: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+    }],
+    CartItem: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CartItem',
+    }]
 });
 
 const User = mongoose.model("User", userSchema);

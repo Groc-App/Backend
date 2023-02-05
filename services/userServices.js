@@ -16,9 +16,7 @@ async function createOtp(params) {
 
     console.log("OTP" + otp);
 
-    return {
-        fullHash: fullHash
-    };
+    return fullHash;
 }
 
 async function verifyOtp(params) {
