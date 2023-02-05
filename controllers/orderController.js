@@ -27,6 +27,10 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
   }
 };
 
+
+
+// ordere id generate krvani h
+
 exports.createOrder = async (req, res) => {
   try {
     const { tamount, userid, orderdetail } = req.body; //order detail = [{productid, quantity}]
