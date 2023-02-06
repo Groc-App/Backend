@@ -32,6 +32,23 @@ exports.addCatergory = async (req, res) => {
     }
 }
 
+exports.getCategoryByMaincategory = async (req, res) => {
+    try {
+
+        const { mainCategoryId } = req.params;
+        const categories = await Category.find({ MainCategory: mainCategoryId });
+        res.status(200).send({
+            message: "Success",
+            data: categories
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+
 exports.getAllCategory = async (req, res) => {
     try {
         const categories = await Category.find();
