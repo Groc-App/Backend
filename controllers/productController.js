@@ -2,6 +2,7 @@ const { error } = require("console");
 const Category = require("../models/category");
 const Product = require("../models/product");
 const MainCategory = require("../models/maincategory");
+const MostSelling = require("../models/mostselling");
 
 exports.addProduct = async (req, res) => {
   try {
@@ -11,6 +12,7 @@ exports.addProduct = async (req, res) => {
       maincategory,
       category,
       description,
+      mostselling,
       quantity,
       company,
       imageurl,
@@ -19,6 +21,7 @@ exports.addProduct = async (req, res) => {
       Name: name,
       Price: price,
       Description: description,
+      MostSelling: mostselling == 'true' ? true : false,
       Quantity: quantity,
       Company: company,
       ImageUrl: imageurl,
@@ -252,36 +255,64 @@ exports.fetchProductbyId = async (req, res) => {
 
   const product = await Product.findById(id);
   if (!product) res.send(product);
-  res.send(product);
+  res.status(200).send({
+    message: "Success",
+    data: product
+  })
+};
+
+exports.fetchproductsbyMostSelling = async (req, res) => {
+  try {
+    MostSelling.find().populate('Products').exec(function (err, data) {
+      if (err) res.status(400).json({ error: err });
+      res.status(200).send({
+        message: "Success",
+        data: data,
+      });
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+
+  }
 };
 
 exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
-  const { maincategory, subcategory } = req.params;
-  console.log(req.params);
+  try {
 
-  if (!maincategoryId || !subcategoryId) {
+    const { mainCategoryId, subCategoryId } = req.query;
 
-    return res.status(404).json({
-      message: "No Cateogories Found",
+    console.log(req.query);
 
+    var mainProducts;
+
+    if (mainCategoryId == 'null' && subCategoryId == 'null') {
+
+      return res.status(404).json({
+        message: "No CateogoriesID Found",
+      })
+
+    } else if (subCategoryId == 'null') {
+      console.log("else if");
+      mainProducts = await MainCategory.findById(mainCategoryId).populate('Products')
+
+    } else {
+
+      mainProducts = await Category.findById(subCategoryId).populate('Products');
+      // console.log(mainProducts);
+    }
+    if (!mainProducts)
+      return res.status(500).json({ error: "No products" });
+
+    return res.status(200).json({
+      message: "Success",
+      data: mainProducts.Products
     })
 
-  }
-  /* ---------------------- if main category is mentioned --------------------- */
+  } catch (error) {
+    res.status(500).json({ error: error.message });
 
-  const mainProducts = await Product.find({ Name: maincategory });
-
-  if (!mainProducts) {
-    return res.status(404).json({
-      message: "No Products Found",
-      data: null
-    })
   }
 
-  return res.status(200).json({
-    message: "Success",
-    data: mainProducts
-  })
 
 
 }
