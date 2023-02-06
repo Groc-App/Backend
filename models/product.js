@@ -20,6 +20,7 @@ const productSchema = new Schema({
   Quantity: String,
   Company: String,
   ImageUrl: String,
+  MostSelling: Boolean,
 }, {
   toJSON: {
     transform: function (doc, ret) {

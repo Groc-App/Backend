@@ -2,6 +2,7 @@ const { error } = require("console");
 const Category = require("../models/category");
 const Product = require("../models/product");
 const MainCategory = require("../models/maincategory");
+const MostSelling = require("../models/mostselling");
 
 exports.addProduct = async (req, res) => {
   try {
@@ -11,6 +12,7 @@ exports.addProduct = async (req, res) => {
       maincategory,
       category,
       description,
+      mostselling,
       quantity,
       company,
       imageurl,
@@ -19,6 +21,7 @@ exports.addProduct = async (req, res) => {
       Name: name,
       Price: price,
       Description: description,
+      MostSelling: mostselling == 'true' ? true : false,
       Quantity: quantity,
       Company: company,
       ImageUrl: imageurl,
@@ -240,4 +243,18 @@ exports.fetchProductbyId = async (req, res) => {
     message: "Success",
     data: product
 })
+};
+
+exports.fetchproductsbyMostSelling = async (req, res) => {
+  try {
+    MostSelling.find().populate('Products').exec(function (err, data) {
+      if(err) res.status(400).json({error: err});
+      res.status(200).send({
+        message: "Success",
+        data: data,
+      });
+    })
+  } catch (error) {
+    
+  }
 };

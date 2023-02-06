@@ -50,10 +50,15 @@ exports.FetchallItemsbyUserId = async (req, res) => {
   try {
     const { id } = req.params; // user id
 
-    const data = await User.findById(id).populate("CartItems");
-
-    if (!data) res.status(400).json({ error: error.message });
-    res.send(data);
+    const data = await User.findById(id).populate({path: "CartItems", populate: {
+      path:"Item", model: "Product" 
+    }}).exec(function (err, data) {
+      if(err) res.status(400).json({ error: error.message });
+      res.status(200).send({
+        message: "Success",
+        data: data
+    })
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
