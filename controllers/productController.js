@@ -198,6 +198,22 @@ exports.fetchProductbyCategory = async (req, res) => {
     const { category } = req.params;
     console.log(req.params);
 
+    if (category == 'all') {
+      const categories = await Category.find().populate('Products');
+
+      if (!categories) {
+        res.status(404).send({
+          message: "No Cateogories Found",
+
+        })
+      }
+      res.status(200).send({
+        message: "Success",
+        data: data
+      })
+
+    }
+
     Category.findOne({ Name: category })
       .populate("Products")
       .exec(function (err, data) {
@@ -238,3 +254,38 @@ exports.fetchProductbyId = async (req, res) => {
   if (!product) res.send(product);
   res.send(product);
 };
+
+exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
+  const { maincategory, subcategory } = req.params;
+  console.log(req.params);
+
+  if (!maincategoryId || !subcategoryId) {
+
+    return res.status(404).json({
+      message: "No Cateogories Found",
+
+    })
+
+  }
+  /* ---------------------- if main category is mentioned --------------------- */
+
+  const mainProducts = await Product.find({ Name: maincategory });
+
+  if (!mainProducts) {
+    return res.status(404).json({
+      message: "No Products Found",
+      data: null
+    })
+  }
+
+  return res.status(200).json({
+    message: "Success",
+    data: mainProducts
+  })
+
+
+}
+
+
+
+
