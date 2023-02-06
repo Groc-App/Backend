@@ -29,6 +29,17 @@ exports.addProduct = async (req, res) => {
     await newProduct.save();
     console.log(req.body);
 
+    const mostsellin = await MostSelling.findOne();
+    if(!mostsellin){
+      const newmostsellin = new MostSelling({Products: newProduct._id});
+      await newmostsellin.save();
+    }
+    else
+    {
+      mostsellin.Products.push(newProduct._id);
+      await mostsellin.save();
+    }
+
     const maincateg = await MainCategory.findOne({ Name: maincategory });
 
     if (maincateg) {
@@ -247,7 +258,7 @@ exports.fetchProductbyId = async (req, res) => {
 
 exports.fetchproductsbyMostSelling = async (req, res) => {
   try {
-    MostSelling.find().populate('Products').exec(function (err, data) {
+    MostSelling.findOne().populate('Products').exec(function (err, data) {
       if(err) res.status(400).json({error: err});
       res.status(200).send({
         message: "Success",

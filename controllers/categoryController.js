@@ -1,4 +1,5 @@
 const Category = require("../models/category")
+const MainCategory = require("../models/maincategory")
 
 exports.addCatergory = async (req, res) => {
     try {
@@ -82,6 +83,23 @@ exports.getCategoryByName = async (req, res) => {
         res.status(200).send({
             message: "Success",
             data: category
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+
+
+exports.getallMainCategory = async (req, res) => {
+    try {
+        const data = await MainCategory.find();
+
+        res.status(200).send({
+            message: "Success",
+            data: data
         })
 
     } catch (error) {
