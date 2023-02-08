@@ -42,6 +42,7 @@ exports.createOrder = async (req, res) => {
       OrderDetails: orderdetail,
       User: userid,
     });
+
     await neworder.save();
 
     const usar = await User.findById(userid);
@@ -51,3 +52,4 @@ exports.createOrder = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
