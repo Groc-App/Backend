@@ -46,6 +46,7 @@ exports.createOrder = async (req, res) => {
 
     const usar = await User.findById(userid);
     usar.Order.push(neworder._id);
+    usar.CartItem = [];
     await usar.save();
   } catch (error) {
     res.status(400).json({ error: error.message });

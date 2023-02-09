@@ -1,10 +1,8 @@
 const express = require("express");
-const { addCartItem, updateQuantity, deleteCartItem, FetchallItemsbyUserId } = require("../../controllers/cartItemControllers");
+const { fetchallOrdersbyUserId, createOrder } = require("../../controllers/orderController");
 const router = express.Router();
 
-router.post("/addcartitem", addCartItem);
-router.post("/updatequantity", updateQuantity);
-router.delete("/deleteItem/:id", deleteCartItem);
-router.get("/fetchitemsid/:id", FetchallItemsbyUserId);
+router.post("/createorder", createOrder);
+router.get("/fetchordersid/:id", fetchallOrdersbyUserId);
 
 module.exports = router;

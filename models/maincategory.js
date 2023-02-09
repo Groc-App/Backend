@@ -10,13 +10,13 @@ const maincategorySchema = new Schema(
     },
     Products: [
       {
-        type: Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
       },
     ],
     Categories: [
       {
-        type: Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Category",
       },
     ],

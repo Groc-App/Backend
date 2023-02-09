@@ -8,7 +8,7 @@ const orderSchema = new Schema({
     OrderId:String,
     TotalAmount:Number,
     OrderStatus:String,
-    Date:Date(),
+    Date: Date,
     OrderDetails:[{
         Product:{
             type: mongoose.Schema.Types.ObjectId,
@@ -21,7 +21,7 @@ const orderSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-});
+},);
 
 const Order = mongoose.model("Order", orderSchema);
 
