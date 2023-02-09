@@ -30,12 +30,11 @@ exports.addProduct = async (req, res) => {
     console.log(req.body);
 
     const mostsellin = await MostSelling.findOne();
-    if(!mostsellin){
-      const newmostsellin = new MostSelling({Products: newProduct._id});
+    if (!mostsellin) {
+      const newmostsellin = new MostSelling({ Products: newProduct._id });
       await newmostsellin.save();
     }
-    else
-    {
+    else {
       mostsellin.Products.push(newProduct._id);
       await mostsellin.save();
     }
@@ -275,7 +274,7 @@ exports.fetchProductbyId = async (req, res) => {
 exports.fetchproductsbyMostSelling = async (req, res) => {
   try {
     MostSelling.findOne().populate('Products').exec(function (err, data) {
-      if(err) res.status(400).json({error: err});
+      if (err) res.status(400).json({ error: err });
       res.status(200).send({
         message: "Success",
         data: data,
@@ -325,6 +324,21 @@ exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
   }
 
 
+
+}
+
+exports.fetchAllProducts = async (req, res) => {
+  try {
+    const product = await Product.find();
+    if (!product) res.send(product);
+    res.status(200).send({
+      message: "Success",
+      data: product
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+
+  }
 
 }
 

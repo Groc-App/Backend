@@ -1,5 +1,5 @@
 const express = require("express");
-const { addProduct, fetchProductbyCategory, fetchproductsbyMostSelling, fetchProductbyMainCategory, fetchProductbyId, updateProduct, deleteProduct, fetchProductByMainCategoryAndCategory } = require("../../controllers/productController");
+const { addProduct, fetchProductbyCategory, fetchproductsbyMostSelling, fetchProductbyMainCategory, fetchProductbyId, updateProduct, deleteProduct, fetchProductByMainCategoryAndCategory, fetchAllProducts } = require("../../controllers/productController");
 const router = express.Router();
 
 router.post("/addproduct", addProduct);
@@ -10,5 +10,6 @@ router.get("/fetchproductmaincategory/:maincategory", fetchProductbyMainCategory
 router.get("/fetchProducts", fetchProductByMainCategoryAndCategory);
 router.get("/fetchproductcid/:id", fetchProductbyId);
 router.get("/fetchproductcmostselling", fetchproductsbyMostSelling);
+router.get("/fetchAllProduct", fetchAllProducts);
 
 module.exports = router;
