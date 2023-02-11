@@ -112,6 +112,7 @@ exports.getCategoryByName = async (req, res) => {
 
 exports.getallMainCategory = async (req, res) => {
     try {
+        console.log("hiiiiiiiiiiiiiiiiiii");
         const data = await MainCategory.find();
 
         res.status(200).send({

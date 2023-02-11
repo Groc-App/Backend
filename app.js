@@ -56,7 +56,7 @@ const orderRouter = require("./routes/orders/orders");
 
 app.use("/", authRouter);
 app.use("/address", require('./routes/address/address'));
-app.use("/user", require('./routes/address/address'));
+app.use("/user", require('./routes/user/user'));
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
 app.use("/order", orderRouter);

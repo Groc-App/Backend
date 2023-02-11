@@ -1,8 +1,39 @@
 const User = require("../models/user");
 
+exports.createuserifnotexist = async(req, res, next) => {
+    try {
+        const {number} = req.query;
+
+        const user = await User.findOne({Number: number});
+
+        if(!user)
+        {
+            const newuser = new User({Number: number});
+            await newuser.save();
+
+            res.status(200).send({
+                message: "Success",
+                data: user
+            })
+        }
+        else
+        {
+            res.status(200).send({
+                message: "Success",
+                data: user
+            })
+        }
+    } catch (error) {
+        console.log("This is error:", error);
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+
 exports.getUser = async (req, res, next) => {
     try {
-        const { number } = req.query;
+        const {phonenumber} = req.body;
 
         const user = await User.findOne({ Number: number });
 
