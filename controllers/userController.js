@@ -123,7 +123,7 @@ exports.createCartItem = async (req, res) => {
         } else {
             var cartItem = new CartItem({
                 User: userId,
-                Item: Item,
+                Item: productId,
                 ItemCount: quantity,
             });
 
