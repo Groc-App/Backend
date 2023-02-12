@@ -3,7 +3,10 @@ const User = require("../models/user");
 
 exports.createuserifnotexist = async (req, res, next) => {
     try {
-        const { number } = req.query;
+        const { number } = req.params;
+
+        console.log('yesssssssssssss');
+        console.log(number);
 
         const user = await User.findOne({ Number: number });
 
@@ -11,12 +14,12 @@ exports.createuserifnotexist = async (req, res, next) => {
             const newuser = new User({ Number: number });
             await newuser.save();
 
-            res.status(200).json({
+            return res.status(200).json({
                 message: "Success",
-                data: user,
+                data: newuser,
             });
         } else {
-            res.status(200).json({
+            return res.status(200).json({
                 message: "Success",
                 data: user,
             });
@@ -86,12 +89,14 @@ exports.createCartItem = async (req, res) => {
         const { phonenumber, productId, quantity } = req.body;          //userId phone number hoga
         var prevQuantity;
 
-        if (!phonenumber || !productId || quantity) {
+        if (!phonenumber || !productId || !quantity) {
             return res.status(404).json({
                 message: "Some Queries not passed",
                 data: null,
             });
         }
+
+        console.log(phonenumber + '\n' + productId + '\n' + quantity);
 
         const user = await User.findOne({ Number: phonenumber });
         if (!user) {
@@ -107,7 +112,6 @@ exports.createCartItem = async (req, res) => {
         }
 
         if (cartItem) {
-
             if (quantity != 0) {
                 prevQuantity = cartItem.ItemCount;
                 cartItem.ItemCount = prevQuantity + quantity;
@@ -119,7 +123,6 @@ exports.createCartItem = async (req, res) => {
             } else {
                 await CartItem.deleteOne({ productId, userId })
             }
-
         } else {
             var cartItem = new CartItem({
                 User: userId,
