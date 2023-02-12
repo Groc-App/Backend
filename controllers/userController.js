@@ -83,7 +83,7 @@ exports.addUser = async (req, res, next) => {
 
 exports.createCartItem = async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    const { userId, productId, quantity } = req.body;          //userId phone number hoga
     var prevQuantity;
 
     if (!userId || !productId || quantity) {
