@@ -10,6 +10,6 @@ router.post("/createorupdatecartitem", createCartItem);
 
 router.get('/getUser', getUser);
 
-router.get('/createuserifnotexist', createuserifnotexist);
+router.get('/createuserifnotexist/:number', createuserifnotexist);
 
 module.exports = router;
