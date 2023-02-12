@@ -15,6 +15,8 @@ exports.addCartItem = async (req, res) => {
       Item: productid,
     });
     await newitem.save();
+    return res.status(201).json({ success: "Added Successfully" });
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -27,7 +29,7 @@ exports.deleteCartItem = async (req, res) => {
     const data = await CartItem.findByIdAndDelete(id);
 
     if (!data) res.status(400).json({ error: error.message });
-    res.status(200).json({ success: "Deleted Successfully" });
+    return res.status(200).json({ success: "Deleted Successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -40,7 +42,7 @@ exports.updateQuantity = async (req, res) => {
     const data = await CartItem.findByIdAndUpdate(id, { ItemCount: quantity });
 
     if (!data) res.status(400).json({ error: error.message });
-    res.status(200).json({ success: "Updated Successfully" });
+    return res.status(200).json({ success: "Updated Successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -50,14 +52,16 @@ exports.FetchallItemsbyUserId = async (req, res) => {
   try {
     const { id } = req.params; // user id
 
-    const data = await User.findById(id).populate({path: "CartItems", populate: {
-      path:"Item", model: "Product" 
-    }}).exec(function (err, data) {
-      if(err) res.status(400).json({ error: error.message });
-      res.status(200).send({
+    const data = await User.findById(id).populate({
+      path: "CartItems", populate: {
+        path: "Item", model: "Product"
+      }
+    }).exec(function (err, data) {
+      if (err) return res.status(400).json({ error: error.message });
+      return res.status(200).send({
         message: "Success",
         data: data
-    })
+      })
     });
   } catch (error) {
     res.status(400).json({ error: error.message });

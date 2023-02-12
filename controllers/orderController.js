@@ -19,8 +19,11 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
         },
       })
       .exec(function (err, data) {
-        if (err) res.status(400).json({ error: error.message });
-        res.send(data);
+        if (err) return res.status(400).json({ error: error.message });
+        res.status(201).json({
+          message: "Success",
+          data
+        })
       });
   } catch (error) {
     res.status(400).json({ error: error.message });
