@@ -48,22 +48,4 @@ exports.updateQuantity = async (req, res) => {
   }
 };
 
-exports.FetchallItemsbyUserId = async (req, res) => {
-  try {
-    const { id } = req.params; // user id
 
-    const data = await User.findOne({ Number: id }).populate({
-      path: "CartItems", populate: {
-        path: "Item", model: "Product"
-      }
-    })
-
-    if (!data) res.status(200).json({ message: "No items" });
-
-    return res.status(200).json({ message: "Feteched Items Successfully", data });
-
-
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
