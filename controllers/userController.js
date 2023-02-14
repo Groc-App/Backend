@@ -184,9 +184,9 @@ exports.createCartItem = async (req, res) => {
 
 exports.getAddresses = async (req, res, next) => {
     try {
-        const { number } = req.query;
+        const { phonenumber } = req.body;
 
-        const user = await User.findOne({ Number: number });
+        const user = await User.findOne({ Number: phonenumber });
 
         if (!user) {
             res.status(404).send({
