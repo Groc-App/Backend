@@ -1,3 +1,4 @@
+const { CallPage } = require("twilio/lib/rest/api/v2010/account/call");
 const CartItem = require("../models/cartitem");
 const User = require("../models/user");
 
@@ -86,8 +87,9 @@ exports.addUser = async (req, res, next) => {
 
 exports.createCartItem = async (req, res) => {
     try {
+
+        /* --------------------------------- imports -------------------------------- */
         const { phonenumber, productId, quantity } = req.body;          //userId phone number hoga
-        var prevQuantity;
 
         if (!phonenumber || !productId || !quantity) {
             return res.status(404).json({
@@ -97,6 +99,8 @@ exports.createCartItem = async (req, res) => {
         }
 
         console.log(phonenumber + '\n' + productId + '\n' + quantity);
+
+
 
         const user = await User.findOne({ Number: phonenumber });
         if (!user) {
@@ -113,22 +117,40 @@ exports.createCartItem = async (req, res) => {
 
         if (cartItem) {
             if (quantity != 0) {
-                prevQuantity = cartItem.ItemCount;
-                cartItem.ItemCount = prevQuantity + quantity;
+                cartItem.ItemCount = parseInt(quantity);
                 await cartItem.save();
-                return res.status(200).json({
-                    message: "Success",
-                    data: cartItem,
-                });
+
             } else {
+                const cartItemId = cartItem._id;
                 await CartItem.deleteOne({ productId, userId })
+
+                for (var i = 0; i < user.CartItem.length; i++) {
+                    if (user.CartItem[i].equals(cartItemId)) {
+                        user.CartItem.splice(i, 1);
+                        await user.save();
+                    }
+                }
             }
+
+            return res.status(200).json({
+                message: "Success",
+                data: cartItem,
+            });
         } else {
+
+            if (quantity == 0) {
+                return res.status(200).json({
+                    message: "No Cart Item Exist to delete",
+                    data: null
+                })
+            }
             var cartItem = new CartItem({
                 User: userId,
                 Item: productId,
                 ItemCount: quantity,
             });
+
+            await cartItem.save();
 
             if (!cartItem) {
                 return res.status(404).json({
@@ -144,7 +166,7 @@ exports.createCartItem = async (req, res) => {
                     data: null,
                 });
             }
-            user.CartItem.push(user.id);
+            user.CartItem.push(cartItem._id);
             await user.save();
 
             return res.status(200).json({
