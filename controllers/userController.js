@@ -112,7 +112,7 @@ exports.createCartItem = async (req, res) => {
         const userId = user._id;
 
         if (productId && userId) {
-            var cartItem = await CartItem.findOne({ productId, userId });
+            var cartItem = await CartItem.findOne({ Item: productId, User: userId });
         }
 
         if (cartItem) {
@@ -144,6 +144,8 @@ exports.createCartItem = async (req, res) => {
                     data: null
                 })
             }
+
+            console.log("UserId:", userId);
             var cartItem = new CartItem({
                 User: userId,
                 Item: productId,
