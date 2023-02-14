@@ -191,7 +191,7 @@ exports.getAddresses = async (req, res, next) => {
         const user = await User.findOne({ Number: phonenumber });
 
         if (!user) {
-            res.status(404).send({
+            return res.status(404).send({
                 message: "No User Found",
                 data: null
             })
@@ -200,12 +200,12 @@ exports.getAddresses = async (req, res, next) => {
         const address = user.Address;
 
         if (address.length == 0) {
-            res.status(200).send({
+            return res.status(200).send({
                 message: "No address found",
                 data: null
             })
         }
-        res.status(200).send({
+        return res.status(200).send({
             message: "Success",
             data: address
         })
