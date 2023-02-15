@@ -12,7 +12,7 @@ router.get('/getUser', getUser);
 
 router.get('/createuserifnotexist/:number', createuserifnotexist);
 
-router.get('/getaddresses', getAddresses);
+router.post('/getaddresses', getAddresses);
 
 router.get('/fetchAllItem/:id', FetchallItemsbyUserId)
 
