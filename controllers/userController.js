@@ -124,9 +124,9 @@ exports.createCartItem = async (req, res) => {
                 const cartItemId = cartItem._id;
                 await CartItem.deleteOne({ productId, userId })
 
-                for (var i = 0; i < user.CartItem.length; i++) {
-                    if (user.CartItem[i].equals(cartItemId)) {
-                        user.CartItem.splice(i, 1);
+                for (var i = 0; i < user.products.length; i++) {
+                    if (user.products[i].equals(cartItemId)) {
+                        user.products.splice(i, 1);
                         await user.save();
                     }
                 }
@@ -168,8 +168,11 @@ exports.createCartItem = async (req, res) => {
                     data: null,
                 });
             }
-            user.CartItem.push(cartItem._id);
+            console.log("Before:", user);
+            user.products.push(cartItem._id);
             await user.save();
+            console.log("After:", user);
+
 
             return res.status(200).json({
                 message: "Success",
@@ -221,18 +224,24 @@ exports.FetchallItemsbyUserId = async (req, res) => {
     try {
         const { id } = req.params; // user id
 
-        const data = await User.findOne({ Number: id }).populate({
-            path: "CartItem", populate: {
-                path: "Item", model: "Product"
+        User.findOne({ Number: id }).populate({
+            path: 'products', populate: {
+                path: 'Item', model: 'Product'
             }
-        })
+        }).exec(function (err, data) {
+            if (err) return res.status(400).json({ error: err.message });
+            res.status(200).json({
+                message: "Success",
+                data
+            })
+        });
 
-        if (!data) res.status(200).json({ message: "No items" });
+        // if (!data) return res.status(404).json({ message: "No items" });
 
-        return res.status(200).json({ message: "Feteched Items Successfully", data });
+        // return res.status(200).json({ message: "Feteched Items Successfully", data });
 
 
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
 };

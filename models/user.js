@@ -19,7 +19,7 @@ const userSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order',
     }],
-    CartItem: [{
+    products: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CartItem',
     }]
