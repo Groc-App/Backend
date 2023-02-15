@@ -36,22 +36,40 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
-    const { tamount, userid, orderdetail } = req.body; //order detail = [{productid, quantity}]
+    const { tamount, userid, orderdetail, cartItemsId } = req.body;
+
+    console.log(req.body);
+    //order detail = [{productid, quantity}]
+
+    const usar = await User.findOne({ Number: userid });
+
+
 
     const neworder = new Order({
       TotalAmount: tamount,
       OrderStatus: "Ordered",
       Date: Date.now(),
       OrderDetails: orderdetail,
-      User: userid,
+      User: usar._id,
     });
+
+    console.log("New Order", neworder);
 
     await neworder.save();
 
-    const usar = await User.findById(userid);
     usar.Order.push(neworder._id);
-    usar.CartItem = [];
+
+    const usarId = usar._id;
+
+    await CartItem.deleteMany({ User: usarId });
+
+    usar.products = [];
     await usar.save();
+
+    res.status(200).json({
+      message: "Order Create Successfully",
+
+    })
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
