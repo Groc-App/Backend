@@ -221,13 +221,18 @@ exports.FetchallItemsbyUserId = async (req, res) => {
     try {
         const { id } = req.params; // user id
 
-        const data = await User.findOne({ Number: id }).populate({
+        const data = await User.findOne({ Number: id })
+        .populate({
             path: "CartItem", populate: {
                 path: "Item", model: "Product"
             }
         })
 
+
         if (!data) res.status(200).json({ message: "No items" });
+
+        console.log(data);
+
 
         return res.status(200).json({ message: "Feteched Items Successfully", data });
 
