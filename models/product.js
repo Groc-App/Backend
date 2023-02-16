@@ -24,6 +24,7 @@ const productSchema = new Schema({
 }, {
   toJSON: {
     transform: function (doc, ret) {
+      console.log("return id:", ret._id);
       ret.productId = ret._id.toString();
       delete ret._id;
       delete ret.__v;

@@ -10,21 +10,26 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
   try {
     const { userid } = req.params;
 
-    User.findById(userid)
-      .populate({
-        path: "Order",
-        populate: {
-          path: "OrderDetails.Product",
-          model: "Order",
-        },
+    console.log(userid)
+    const data = await User.findOne({ Number: userid }).populate({
+      path: "Order",
+      populate: {
+        path: "OrderDetails.Product",
+        model: "Order",
+      },
+    })
+
+    if (!data) {
+      return res.status(200).json({
+        message: "No Data Found"
       })
-      .exec(function (err, data) {
-        if (err) return res.status(400).json({ error: error.message });
-        res.status(201).json({
-          message: "Success",
-          data
-        })
-      });
+    }
+
+    res.status(200).json({
+      message: "Success",
+      data
+    })
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
