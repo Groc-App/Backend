@@ -24,7 +24,10 @@ const productSchema = new Schema({
 }, {
   toJSON: {
     transform: function (doc, ret) {
-      ret.productId = ret._id.toString();
+      if(ret._id)
+      {
+        ret.productId = ret._id.toString();
+      }
       delete ret._id;
       delete ret.__v;
     },

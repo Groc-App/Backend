@@ -68,7 +68,7 @@ exports.deleteCartItembynumber = async (req, res) => {
     }
 
     const cartItemId = cartItem._id;
-    await CartItem.deleteOne({ productId, userId });
+    await CartItem.findByIdAndDelete(cartItemId);
 
     for (var i = 0; i < user.products.length; i++) {
       if (user.products[i].equals(cartItemId)) {
