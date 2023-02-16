@@ -1,12 +1,14 @@
 const express = require("express");
 const { addAddress, getAddress } = require("../../controllers/addressController");
-const { addUser, getUser, createuserifnotexist, createCartItem, getAddresses, FetchallItemsbyUserId } = require("../../controllers/userController");
+const { addUser, getUser, createuserifnotexist, updateCartItem, getAddresses, FetchallItemsbyUserId, createCartItem } = require("../../controllers/userController");
 const router = express.Router();
 // const authController = require("../controller/authController");
 
 router.post("/addUser", addUser);
 
-router.post("/createorupdatecartitem", createCartItem);
+router.post("/createorupdatecartitem", updateCartItem);
+
+router.post("/createcartitem", createCartItem);
 
 router.get('/getUser', getUser);
 

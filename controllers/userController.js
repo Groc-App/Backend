@@ -85,7 +85,7 @@ exports.addUser = async (req, res, next) => {
   }
 };
 
-exports.createCartItem = async (req, res) => {
+exports.updateCartItem = async (req, res) => {
   try {
     /* --------------------------------- imports -------------------------------- */
     const { phonenumber, productId, quantity } = req.body; //userId phone number hoga
@@ -116,16 +116,6 @@ exports.createCartItem = async (req, res) => {
       if (quantity != 0) {
         cartItem.ItemCount = parseInt(quantity);
         await cartItem.save();
-      } else {
-        const cartItemId = cartItem._id;
-        await CartItem.deleteOne({ productId, userId });
-
-        for (var i = 0; i < user.products.length; i++) {
-          if (user.products[i].equals(cartItemId)) {
-            user.products.splice(i, 1);
-            await user.save();
-          }
-        }
       }
 
       return res.status(200).json({
@@ -172,6 +162,68 @@ exports.createCartItem = async (req, res) => {
         data: cartItem,
       });
     }
+  } catch (error) {
+    console.log("This is error:", error);
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.createCartItem = async (req, res) => {
+  try {
+    /* --------------------------------- imports -------------------------------- */
+    const { phonenumber, productId } = req.body; //userId phone number hoga
+
+    if (!phonenumber || !productId) {
+      return res.status(404).json({
+        message: "Some Queries not passed",
+        data: null,
+      });
+    }
+
+    console.log(phonenumber + "\n" + productId + "\n");
+
+    const user = await User.findOne({ Number: phonenumber });
+    if (!user) {
+      return res.status(404).json({
+        message: "NO USER FOUND",
+        data: null,
+      });
+    }
+    const userId = user._id;
+
+    console.log("UserId:", userId);
+    var cartItem = new CartItem({
+      User: userId,
+      Item: productId,
+      ItemCount: 1,
+    });
+
+    await cartItem.save();
+
+    if (!cartItem) {
+      return res.status(404).json({
+        message: "Cart Item not generated",
+        data: null,
+      });
+    }
+
+    if (!user) {
+      return res.status(404).json({
+        message: "No User Found",
+        data: null,
+      });
+    }
+    console.log("Before:", user);
+    user.products.push(cartItem._id);
+    await user.save();
+    console.log("After:", user);
+
+    return res.status(200).json({
+      message: "Success",
+      data: cartItem,
+    });
   } catch (error) {
     console.log("This is error:", error);
     return res.status(500).json({
