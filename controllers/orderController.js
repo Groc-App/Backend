@@ -15,7 +15,7 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
       path: "Order",
       populate: {
         path: "OrderDetails.Product",
-        model: "Order",
+        model: "Product",
       },
     })
 
