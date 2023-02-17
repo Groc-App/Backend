@@ -36,14 +36,12 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
-    const { tamount, userid, orderdetail, cartItemsId } = req.body;
+    const { tamount, userid, orderdetail } = req.body;
 
     console.log(req.body);
     //order detail = [{productid, quantity}]
 
     const usar = await User.findOne({ Number: userid });
-
-
 
     const neworder = new Order({
       TotalAmount: tamount,
