@@ -274,14 +274,14 @@ exports.fetchProductbyId = async (req, res) => {
 exports.fetchproductsbyMostSelling = async (req, res) => {
   try {
     MostSelling.findOne().populate('Products').exec(function (err, data) {
-      if (err) res.status(400).json({ error: err });
-      res.status(200).send({
+      if (err) return res.status(400).json({ error: err });
+      return res.status(200).send({
         message: "Success",
         data: data,
       });
     })
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
 
   }
 };
