@@ -298,7 +298,7 @@ exports.FetchallItemsbyUserId = async (req, res) => {
   try {
     const { id } = req.params; // user id
 
-    User.findOne({ Number: id })
+    const data = await User.findOne({ Number: id })
       .populate({
         path: "products",
         populate: {
@@ -306,17 +306,17 @@ exports.FetchallItemsbyUserId = async (req, res) => {
           model: "Product",
         },
       })
-      .exec(function (err, data) {
-        if (err) return res.status(400).json({ error: err.message });
-        res.status(200).json({
-          message: "Success",
-          data: data,
-        });
-      });
+    // .exec(function (err, data) {
+    //   if (err) return res.status(400).json({ error: err.message });
+    //   res.status(200).json({
+    //     message: "Success",
+    //     data,
+    //   });
+    // });
 
-    // if (!data) return res.status(404).json({ message: "No items" });
+    if (!data) return res.status(404).json({ message: "No items" });
 
-    // return res.status(200).json({ message: "Feteched Items Successfully", data });
+    return res.status(200).json({ message: "Feteched Items Successfully", data });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

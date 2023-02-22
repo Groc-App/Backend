@@ -3,6 +3,6 @@ const { fetchallOrdersbyUserId, createOrder } = require("../../controllers/order
 const router = express.Router();
 
 router.post("/createorder", createOrder);
-router.get("/fetchordersid/:id", fetchallOrdersbyUserId);
+router.get("/fetchordersid/:userid", fetchallOrdersbyUserId);
 
 module.exports = router;
