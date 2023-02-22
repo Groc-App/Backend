@@ -265,6 +265,35 @@ exports.getAddresses = async (req, res, next) => {
   }
 };
 
+exports.getSelectedAddress = async (req, res, next) => {
+  try {
+    const { id } = req.params;    //id phonenumber h ye
+
+    console.log(id);
+
+    const user = await User.findOne({ Number: id });
+
+    if (!user) {
+      return res.status(404).send({
+        message: "No User Found",
+        data: null,
+      });
+    }
+
+    const address = user.selectedAddress;
+
+    return res.status(200).send({
+      message: "Success",
+      data: address,
+    });
+  } catch (error) {
+    console.log("This is error:", error);
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 exports.FetchallItemsbyUserId = async (req, res) => {
   try {
     const { id } = req.params; // user id
@@ -281,7 +310,7 @@ exports.FetchallItemsbyUserId = async (req, res) => {
         if (err) return res.status(400).json({ error: err.message });
         res.status(200).json({
           message: "Success",
-          data,
+          data: data,
         });
       });
 
