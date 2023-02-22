@@ -41,7 +41,7 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
-    const { tamount, userid, orderdetail } = req.body;
+    const { tamount, userid, orderdetail, address } = req.body;
 
     console.log(req.body);
     //order detail = [{productid, quantity}]
@@ -54,6 +54,7 @@ exports.createOrder = async (req, res) => {
       Date: Date.now(),
       OrderDetails: orderdetail,
       User: usar._id,
+      Address: address
     });
 
     console.log("New Order", neworder);

@@ -9,6 +9,13 @@ const orderSchema = new Schema({
     TotalAmount: Number,
     OrderStatus: String,
     Date: Date,
+    Address: {
+        Flat_FLoor_Tower: String,
+        Street_Society: String,
+        Recipients_Name: String,
+        City: String,
+        Pincode: Number,
+    },
     OrderDetails: [{
         Product: {
             type: mongoose.Schema.Types.ObjectId,
