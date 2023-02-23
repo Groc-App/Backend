@@ -13,7 +13,7 @@ const userSchema = new Schema({
         Street_Society: String,
         Recipients_Name: String,
         City: String,
-        Pincode: Number,
+        Pincode: String,
     }],
     Order: [{
         type: mongoose.Schema.Types.ObjectId,
