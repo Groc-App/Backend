@@ -13,17 +13,17 @@ exports.getAddress = async (req, res, next) => {
             })
         }
 
-        const address = user.address;
+        const address = user.Address;
 
         if (address.length == 0) {
             res.status(200).send({
                 message: "No address found",
-                data: null
+                addresses: address
             })
         }
         res.status(200).send({
             message: "Success",
-            data: address
+            addresses: address
         })
     } catch (error) {
         console.log("This is error:", error);
@@ -35,7 +35,10 @@ exports.getAddress = async (req, res, next) => {
 
 exports.addAddress = async (req, res, next) => {
     try {
-        const { number, address } = req.query;
+        const { number, address } = req.body;
+        
+        console.log(number);
+        
 
         const user = await User.findOne({ Number: number });
 

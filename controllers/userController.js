@@ -250,12 +250,12 @@ exports.getAddresses = async (req, res, next) => {
     if (address.length == 0) {
       return res.status(200).send({
         message: "No address found",
-        data: null,
+        addresses: address,
       });
     }
     return res.status(200).send({
       message: "Success",
-      data: address,
+      addresses: address,
     });
   } catch (error) {
     console.log("This is error:", error);
