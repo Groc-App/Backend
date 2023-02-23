@@ -74,8 +74,11 @@ exports.createOrder = async (req, res) => {
       message: "Order Create Successfully",
 
     })
+
   } catch (error) {
+
     res.status(400).json({ error: error.message });
+
   }
 };
 

@@ -46,7 +46,7 @@ exports.addAddress = async (req, res, next) => {
             })
         }
 
-        user.address.push(address);
+        user.Address.push(address);
         await user.save();
         if (address.length == 0) {
             res.status(200).send({
