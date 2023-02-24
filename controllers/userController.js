@@ -236,7 +236,7 @@ exports.getAddresses = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
 
-    const user = await User.findOne({ Number: phonenumber });
+    const user = await User.findOne({ Number: phonenumber }).populate('Address');
 
     if (!user) {
       return res.status(404).send({
