@@ -36,11 +36,11 @@ exports.getAddress = async (req, res, next) => {
 exports.addAddress = async (req, res, next) => {
     try {
         const { number, address } = req.body;
-        
-        console.log(number);
-        
 
-        const user = await User.findOne({ Number: number });
+        console.log(number);
+
+
+        var user = await User.findOne({ Number: number });
 
         if (!user) {
             res.status(404).send({
@@ -49,13 +49,17 @@ exports.addAddress = async (req, res, next) => {
             })
         }
 
-        user.Address.push(address);
+        var address = new User(address);
+        await address.save();
+
+
+        user.Address.push(address._id);
         await user.save();
-        if (address.length == 0) {
-            res.status(200).send({
-                message: "No address found",
-                data: null
-            })
+
+        if (user.Address.length == 1) {
+            address.defaultAddress = true;
+            address.save();
+
         }
         res.status(200).send({
             message: "Success",
