@@ -271,7 +271,7 @@ exports.getSelectedAddress = async (req, res, next) => {
 
     console.log(id);
 
-    const user = await User.findOne({ Number: id });
+    const user = await User.findOne({ Number: id }).populate('Address');
 
     if (!user) {
       return res.status(404).send({
@@ -280,11 +280,19 @@ exports.getSelectedAddress = async (req, res, next) => {
       });
     }
 
-    const address = user.selectedAddress;
+    for (var i = 0; i < user.Address.length; i++) {
+      const address = user.Address[i];
+      if (address.defaultAddress == true) {
+        return res.status(200).send({
+          message: "Success",
+          data: address,
+        });
+      }
+    }
 
     return res.status(200).send({
-      message: "Success",
-      data: address,
+      message: "No Default Address Found",
+      data: null,
     });
   } catch (error) {
     console.log("This is error:", error);

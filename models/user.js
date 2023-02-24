@@ -9,11 +9,8 @@ const userSchema = new Schema({
         type: String,
     },
     Address: [{
-        Flat_FLoor_Tower: String,
-        Street_Society: String,
-        Recipients_Name: String,
-        City: String,
-        Pincode: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address",
     }],
     Order: [{
         type: mongoose.Schema.Types.ObjectId,
