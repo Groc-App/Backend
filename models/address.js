@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 
 const addressSchema = new Schema(
     {
+        UserId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
         Flat_FLoor_Tower: {
             type: String,
         },
@@ -12,7 +16,9 @@ const addressSchema = new Schema(
         Recipients_Name: String,
         City: String,
         Pincode: String,
-        defaultAddress: Boolean
+        defaultAddress: {
+            default: false,
+            type: Boolean}
     },
     {
         toJSON: {

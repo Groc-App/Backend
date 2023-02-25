@@ -1,4 +1,5 @@
 const { CallPage } = require("twilio/lib/rest/api/v2010/account/call");
+const Address = require("../models/address");
 const CartItem = require("../models/cartitem");
 const User = require("../models/user");
 
@@ -235,6 +236,8 @@ exports.createCartItem = async (req, res) => {
 exports.getAddresses = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
+
+    console.log(phonenumber + ' yhi hhhhhhhhhhhhh');
 
     const user = await User.findOne({ Number: phonenumber }).populate('Address');
 
