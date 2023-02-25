@@ -49,21 +49,21 @@ exports.addAddress = async (req, res, next) => {
             })
         }
 
-        var address = new User(address);
-        await address.save();
+        var addresses = new User(address);
+        await addresses.save();
 
 
-        user.Address.push(address._id);
+        user.Address.push(addresses._id);
         await user.save();
 
         if (user.Address.length == 1) {
-            address.defaultAddress = true;
-            address.save();
+            addresses.defaultAddress = true;
+            addresses.save();
 
         }
         res.status(200).send({
             message: "Success",
-            data: address
+            data: addresses
         })
     } catch (error) {
         console.log("This is error:", error);
