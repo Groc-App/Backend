@@ -53,6 +53,7 @@ const productRouter = require("./routes/products/product.js");
 const categoryRouter = require('./routes/category/category')
 const cartRouter = require("./routes/cart/cartitem");
 const orderRouter = require("./routes/orders/orders");
+const offerRouter = require("./routes/offer/offer");
 
 app.use("/", authRouter);
 app.use("/address", require('./routes/address/address'));
@@ -61,6 +62,7 @@ app.use("/product", productRouter);
 app.use("/cart", cartRouter);
 app.use("/order", orderRouter);
 app.use('/category', categoryRouter)
+app.use('/offer', offerRouter)
 const PORT = process.env.PORT || 8000;
 
 app.listen(
