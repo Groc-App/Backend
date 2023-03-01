@@ -265,7 +265,7 @@ exports.fetchProductbyId = async (req, res) => {
 
   const product = await Product.findById(id);
   if (!product) res.send(product);
-  res.status(200).send({
+  return res.status(200).json({
     message: "Success",
     data: product
   })
