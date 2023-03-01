@@ -12,19 +12,9 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
     const { userid } = req.params;
 
     console.log(userid);
-    const data = await User.findOne({ Number: userid }).populate({
-      path: "Order",
-      populate: [
-        {
-          path: "OrderDetails.Product",
-          model: "Product",
-        },
-        {
-          path: "Addres",
-          model: "Address",
-        },
-      ],
-    });
+    const usar = await User.findOne({ Number: userid });
+    
+    const data = await Order.find({User: usar._id}).populate("OrderDetails.Product").populate("Addres");
 
     if (!data) {
       return res.status(200).json({
@@ -32,12 +22,12 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Success",
-      data,
+      data: data,
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
