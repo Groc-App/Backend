@@ -13,11 +13,8 @@ const subscriptionSchema = new Schema({
     startDate: Date,
     endDate: Date,
     address: {
-        Flat_FLoor_Tower: String,
-        // Street_Society: String,
-        // Recipients_Name: String,
-        // City: String,
-        // Pincode: Number,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Address',
     },
     subscriber: {
         type: mongoose.Schema.Types.ObjectId,

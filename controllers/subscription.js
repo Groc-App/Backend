@@ -4,6 +4,7 @@ const Product = require("../models/product");
 const Order = require("../models/orders");
 const Subscription = require("../models/subscription");
 var mongoose = require('mongoose');
+const Address = require("../models/address");
 
 
 exports.fetchAllSubscriptions = async (req, res) => {
@@ -44,13 +45,15 @@ exports.fetchSubscriptionByUser = async (req, res) => {
 
         const subscriptions = await Subscription.find({
             subscriber: userId
-        }).populate('product')
+        }).populate('product').populate('address')
 
         if (!subscriptions) {
             return res.status(200).json({
                 message: "No subscriptions Found"
             })
         }
+
+        console.log(subscriptions);
 
         res.status(200).json({
             message: "Success",
@@ -135,13 +138,24 @@ exports.createSubscription = async (req, res) => {
         const userId = user._id;
         var prodId = mongoose.Types.ObjectId(productId);
 
+        const adress = await Address.findById(address);
+
+        console.log("Address id:", adress._id);
+        var addressId = mongoose.Types.ObjectId(adress._id);
+
+
+
+        if (!adress) {
+            return res.status(400).json({ error: "num address found" });
+        }
+
         const subscription = new Subscription({
             product: prodId,
             quantity,
             subscriptionStatus: true,
             startDate: Date.now(),
             endDate: Date.now(),
-            address,
+            address: addressId,
             subscriber: userId
         });
         await subscription.save();

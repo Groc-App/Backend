@@ -11,7 +11,7 @@ const orderSchema = new Schema({
     Date: Date,
     Addres: {
         type: mongoose.Schema.Types.ObjectId,
-            ref: 'Address',
+        ref: 'Address',
     },
     OrderDetails: [{
         Product: {
@@ -25,15 +25,17 @@ const orderSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-}, {
-    toJSON: {
-        transform: function (doc, ret) {
-            ret.OrderId = ret._id.toString();
-            delete ret._id;
-            delete ret.__v;
-        },
-    },
-});
+},
+    // {
+    //     toJSON: {
+    //         transform: function (doc, ret) {
+    //             // ret.OrderId = ret._id.toString();
+    //             delete ret._id;
+    //             delete ret.__v;
+    //         },
+    //     },
+    // }
+);
 
 const Order = mongoose.model("Order", orderSchema);
 

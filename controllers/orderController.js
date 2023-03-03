@@ -6,6 +6,8 @@ const Category = require("../models/category");
 const Product = require("../models/product");
 const Order = require("../models/orders");
 const Address = require("../models/address");
+var uniqid = require('uniqid');
+
 
 exports.fetchallOrdersbyUserId = async (req, res) => {
   try {
@@ -37,6 +39,7 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
       data,
     });
   } catch (error) {
+    console.error(error)
     res.status(400).json({ error: error.message });
   }
 };
@@ -56,7 +59,11 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ error: "num address found" });
     }
 
+    var uniqId = uniqid.time('ORD-');
+    console.log("UNiqe ID::::", uniqId);
+
     const neworder = new Order({
+      OrderId: uniqId,
       TotalAmount: tamount,
       OrderStatus: "Ordered",
       Date: Date.now(),
@@ -82,6 +89,7 @@ exports.createOrder = async (req, res) => {
       message: "Order Create Successfully",
     });
   } catch (error) {
+    console.error(error.message);
     res.status(400).json({ error: error.message });
   }
 };
