@@ -19,7 +19,9 @@ const productSchema = new Schema({
   MainCategory: { type: Schema.ObjectId, ref: "MainCategory" },
   Quantity: String,
   Company: String,
-  ImageUrl: String,
+  ImageUrl: [{
+    type: String
+  }],
   MostSelling: Boolean,
 }, {
   toJSON: {
