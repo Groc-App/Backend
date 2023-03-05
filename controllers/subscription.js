@@ -125,6 +125,7 @@ exports.createSubscription = async (req, res) => {
 
         console.log(req.body);
         //order detail = [{productid, quantity}]
+       
 
         const user = await User.findOne({ Number: number });
 
@@ -150,6 +151,7 @@ exports.createSubscription = async (req, res) => {
         }
 
         const subscription = new Subscription({
+
             product: prodId,
             quantity,
             subscriptionStatus: true,
