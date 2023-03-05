@@ -64,34 +64,34 @@ exports.fetchSubscriptionByUser = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
 exports.editSubscriptionByUser = async (req, res) => {
     try {
 
-        const { number, quantity, address, endDate } = req.body;
+        const { subsid, quantity, startDate, endDate, address } = req.body;
+        console.log(subsid, quantity, startDate, endDate, address);
 
         console.log(req.query);
 
-        const filter = { number: number };
-        const update = { quantity, address, endDate };
+        const subscription = await Subscription.findByIdAndUpdate(subsid, {quantity: quantity, startDate: startDate, endDate: endDate, address: address});
 
-        const user = await User.findOneAndUpdate(filter, update);
+        // if (!user) {
+        //     return res.status(200).json({
+        //         message: "No User Found",
+        //         data: null
+        //     })
+        // }
 
-        if (!user) {
-            return res.status(200).json({
-                message: "No User Found",
-                data: null
-            })
-        }
-
-        res.status(200).json({
-            message: "User",
-            data: user
+        return res.status(200).json({
+            message: "Edited Successsfully",
+            data: subscription
         })
 
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
+
 exports.cancelSubscriptionByUser = async (req, res) => {
     try {
 
