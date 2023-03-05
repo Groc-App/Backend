@@ -16,6 +16,7 @@ exports.addProduct = async (req, res) => {
       quantity,
       company,
       imageurl,
+      discount
     } = req.body;
     const newProduct = new Product({
       Name: name,
@@ -25,6 +26,7 @@ exports.addProduct = async (req, res) => {
       Quantity: quantity,
       Company: company,
       ImageUrl: imageurl,
+      Discount: discount
     });
     await newProduct.save();
     console.log(req.body);
@@ -54,6 +56,8 @@ exports.addProduct = async (req, res) => {
           await newcateg.save();
 
           maincateg.Categories.push(newcateg._id);
+          await maincateg.save();
+
         } else {
           newProduct.Category.push(categ._id);
           //   await newProduct.save();
@@ -63,7 +67,7 @@ exports.addProduct = async (req, res) => {
 
           await categ.save();
 
-          maincateg.Categories.push(categ._id);
+          // maincateg.Categories.push(categ._id);
         }
       }
 
@@ -320,8 +324,8 @@ exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
 exports.fetchAllProducts = async (req, res) => {
   try {
     const product = await Product.find();
-      // .populate("Category")
-      // .populate("MainCategory");
+    // .populate("Category")
+    // .populate("MainCategory");
 
     if (!product) {
       return res.status(200).send({
