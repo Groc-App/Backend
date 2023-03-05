@@ -21,7 +21,7 @@ exports.addProduct = async (req, res) => {
       Name: name,
       Price: price,
       Description: description,
-      MostSelling: mostselling == 'true' ? true : false,
+      MostSelling: mostselling == "true" ? true : false,
       Quantity: quantity,
       Company: company,
       ImageUrl: imageurl,
@@ -33,8 +33,7 @@ exports.addProduct = async (req, res) => {
     if (!mostsellin) {
       const newmostsellin = new MostSelling({ Products: newProduct._id });
       await newmostsellin.save();
-    }
-    else {
+    } else {
       mostsellin.Products.push(newProduct._id);
       await mostsellin.save();
     }
@@ -189,7 +188,6 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-
 // on cascade delete add krna h
 
 exports.deleteProduct = async (req, res) => {
@@ -211,20 +209,18 @@ exports.fetchProductbyCategory = async (req, res) => {
     const { category } = req.params;
     console.log(req.params);
 
-    if (category == 'all') {
-      const categories = await Category.find().populate('Products');
+    if (category == "all") {
+      const categories = await Category.find().populate("Products");
 
       if (!categories) {
         res.status(404).send({
           message: "No Cateogories Found",
-
-        })
+        });
       }
       res.status(200).send({
         message: "Success",
-        data: data
-      })
-
+        data: data,
+      });
     }
 
     Category.findOne({ Name: category })
@@ -234,8 +230,8 @@ exports.fetchProductbyCategory = async (req, res) => {
         console.log(data);
         res.status(200).send({
           message: "Success",
-          data: data
-        })
+          data: data,
+        });
       });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -267,81 +263,78 @@ exports.fetchProductbyId = async (req, res) => {
   if (!product) res.send(product);
   return res.status(200).json({
     message: "Success",
-    data: product
-  })
+    data: product,
+  });
 };
 
 exports.fetchproductsbyMostSelling = async (req, res) => {
   try {
-    MostSelling.findOne().populate('Products').exec(function (err, data) {
-      if (err) return res.status(400).json({ error: err });
-      return res.status(200).send({
-        message: "Success",
-        data: data,
+    MostSelling.findOne()
+      .populate("Products")
+      .exec(function (err, data) {
+        if (err) return res.status(400).json({ error: err });
+        return res.status(200).send({
+          message: "Success",
+          data: data,
+        });
       });
-    })
   } catch (error) {
     return res.status(500).json({ error: error.message });
-
   }
 };
 
 exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
   try {
-
     const { mainCategoryId, subCategoryId } = req.query;
 
     console.log(req.query);
 
     var mainProducts;
 
-    if (mainCategoryId == 'null' && subCategoryId == 'null') {
-
+    if (mainCategoryId == "null" && subCategoryId == "null") {
       return res.status(404).json({
         message: "No CateogoriesID Found",
-      })
-
-    } else if (subCategoryId == 'null') {
+      });
+    } else if (subCategoryId == "null") {
       console.log("else if");
-      mainProducts = await MainCategory.findById(mainCategoryId).populate('Products')
-
+      mainProducts = await MainCategory.findById(mainCategoryId).populate(
+        "Products"
+      );
     } else {
-
-      mainProducts = await Category.findById(subCategoryId).populate('Products');
+      mainProducts = await Category.findById(subCategoryId).populate(
+        "Products"
+      );
       // console.log(mainProducts);
     }
-    if (!mainProducts)
-      return res.status(500).json({ error: "No products" });
+    if (!mainProducts) return res.status(500).json({ error: "No products" });
 
     return res.status(200).json({
       message: "Success",
-      data: mainProducts.Products
-    })
-
+      data: mainProducts.Products,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
-
   }
-
-
-
-}
+};
 
 exports.fetchAllProducts = async (req, res) => {
   try {
     const product = await Product.find();
-    if (!product) res.send(product);
-    res.status(200).send({
+      // .populate("Category")
+      // .populate("MainCategory");
+
+    if (!product) {
+      return res.status(200).send({
+        message: "No data",
+        data: product,
+      });
+    }
+
+    return res.status(200).send({
       message: "Success",
-      data: product
-    })
+      data: product,
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
-
+    return res.status(500).json({ error: error.message });
   }
-
-}
-
-
-
-
+};
