@@ -16,7 +16,7 @@ exports.addProduct = async (req, res) => {
       quantity,
       company,
       imageurl,
-      discount
+      discount,
     } = req.body;
     const newProduct = new Product({
       Name: name,
@@ -26,18 +26,21 @@ exports.addProduct = async (req, res) => {
       Quantity: quantity,
       Company: company,
       ImageUrl: imageurl,
-      Discount: discount
+      Discount: discount,
     });
     await newProduct.save();
     console.log(req.body);
 
-    const mostsellin = await MostSelling.findOne();
-    if (!mostsellin) {
-      const newmostsellin = new MostSelling({ Products: newProduct._id });
-      await newmostsellin.save();
-    } else {
-      mostsellin.Products.push(newProduct._id);
-      await mostsellin.save();
+    if (mostselling == "true") {
+      const mostsellin = await MostSelling.findOne();
+      if (!mostsellin) {
+        const newmostsellin = new MostSelling();
+        newmostsellin.Products.push(newProduct._id);
+        await newmostsellin.save();
+      } else {
+        mostsellin.Products.push(newProduct._id);
+        await mostsellin.save();
+      }
     }
 
     const maincateg = await MainCategory.findOne({ Name: maincategory });
@@ -57,7 +60,6 @@ exports.addProduct = async (req, res) => {
 
           maincateg.Categories.push(newcateg._id);
           await maincateg.save();
-
         } else {
           newProduct.Category.push(categ._id);
           //   await newProduct.save();
@@ -273,15 +275,12 @@ exports.fetchProductbyId = async (req, res) => {
 
 exports.fetchproductsbyMostSelling = async (req, res) => {
   try {
-    MostSelling.findOne()
-      .populate("Products")
-      .exec(function (err, data) {
-        if (err) return res.status(400).json({ error: err });
-        return res.status(200).send({
-          message: "Success",
-          data: data,
-        });
-      });
+    var data = await MostSelling.findOne().populate("Products");
+
+    return res.status(200).json({
+      message: "Successfully",
+      data: data,
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
