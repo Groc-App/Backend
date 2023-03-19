@@ -1,6 +1,6 @@
 const express = require("express");
 const swaggerJSDoc = require("swagger-jsdoc");
-const { getAllCategory, addCatergory, deleteCategory, getallMainCategory, getCategoryByMaincategory } = require("../../controllers/categoryController");
+const { getAllCategory, addCatergory, deleteCategory, getallMainCategory, getCategoryByMaincategory, fixmaincategory } = require("../../controllers/categoryController");
 const router = express.Router();
 // const authController = require("../controller/authController");
 
@@ -10,6 +10,7 @@ router.get('/getAllCategory', getAllCategory)
 
 router.get('/getCategory/:name', getAllCategory)
 router.get('/getallmaincategory', getallMainCategory)
+router.get('/fixmaincategory', fixmaincategory)
 
 router.get('/getCategoryByMainCategory/:mainCategoryId', getCategoryByMaincategory);
 

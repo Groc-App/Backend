@@ -341,3 +341,33 @@ exports.fetchAllProducts = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+exports.fixmostsellinproducts = async (req, res) => {
+  try {
+      var prdctids = [];
+
+      var prdctlist = await Product.find();
+      for(var i=0; i<prdctlist.length; i++)
+      {
+          if(prdctlist[i].MostSelling == true)
+              prdctids.push(prdctlist[i]._id);
+      }
+
+      var mostsell = await MostSelling.findOne();
+
+      for(var i=0; i<prdctids.length; i++)
+      {
+          mostsell.Products.push(prdctids[i]);
+      }
+
+      await mostsell.save();
+
+      return res.status(200).json({message: "success"});
+  } catch (error) {
+      return res.status(500).json({
+          message: error.message
+      })
+  }
+}
+
+
