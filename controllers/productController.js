@@ -342,7 +342,6 @@ exports.fetchAllProducts = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 exports.updatemostsellingtag = async (req, res) => {
   try {
     const { id } = req.params;
@@ -367,7 +366,6 @@ exports.updatemostsellingtag = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
-=======
 exports.fixmostsellinproducts = async (req, res) => {
   try {
       var prdctids = [];
@@ -395,6 +393,5 @@ exports.fixmostsellinproducts = async (req, res) => {
       })
   }
 }
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
 
 

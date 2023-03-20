@@ -41,14 +41,7 @@ app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-<<<<<<< HEAD
-app.use(express.json())
-// app.use(cors({
-//     origin: '*',
-// }));
-=======
 app.use(express.json());
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
 
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
@@ -79,7 +72,3 @@ app.listen(
     console.log(`Server running in ${process.env.NODE_ENV} mode on ${PORT}`)
 );
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22

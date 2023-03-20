@@ -1,11 +1,7 @@
 const Category = require("../models/category")
-<<<<<<< HEAD
-const MainCategory = require("../models/maincategory")
-=======
 const MainCategory = require("../models/maincategory");
 const Product = require("../models/product");
 const MostSelling = require("../models/mostselling");
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
 
 exports.addCatergory = async (req, res) => {
     try {
@@ -40,10 +36,6 @@ exports.addCatergory = async (req, res) => {
 
 exports.getCategoryByMaincategory = async (req, res) => {
     try {
-<<<<<<< HEAD
-
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
         const { mainCategoryId } = req.params;
         const categories = await Category.find({ MainCategory: mainCategoryId });
         res.status(200).send({
@@ -100,10 +92,6 @@ exports.getCategoryByName = async (req, res) => {
         if (!name) {
             res.status(404).send({
                 message: "No Name found",
-<<<<<<< HEAD
-
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
             })
         }
 
@@ -121,7 +109,6 @@ exports.getCategoryByName = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
 exports.updateCategory = async (req, res) => {
     try {
         var categories = await Category.find().populate('Products');
@@ -147,8 +134,6 @@ exports.updateCategory = async (req, res) => {
     }
 }
 
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
 
 exports.getallMainCategory = async (req, res) => {
     try {
@@ -167,9 +152,6 @@ exports.getallMainCategory = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
-// exports.updateCa
-=======
 exports.fixmaincategory = async (req, res) => {
     try {
         var galatmaincateg = await MainCategory.findOne({Name: 'HouseHold'});
@@ -212,4 +194,3 @@ exports.fixmaincategory = async (req, res) => {
     }
 }
 
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
