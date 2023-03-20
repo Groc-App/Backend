@@ -342,6 +342,32 @@ exports.fetchAllProducts = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
+exports.updatemostsellingtag = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(200).send({
+        message: "No data",
+        data: product,
+      });
+    }
+
+    product.MostSelling = true;
+    await product.save();
+
+    return res.status(200).send({
+      message: "Success",
+      data: product,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+=======
 exports.fixmostsellinproducts = async (req, res) => {
   try {
       var prdctids = [];
@@ -369,5 +395,6 @@ exports.fixmostsellinproducts = async (req, res) => {
       })
   }
 }
+>>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
 
 

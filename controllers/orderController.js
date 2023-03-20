@@ -7,6 +7,7 @@ const Product = require("../models/product");
 const Order = require("../models/orders");
 const Address = require("../models/address");
 var uniqid = require('uniqid');
+const Offer = require("../models/offers");
 
 
 exports.fetchallOrdersbyUserId = async (req, res) => {
@@ -38,11 +39,38 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
-    const { tamount, userid, orderdetail, addressid } = req.body; // address map string bhej rha hu to ek baar check kr liyo krunyi ab ref use kr liya
+    const { tamount, userid, orderdetail, addressid, offerId, referralCode } = req.body; // address map string bhej rha hu to ek baar check kr liyo krunyi ab ref use kr liya
 
     console.log(req.body);
 
     const usar = await User.findOne({ Number: userid });
+
+    /* --------------------------- With Referral COde --------------------------- */
+    if (referralCode) {
+
+      if (usar.Order.length == 0 && usar.refferedBy != null) {
+
+        var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
+        var key = 'password';
+        var text = usar.Number.toString();
+
+        var decipher = crypto.createDecipher(algorithm, key);
+        var decrypted = decipher.update(usar.refferedBy, 'hex', 'utf8') + decipher.final('utf8');
+
+        const masterUser = await User.findOne({ Number: decrypted });
+
+        if (!masterUser) {
+          return res.status(400).json({ message: "Wrong Referral Code" });
+        }
+
+        masterUser.referralOffer.referredPeople = masterUser.referralOffer.referredPeople + 1;
+
+        await masterUser.save();
+
+      }
+    }
+
+
     const adress = await Address.findById(addressid);
 
     if (!adress) {
@@ -63,6 +91,19 @@ exports.createOrder = async (req, res) => {
     });
 
     console.log("New Order", neworder);
+
+    /* --------------------------- Redeeming If Offer --------------------------- */
+
+
+    if (offerId) {
+
+      var offer = await Offer.findById(offerId);
+
+      offer.redeemedUsers.push(usar._id);
+
+      await offer.save();
+    }
+
 
     await neworder.save();
 
