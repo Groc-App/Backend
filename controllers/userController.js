@@ -5,26 +5,33 @@ const User = require("../models/user");
 
 exports.createuserifnotexist = async (req, res, next) => {
   try {
-    const { number } = req.params;
+    const { number, refferalcode } = req.body;
+    console.log("refferal code is ::: " + refferalcode);
 
     console.log("yesssssssssssss");
     console.log(number);
 
-    const user = await User.findOne({ Number: number });
+    if (refferalcode == null) {
+      const user = await User.findOne({ Number: number });
 
-    if (!user) {
-      const newuser = new User({ Number: number });
-      await newuser.save();
+      if (!user) {
+        const newuser = new User({ Number: number });
+        await newuser.save();
 
-      return res.status(200).json({
-        message: "Success",
-        data: newuser,
-      });
-    } else {
-      return res.status(200).json({
-        message: "Success",
-        data: user,
-      });
+        return res.status(200).json({
+          message: "Success",
+          data: newuser,
+        });
+      } else {
+        return res.status(200).json({
+          message: "Already Registered",
+          data: user,
+        });
+      }
+    }
+    else
+    {
+
     }
   } catch (error) {
     console.log("This is error:", error);
@@ -237,9 +244,11 @@ exports.getAddresses = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
 
-    console.log(phonenumber + ' yhi hhhhhhhhhhhhh');
+    console.log(phonenumber + " yhi hhhhhhhhhhhhh");
 
-    const user = await User.findOne({ Number: phonenumber }).populate('Address');
+    const user = await User.findOne({ Number: phonenumber }).populate(
+      "Address"
+    );
 
     if (!user) {
       return res.status(404).send({
@@ -270,11 +279,11 @@ exports.getAddresses = async (req, res, next) => {
 
 exports.getSelectedAddress = async (req, res, next) => {
   try {
-    const { id } = req.params;    //id phonenumber h ye
+    const { id } = req.params; //id phonenumber h ye
 
     console.log(id);
 
-    const user = await User.findOne({ Number: id }).populate('Address');
+    const user = await User.findOne({ Number: id }).populate("Address");
 
     if (!user) {
       return res.status(404).send({
@@ -309,14 +318,13 @@ exports.FetchallItemsbyUserId = async (req, res) => {
   try {
     const { id } = req.params; // user id
 
-    const data = await User.findOne({ Number: id })
-      .populate({
-        path: "products",
-        populate: {
-          path: "Item",
-          model: "Product",
-        },
-      })
+    const data = await User.findOne({ Number: id }).populate({
+      path: "products",
+      populate: {
+        path: "Item",
+        model: "Product",
+      },
+    });
     // .exec(function (err, data) {
     //   if (err) return res.status(400).json({ error: err.message });
     //   res.status(200).json({
@@ -327,7 +335,9 @@ exports.FetchallItemsbyUserId = async (req, res) => {
 
     if (!data) return res.status(404).json({ message: "No items" });
 
-    return res.status(200).json({ message: "Feteched Items Successfully", data });
+    return res
+      .status(200)
+      .json({ message: "Feteched Items Successfully", data });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

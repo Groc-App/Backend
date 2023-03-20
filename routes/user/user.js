@@ -12,7 +12,7 @@ router.post("/createcartitem", createCartItem);
 
 router.get('/getUser', getUser);
 
-router.get('/createuserifnotexist/:number', createuserifnotexist);
+router.post('/createuserifnotexist', createuserifnotexist);
 
 router.post('/getaddresses', getAddresses);
 
