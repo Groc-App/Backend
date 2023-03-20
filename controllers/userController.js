@@ -14,17 +14,15 @@ exports.createuserifnotexist = async (req, res, next) => {
 
     const user = await User.findOne({ Number: number });
 
-    if(user != null)
-    {
+    if (user != null) {
       return res.status(200).json({
         message: "AlreadyRegistered",
         data: user,
       });
     }
-    else
-    {
+    else {
       const newuser = new User({ Number: number });
-      
+
       var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
       var key = 'password';
       var text = phonenumber;
@@ -36,12 +34,16 @@ exports.createuserifnotexist = async (req, res, next) => {
       user.referralCode = encrypted;
 
 
-      if(refferalcode != null)
-      {
+      if (refferalcode != null) {
         user.refferedBy = refferalcode;
       }
 
       await user.save();
+
+      return res.status(200).json({
+        message: "Success",
+        data: null
+      });
     }
   } catch (error) {
     console.log("This is error:", error);
