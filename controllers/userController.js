@@ -2,6 +2,7 @@ const { CallPage } = require("twilio/lib/rest/api/v2010/account/call");
 const Address = require("../models/address");
 const CartItem = require("../models/cartitem");
 const User = require("../models/user");
+const { use } = require("../routes/user/user");
 
 exports.createuserifnotexist = async (req, res, next) => {
   try {
@@ -31,6 +32,19 @@ exports.createuserifnotexist = async (req, res, next) => {
     }
     else
     {
+      const user = await User.find({Number: number});
+
+      if(user == null)
+      {
+        var user = new User({phonenumber: number});
+      }
+      else
+      {
+        return res.status(300).json({
+          message: 'Already Registered',
+          data: user
+        })
+      }
 
     }
   } catch (error) {
