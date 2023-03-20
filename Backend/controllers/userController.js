@@ -59,19 +59,59 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
+const crypto = require('crypto');
+
 exports.addUser = async (req, res, next) => {
   try {
-    const { number } = req.query;
+    const { number, offerCode } = req.query;
+
+    const foundUser = await User.findOne({ Number: number });
+
+    if (foundUser) {
+      return res.status(404).send({
+        message: "User Already Created",
+        data: null,
+      });
+    }
 
     const user = new User({ Number: number });
 
+
+    /* ----------------------------- Encrypting Text ---------------------------- */
+
+    var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
+    var key = 'password';
+    var text = phonenumber;
+
+    var cipher = crypto.createCipher(algorithm, key);
+
+    var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+
+    user.referralCode = encrypted;
+
     await user.save();
 
+    /* -------------------------------------------------------------------------- */
+
     if (!user) {
-      res.status(404).send({
+      return res.status(404).send({
         message: "No User Created",
         data: null,
       });
+    }
+
+    if (offerCode) {
+      if (user.Order.length != 0) {
+        return res.status(200).json({
+          message: "Not eligible for Offer",
+          data: null,
+        });
+      }
+
+      user.refferedBy = encrypted;
+
+      await user.save();
+
     }
 
     res.status(200).json({
@@ -85,6 +125,31 @@ exports.addUser = async (req, res, next) => {
     });
   }
 };
+
+exports.cryptic = async (req, res) => {
+  try {
+    const { phonenumber } = req.body;
+    var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
+    var key = 'password';
+    var text = phonenumber;
+
+
+    var cipher = crypto.createCipher(algorithm, key);
+    var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+    console.log(text, ":", encrypted);
+
+    var decipher = crypto.createDecipher(algorithm, key);
+    var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
+
+    console.log(text, ":", decrypted);
+    return res.send();
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).send(error);
+
+  }
+}
 
 exports.updateCartItem = async (req, res) => {
   try {
@@ -173,10 +238,13 @@ exports.updateCartItem = async (req, res) => {
 
 exports.createCartItem = async (req, res) => {
   try {
+    console.log("Create car")
     /* --------------------------------- imports -------------------------------- */
     const { phonenumber, productId } = req.body; //userId phone number hoga
 
     if (!phonenumber || !productId) {
+      console.log("No phonenumber item generated")
+
       return res.status(404).json({
         message: "Some Queries not passed",
         data: null,
@@ -187,6 +255,8 @@ exports.createCartItem = async (req, res) => {
 
     const user = await User.findOne({ Number: phonenumber });
     if (!user) {
+      console.log("No user item generated")
+
       return res.status(404).json({
         message: "NO USER FOUND",
         data: null,
@@ -204,6 +274,7 @@ exports.createCartItem = async (req, res) => {
     await cartItem.save();
 
     if (!cartItem) {
+      console.log("No cart item generated")
       return res.status(404).json({
         message: "Cart Item not generated",
         data: null,
@@ -211,6 +282,8 @@ exports.createCartItem = async (req, res) => {
     }
 
     if (!user) {
+      console.log("No user item generated")
+
       return res.status(404).json({
         message: "No User Found",
         data: null,

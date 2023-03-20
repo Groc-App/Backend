@@ -26,6 +26,16 @@ const userSchema = new Schema({
         Recipients_Name: String,
         City: String,
         Pincode: Number,
+    },
+    referralOffer: {
+        referredPeople: Number,
+        isClaimed: Number
+    },
+    referralCode: String,
+    refferedBy: {
+        type: String,
+        default: null
+
     }
 });
 

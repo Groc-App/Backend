@@ -55,6 +55,13 @@ exports.redeemOffer = async (req, res) => {
 
         var offer = await Offer.findById(offerId);
 
+        if (!offer) {
+            return res.status(200).json({
+                message: "Invalid",
+                data: null
+            })
+        }
+
         var foundFlag = false;
 
         offer.redeemedUsers.forEach((userid) => {
@@ -67,13 +74,13 @@ exports.redeemOffer = async (req, res) => {
         })
 
         if (foundFlag) {
-            return res.status(200).send({
-                message: "Already Redeemed",
+            return res.status(200).json({
+                message: "Redeemed",
                 data: null
             })
         }
 
-        res.status(200).send({
+        res.status(200).json({
             message: "Success",
             data: offer
         })
@@ -145,6 +152,7 @@ exports.getAllOffers = async (req, res) => {
                 name: offer.name,
                 description: offer.description,
                 isUserClaimed: isUserClaimed,
+
                 isUserRedeemed: isUserRedeemed,
                 number: offer.number,
                 worth: offer.worth,
@@ -162,6 +170,71 @@ exports.getAllOffers = async (req, res) => {
             message: "Success",
             data: resultedArray
         })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+
+exports.redeemreferral = async (req, res) => {
+    try {
+        const { number, offerCode } = req.body;
+
+        if (offerCode) {
+
+        }
+
+        /* ------------------------- Decrytinhg Coupon Code ------------------------- */
+
+        var decipher = crypto.createDecipher(algorithm, key);
+        var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
+
+        /* --------------------------- Finding Master User -------------------------- */
+
+        const masterUser = await User.findOne({ Number: decrypted });
+
+        if (!masterUser) {
+            return res.status(200).json({
+                message: "Invalid",
+                data: null
+            })
+        }
+
+        /* ------------ Finding if user has already availed Master Coupon ----------- */
+        var foundFlag = false;
+
+        masterUser.referralOffer.forEach((ref) => {
+            if (ref.refferralNumber == number) {
+                foundFlag = true;
+                return res.status(200).json({
+                    message: "You Have Used Referral Code",
+                    data: null
+                })
+
+            }
+        });
+
+        masterUser.push({
+            refferralNumber: number,
+            isClaimed: false
+        });
+
+        var offer = await Offer.findById(offerId);
+
+        if (!offer) {
+            return res.status(200).json({
+                message: "Invalid",
+                data: null
+            })
+        }
+
+        res.status(200).json({
+            message: "Success",
+
+        })
+
 
     } catch (error) {
         return res.status(500).json({
