@@ -2,6 +2,7 @@ const { CallPage } = require("twilio/lib/rest/api/v2010/account/call");
 const Address = require("../models/address");
 const CartItem = require("../models/cartitem");
 const User = require("../models/user");
+const { use } = require("../routes/user/user");
 
 exports.createuserifnotexist = async (req, res, next) => {
   try {
@@ -11,26 +12,36 @@ exports.createuserifnotexist = async (req, res, next) => {
     console.log("yesssssssssssss");
     console.log(number);
 
-    if (refferalcode == null) {
-      const user = await User.findOne({ Number: number });
+    const user = await User.findOne({ Number: number });
 
-      if (!user) {
-        const newuser = new User({ Number: number });
-        await newuser.save();
-
-        return res.status(200).json({
-          message: "Success",
-          data: newuser,
-        });
-      } else {
-        return res.status(200).json({
-          message: "Already Registered",
-          data: user,
-        });
-      }
+    if(user != null)
+    {
+      return res.status(200).json({
+        message: "AlreadyRegistered",
+        data: user,
+      });
     }
-    else {
+    else
+    {
+      const newuser = new User({ Number: number });
+      
+      var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
+      var key = 'password';
+      var text = phonenumber;
 
+      var cipher = crypto.createCipher(algorithm, key);
+
+      var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+
+      user.referralCode = encrypted;
+
+
+      if(refferalcode != null)
+      {
+        user.refferedBy = refferalcode;
+      }
+
+      await user.save();
     }
   } catch (error) {
     console.log("This is error:", error);
@@ -113,7 +124,7 @@ exports.addUser = async (req, res, next) => {
         });
       }
 
-      user.refferedBy = encrypted;
+      user.refferedBy = offerCode;
 
       await user.save();
 
