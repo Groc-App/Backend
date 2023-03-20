@@ -2,19 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-<<<<<<< HEAD
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
     "deploy": "serverless deploy"
-=======
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
   },
   "author": "",
   "license": "ISC",
@@ -27,17 +20,10 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
     "otp-generator": "^4.0.1",
-<<<<<<< HEAD
     "serverless-http": "^3.2.0",
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.0",
     "twilio": "^4.7.1",
     "uniqid": "^5.4.0"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22

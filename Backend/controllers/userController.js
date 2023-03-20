@@ -5,32 +5,26 @@ const User = require("../models/user");
 
 exports.createuserifnotexist = async (req, res, next) => {
   try {
-    const { number, refferalcode } = req.body;
-    console.log("refferal code is ::: " + refferalcode);
+    const { number } = req.params;
 
     console.log("yesssssssssssss");
     console.log(number);
 
-    if (refferalcode == null) {
-      const user = await User.findOne({ Number: number });
+    const user = await User.findOne({ Number: number });
 
-      if (!user) {
-        const newuser = new User({ Number: number });
-        await newuser.save();
+    if (!user) {
+      const newuser = new User({ Number: number });
+      await newuser.save();
 
-        return res.status(200).json({
-          message: "Success",
-          data: newuser,
-        });
-      } else {
-        return res.status(200).json({
-          message: "Already Registered",
-          data: user,
-        });
-      }
-    }
-    else {
-
+      return res.status(200).json({
+        message: "Success",
+        data: newuser,
+      });
+    } else {
+      return res.status(200).json({
+        message: "Success",
+        data: user,
+      });
     }
   } catch (error) {
     console.log("This is error:", error);
@@ -76,11 +70,12 @@ exports.addUser = async (req, res, next) => {
     if (foundUser) {
       return res.status(404).send({
         message: "User Already Created",
-        data: foundUser,
+        data: null,
       });
     }
 
     const user = new User({ Number: number });
+
 
     /* ----------------------------- Encrypting Text ---------------------------- */
 
@@ -248,6 +243,8 @@ exports.createCartItem = async (req, res) => {
     const { phonenumber, productId } = req.body; //userId phone number hoga
 
     if (!phonenumber || !productId) {
+      console.log("No phonenumber item generated")
+
       return res.status(404).json({
         message: "Some Queries not passed",
         data: null,
@@ -258,6 +255,8 @@ exports.createCartItem = async (req, res) => {
 
     const user = await User.findOne({ Number: phonenumber });
     if (!user) {
+      console.log("No user item generated")
+
       return res.status(404).json({
         message: "NO USER FOUND",
         data: null,
@@ -275,6 +274,7 @@ exports.createCartItem = async (req, res) => {
     await cartItem.save();
 
     if (!cartItem) {
+      console.log("No cart item generated")
       return res.status(404).json({
         message: "Cart Item not generated",
         data: null,
@@ -282,6 +282,8 @@ exports.createCartItem = async (req, res) => {
     }
 
     if (!user) {
+      console.log("No user item generated")
+
       return res.status(404).json({
         message: "No User Found",
         data: null,
@@ -308,11 +310,9 @@ exports.getAddresses = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
 
-    console.log(phonenumber + " yhi hhhhhhhhhhhhh");
+    console.log(phonenumber + ' yhi hhhhhhhhhhhhh');
 
-    const user = await User.findOne({ Number: phonenumber }).populate(
-      "Address"
-    );
+    const user = await User.findOne({ Number: phonenumber }).populate('Address');
 
     if (!user) {
       return res.status(404).send({
@@ -343,11 +343,11 @@ exports.getAddresses = async (req, res, next) => {
 
 exports.getSelectedAddress = async (req, res, next) => {
   try {
-    const { id } = req.params; //id phonenumber h ye
+    const { id } = req.params;    //id phonenumber h ye
 
     console.log(id);
 
-    const user = await User.findOne({ Number: id }).populate("Address");
+    const user = await User.findOne({ Number: id }).populate('Address');
 
     if (!user) {
       return res.status(404).send({
@@ -382,13 +382,14 @@ exports.FetchallItemsbyUserId = async (req, res) => {
   try {
     const { id } = req.params; // user id
 
-    const data = await User.findOne({ Number: id }).populate({
-      path: "products",
-      populate: {
-        path: "Item",
-        model: "Product",
-      },
-    });
+    const data = await User.findOne({ Number: id })
+      .populate({
+        path: "products",
+        populate: {
+          path: "Item",
+          model: "Product",
+        },
+      })
     // .exec(function (err, data) {
     //   if (err) return res.status(400).json({ error: err.message });
     //   res.status(200).json({
@@ -399,9 +400,7 @@ exports.FetchallItemsbyUserId = async (req, res) => {
 
     if (!data) return res.status(404).json({ message: "No items" });
 
-    return res
-      .status(200)
-      .json({ message: "Feteched Items Successfully", data });
+    return res.status(200).json({ message: "Feteched Items Successfully", data });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

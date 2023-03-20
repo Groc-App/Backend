@@ -1,11 +1,5 @@
 const Category = require("../models/category")
-<<<<<<< HEAD
 const MainCategory = require("../models/maincategory")
-=======
-const MainCategory = require("../models/maincategory");
-const Product = require("../models/product");
-const MostSelling = require("../models/mostselling");
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
 
 exports.addCatergory = async (req, res) => {
     try {
@@ -40,10 +34,7 @@ exports.addCatergory = async (req, res) => {
 
 exports.getCategoryByMaincategory = async (req, res) => {
     try {
-<<<<<<< HEAD
 
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
         const { mainCategoryId } = req.params;
         const categories = await Category.find({ MainCategory: mainCategoryId });
         res.status(200).send({
@@ -100,10 +91,7 @@ exports.getCategoryByName = async (req, res) => {
         if (!name) {
             res.status(404).send({
                 message: "No Name found",
-<<<<<<< HEAD
 
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
             })
         }
 
@@ -121,7 +109,6 @@ exports.getCategoryByName = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
 exports.updateCategory = async (req, res) => {
     try {
         var categories = await Category.find().populate('Products');
@@ -147,8 +134,6 @@ exports.updateCategory = async (req, res) => {
     }
 }
 
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
 
 exports.getallMainCategory = async (req, res) => {
     try {
@@ -167,49 +152,4 @@ exports.getallMainCategory = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
 // exports.updateCa
-=======
-exports.fixmaincategory = async (req, res) => {
-    try {
-        var galatmaincateg = await MainCategory.findOne({Name: 'HouseHold'});
-        var galatproducts = galatmaincateg.Products;
-
-        console.log(galatproducts);
-
-        var sahimaincateg = await MainCategory.findOne({Name: 'Household'});
-
-        for(var i=0; i<galatproducts.length; i++)
-        {
-            sahimaincateg.Products.push(galatproducts[i]);
-
-            var producttobechanged = await Product.findById(galatproducts[i]);
-            producttobechanged.MainCategory = sahimaincateg._id;
-            await producttobechanged.save();
-        }
-
-        var galatcategory = galatmaincateg.Categories;
-
-        for(var i=0; i<galatcategory.length; i++)
-        {
-            sahimaincateg.Products.push(galatcategory[i]);
-
-            var categtobechanged = await Category.findById(galatcategory[i]);
-            categtobechanged.MainCategory = sahimaincateg._id;
-            await categtobechanged.save();
-        }
-
-        await sahimaincateg.save();
-
-        res.status(200).send({
-            message: "Success",
-        })
-
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message
-        })
-    }
-}
-
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
