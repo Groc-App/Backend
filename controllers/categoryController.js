@@ -36,10 +36,7 @@ exports.addCatergory = async (req, res) => {
 
 exports.getCategoryByMaincategory = async (req, res) => {
     try {
-<<<<<<< HEAD
 
-=======
->>>>>>> d7c4d02345e38b04c41d02aff4200148aac2e046
         const { mainCategoryId } = req.params;
         const categories = await Category.find({ MainCategory: mainCategoryId });
         res.status(200).send({
@@ -96,10 +93,7 @@ exports.getCategoryByName = async (req, res) => {
         if (!name) {
             res.status(404).send({
                 message: "No Name found",
-<<<<<<< HEAD
 
-=======
->>>>>>> d7c4d02345e38b04c41d02aff4200148aac2e046
             })
         }
 

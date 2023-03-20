@@ -41,14 +41,7 @@ app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-<<<<<<< HEAD
-app.use(express.json())
-// app.use(cors({
-//     origin: '*',
-// }));
-=======
 app.use(express.json());
->>>>>>> d7c4d02345e38b04c41d02aff4200148aac2e046
 
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
