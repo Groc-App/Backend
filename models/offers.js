@@ -17,15 +17,12 @@ const offerSchema = new Schema(
                 ref: "User",
             },
         ],
-<<<<<<< HEAD
         redeemedUsers: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
             },
         ]
-=======
->>>>>>> 3f076c7d4cd2d0e12090d4569cbae6606e0c3b22
     },
     {
         toJSON: {
