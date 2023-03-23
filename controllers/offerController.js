@@ -1,6 +1,6 @@
 const Offer = require('../models/offers');
+const mongoose = require('mongoose')
 const User = require('../models/user');
-
 
 
 
@@ -47,13 +47,52 @@ exports.updateOffer = async (req, res) => {
         })
     }
 }
+
+exports.referralId = async (req, res) => {
+    try {
+        const { number } = req.params;
+        console.log(number);
+        const user = await User.findOne({ Number: number });
+
+        console.log(user);
+
+        if (!user) {
+            return res.status(500).json({
+                message: "Failure",
+                data: user
+            });
+        }
+
+        return res.status(200).json({
+            message: "Success",
+            data: user
+        });
+
+    } catch (error) {
+        return res.status(5000).json({
+            message: error.message,
+        });
+    }
+}
 exports.redeemOffer = async (req, res) => {
     try {
+
+
         const { number, offerId } = req.body;
+
+        console.log(req.body);
 
         const user = await User.findOne({ Number: number });
 
-        var offer = await Offer.findById(offerId);
+        if (!mongoose.Types.ObjectId.isValid(offerId)) {
+            console.log("Invalid")
+            return res.status(200).json({
+                message: "Invalid",
+                data: null
+            })
+        }
+
+        var offer = await Offer.findById({ _id: offerId });
 
         if (!offer) {
             return res.status(200).json({
@@ -80,9 +119,10 @@ exports.redeemOffer = async (req, res) => {
             })
         }
 
+        console.log("Passed All valid coupon")
         res.status(200).json({
-            message: "Success",
-            data: offer
+            message: offer.worth,
+            // data: offer
         })
 
 
@@ -164,6 +204,19 @@ exports.getAllOffers = async (req, res) => {
             resultedArray.push(customizedoffer);
 
         }
+
+
+        function compare(a, b) {
+            if (a.number < b.number) {
+                return -1;
+            }
+            if (a.number > b.number) {
+                return 1;
+            }
+            return 0;
+        }
+
+        resultedArray.sort(compare);
         console.log(resultedArray);
 
         res.status(200).send({

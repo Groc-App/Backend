@@ -37,18 +37,49 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
 
 // ordere id generate krvani h
 
+
+exports.verifyReferral = async (req, res) => {
+  try {
+
+    console.log("Inside verify Referral")
+    const { number } = req.body;
+
+    console.log(number);
+
+    const user = await User.findOne({ Number: number });
+
+    console.log(user)
+
+    if (user.refferedBy && user.Order.length == 0) {
+      return res.status(200).json({
+        message: "true",
+      });
+    } else {
+      return res.status(200).json({
+        message: "false",
+      });
+    }
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+}
+
 exports.createOrder = async (req, res) => {
   try {
-    const { tamount, userid, orderdetail, addressid, offerId, referralCode } = req.body; // address map string bhej rha hu to ek baar check kr liyo krunyi ab ref use kr liya
+    const { tamount, userid, orderdetail, addressid, offerId } = req.body; // address map string bhej rha hu to ek baar check kr liyo krunyi ab ref use kr liya
 
     console.log(req.body);
 
     const usar = await User.findOne({ Number: userid });
 
     /* --------------------------- With Referral COde --------------------------- */
-    if (referralCode) {
+    if (usar.referralCode != null) {
 
-      if (usar.Order.length == 0 && usar.refferedBy != null) {
+      if (usar.Order.length == 0) {
 
         var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
         var key = 'password';

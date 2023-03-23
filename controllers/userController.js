@@ -21,28 +21,30 @@ exports.createuserifnotexist = async (req, res, next) => {
       });
     }
     else {
+
       const newuser = new User({ Number: number });
+
+      await newuser.save();
 
       var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
       var key = 'password';
-      var text = phonenumber;
+      var text = number;
 
       var cipher = crypto.createCipher(algorithm, key);
 
       var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
 
-      user.referralCode = encrypted;
-
+      newuser.referralCode = encrypted;
 
       if (refferalcode != null) {
-        user.refferedBy = refferalcode;
+        newuser.refferedBy = refferalcode;
       }
 
-      await user.save();
+      await newuser.save();
 
       return res.status(200).json({
         message: "Success",
-        data: null
+        data: newuser
       });
     }
   } catch (error) {

@@ -32,9 +32,12 @@ exports.fetchSubscriptionByUser = async (req, res) => {
     try {
         const { number } = req.query;
         console.log(req.query)
-        const user = await User.findOne({ number });
+        const user = await User.findOne({ Number: number });
 
+        console.log(user)
         if (!user) {
+            console.log("inside no user")
+
             return res.status(200).json({
                 message: "No User Found",
                 data: null
@@ -48,6 +51,7 @@ exports.fetchSubscriptionByUser = async (req, res) => {
         }).populate('product').populate('address')
 
         if (!subscriptions) {
+            console.log("inside no")
             return res.status(200).json({
                 message: "No subscriptions Found"
             })
@@ -61,6 +65,7 @@ exports.fetchSubscriptionByUser = async (req, res) => {
         })
 
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error: error.message });
     }
 };
@@ -73,7 +78,7 @@ exports.editSubscriptionByUser = async (req, res) => {
 
         console.log(req.query);
 
-        const subscription = await Subscription.findByIdAndUpdate(subsid, {quantity: quantity, startDate: startDate, endDate: endDate, address: address});
+        const subscription = await Subscription.findByIdAndUpdate(subsid, { quantity: quantity, startDate: startDate, endDate: endDate, address: address });
 
         // if (!user) {
         //     return res.status(200).json({
@@ -117,15 +122,13 @@ exports.cancelSubscriptionByUser = async (req, res) => {
     }
 };
 
-
-
 exports.createSubscription = async (req, res) => {
     try {
         const { productId, number, quantity, address, endDate } = req.body;
 
         console.log(req.body);
         //order detail = [{productid, quantity}]
-       
+
 
         const user = await User.findOne({ Number: number });
 
