@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/getAllOffers", getAllOffers);
 
-router.post('/redeemOffer', redeemOffer)
+router.post('/redeemOffer', redeemOffer);
 
 router.post("/postOffer", postOffers);
 

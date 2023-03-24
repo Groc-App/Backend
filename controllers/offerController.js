@@ -51,6 +51,9 @@ exports.redeemOffer = async (req, res) => {
     try {
         const { number, offerId } = req.body;
 
+        console.log(offerId);
+        console.log(number);
+
         const user = await User.findOne({ Number: number });
 
         var offer = await Offer.findById(offerId);

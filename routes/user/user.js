@@ -13,7 +13,7 @@ router.post("/createcartitem", createCartItem);
 router.get('/getUser', getUser);
 // router.post("/cryptic", cryptic)
 
-router.get('/createuserifnotexist/:number', createuserifnotexist);
+router.post('/createuserifnotexist', createuserifnotexist);
 
 router.post('/getaddresses', getAddresses);
 
