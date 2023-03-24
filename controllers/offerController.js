@@ -165,9 +165,6 @@ exports.getAllOffers = async (req, res) => {
         var customizedoffer = {};
         var resultedArray = [];
 
-
-
-
         if (!user) {
             return res.status(200).send({
                 message: "No user Found",
