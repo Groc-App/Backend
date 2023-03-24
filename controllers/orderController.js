@@ -8,6 +8,7 @@ const Order = require("../models/orders");
 const Address = require("../models/address");
 var uniqid = require('uniqid');
 const Offer = require("../models/offers");
+const crypto = require('crypto')
 
 
 exports.fetchallOrdersbyUserId = async (req, res) => {
@@ -76,31 +77,30 @@ exports.createOrder = async (req, res) => {
 
     const usar = await User.findOne({ Number: userid });
 
-    /* --------------------------- With Referral COde --------------------------- */
-    if (usar.referralCode != null) {
 
-      if (usar.Order.length == 0) {
+    /* --------------------------- With Referral COde first Time --------------------------- */
+    if (usar.refferedBy != null && usar.Order.length == 0) {
 
-        var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
-        var key = 'password';
-        var text = usar.Number.toString();
+      var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
+      var key = 'password';
+      var text = usar.Number.toString();
 
-        var decipher = crypto.createDecipher(algorithm, key);
-        var decrypted = decipher.update(usar.refferedBy, 'hex', 'utf8') + decipher.final('utf8');
+      var decipher = crypto.createDecipher(algorithm, key);
+      var decrypted = decipher.update(usar.refferedBy, 'hex', 'utf8') + decipher.final('utf8');
 
-        const masterUser = await User.findOne({ Number: decrypted });
+      const masterUser = await User.findOne({ Number: decrypted });
 
-        if (!masterUser) {
-          return res.status(400).json({ message: "Wrong Referral Code" });
-        }
-
-        masterUser.referralOffer.referredPeople = masterUser.referralOffer.referredPeople + 1;
-
-        await masterUser.save();
-
+      if (!masterUser) {
+        return res.status(400).json({ message: "Wrong Referral Code" });
       }
-    }
 
+      masterUser.referralOffer.referredPeople = masterUser.referralOffer.referredPeople + 1;
+
+      await masterUser.save();
+      usar.refferedBy = null;
+      await usar.save();
+
+    }
 
     const adress = await Address.findById(addressid);
 
@@ -109,7 +109,6 @@ exports.createOrder = async (req, res) => {
     }
 
     var uniqId = uniqid.time('ORD-');
-    console.log("UNiqe ID::::", uniqId);
 
     const neworder = new Order({
       OrderId: uniqId,
@@ -126,13 +125,20 @@ exports.createOrder = async (req, res) => {
     /* --------------------------- Redeeming If Offer --------------------------- */
 
 
-    if (offerId) {
+    if (offerId != '') {
 
-      var offer = await Offer.findById(offerId);
+      if (offerId == 'REF10') {
+        usar.referralOffer.isClaimed = usar.referralOffer.isClaimed + 1;
+        await usar.save();
+      }
+      else {
 
-      offer.redeemedUsers.push(usar._id);
+        var offer = await Offer.findById(offerId);
 
-      await offer.save();
+        offer.redeemedUsers.push(usar._id);
+
+        await offer.save();
+      }
     }
 
 
@@ -151,7 +157,7 @@ exports.createOrder = async (req, res) => {
       message: "Order Create Successfully",
     });
   } catch (error) {
-    console.error(error.message);
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
 };

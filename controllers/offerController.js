@@ -84,6 +84,21 @@ exports.redeemOffer = async (req, res) => {
 
         const user = await User.findOne({ Number: number });
 
+        if (offerId == 'REF10') {
+            if ((user.referralOffer.referredPeople - user.referralOffer.isClaimed) > 0) {
+                return res.status(200).json({
+                    message: '10',
+                    // data: offer
+                });
+            }
+            else {
+                return res.status(200).json({
+                    message: "Sortage",
+                    data: null
+                })
+            }
+        }
+
         if (!mongoose.Types.ObjectId.isValid(offerId)) {
             console.log("Invalid")
             return res.status(200).json({
@@ -120,8 +135,8 @@ exports.redeemOffer = async (req, res) => {
         }
 
         console.log("Passed All valid coupon")
-        res.status(200).json({
-            message: offer.worth,
+        return res.status(200).json({
+            message: offer.worth.toString(),
             // data: offer
         })
 
@@ -147,6 +162,9 @@ exports.getAllOffers = async (req, res) => {
 
         var customizedoffer = {};
         var resultedArray = [];
+
+
+
 
         if (!user) {
             return res.status(200).send({
