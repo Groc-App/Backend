@@ -28,8 +28,14 @@ const userSchema = new Schema({
         Pincode: Number,
     },
     referralOffer: {
-        referredPeople: Number,
-        isClaimed: Number
+        referredPeople: {
+            type: Number,
+            default: 0
+        },
+        isClaimed: {
+            type: Number,
+            default: 0
+        }
     },
     referralCode: String,
     refferedBy: {

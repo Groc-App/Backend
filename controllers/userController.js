@@ -12,6 +12,21 @@ exports.createuserifnotexist = async (req, res, next) => {
     console.log("yesssssssssssss");
     console.log(number);
 
+    if (refferalcode != '') {
+      var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
+      var key = 'password';
+      var text = usar.Number.toString();
+
+      var decipher = crypto.createDecipher(algorithm, key);
+      var decrypted = decipher.update(usar.refferedBy, 'hex', 'utf8') + decipher.final('utf8');
+
+      const masterUser = await User.findOne({ Number: decrypted });
+
+      if (!masterUser) {
+        return res.status(200).json({ message: "WrongCode" });
+      }
+    }
+
     const user = await User.findOne({ Number: number });
 
     if (user != null) {
@@ -21,28 +36,31 @@ exports.createuserifnotexist = async (req, res, next) => {
       });
     }
     else {
+
       const newuser = new User({ Number: number });
+
+      await newuser.save();
 
       var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
       var key = 'password';
-      var text = phonenumber;
+      var text = number;
 
       var cipher = crypto.createCipher(algorithm, key);
 
       var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
 
-      user.referralCode = encrypted;
+      newuser.referralCode = encrypted;
 
 
-      if (refferalcode != null) {
-        user.refferedBy = refferalcode;
+      if (refferalcode != '') {
+        newuser.refferedBy = refferalcode;
       }
 
-      await user.save();
+      await newuser.save();
 
       return res.status(200).json({
         message: "Success",
-        data: null
+        data: newuser
       });
     }
   } catch (error) {
