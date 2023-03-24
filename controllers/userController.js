@@ -2,6 +2,8 @@ const { CallPage } = require("twilio/lib/rest/api/v2010/account/call");
 const Address = require("../models/address");
 const CartItem = require("../models/cartitem");
 const User = require("../models/user");
+const mongoose = require('mongoose')
+
 const { use } = require("../routes/user/user");
 
 exports.createuserifnotexist = async (req, res, next) => {
@@ -84,7 +86,6 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
-const crypto = require("crypto");
 
 exports.addUser = async (req, res, next) => {
   try {
@@ -149,28 +150,7 @@ exports.addUser = async (req, res, next) => {
   }
 };
 
-exports.cryptic = async (req, res) => {
-  try {
-    const { phonenumber } = req.body;
-    var algorithm = "aes256"; // or any other algorithm supported by OpenSSL
-    var key = "password";
-    var text = phonenumber;
 
-    var cipher = crypto.createCipher(algorithm, key);
-    var encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex");
-    console.log(text, ":", encrypted);
-
-    var decipher = crypto.createDecipher(algorithm, key);
-    var decrypted =
-      decipher.update(encrypted, "hex", "utf8") + decipher.final("utf8");
-
-    console.log(text, ":", decrypted);
-    return res.send();
-  } catch (error) {
-    console.log(error);
-    return res.status(400).send(error);
-  }
-};
 
 exports.updateCartItem = async (req, res) => {
   try {

@@ -51,7 +51,7 @@ exports.verifyReferral = async (req, res) => {
 
     console.log(user)
 
-    if (user.refferedBy && user.Order.length == 0) {
+    if (user.refferedBy != null && user.refferedBy && user.Order.length == 0) {
       return res.status(200).json({
         message: "true",
       });
