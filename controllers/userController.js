@@ -12,21 +12,6 @@ exports.createuserifnotexist = async (req, res, next) => {
     console.log("yesssssssssssss");
     console.log(number);
 
-    if (refferalcode != '') {
-      var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
-      var key = 'password';
-      var text = usar.Number.toString();
-
-      var decipher = crypto.createDecipher(algorithm, key);
-      var decrypted = decipher.update(usar.refferedBy, 'hex', 'utf8') + decipher.final('utf8');
-
-      const masterUser = await User.findOne({ Number: decrypted });
-
-      if (!masterUser) {
-        return res.status(200).json({ message: "WrongCode" });
-      }
-    }
-
     const user = await User.findOne({ Number: number });
 
     if (user != null) {
@@ -34,25 +19,37 @@ exports.createuserifnotexist = async (req, res, next) => {
         message: "AlreadyRegistered",
         data: user,
       });
-    }
-    else {
-
+    } else {
       const newuser = new User({ Number: number });
 
       await newuser.save();
 
-      var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
-      var key = 'password';
+      var algorithm = "aes256"; // or any other algorithm supported by OpenSSL
+      var key = "password";
       var text = number;
 
       var cipher = crypto.createCipher(algorithm, key);
 
-      var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+      var encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex");
 
       newuser.referralCode = encrypted;
 
-
       if (refferalcode != '') {
+        var algorithm = "aes256"; // or any other algorithm supported by OpenSSL
+        var key = "password";
+        var text = usar.Number.toString();
+
+        var decipher = crypto.createDecipher(algorithm, key);
+        var decrypted =
+          decipher.update(usar.refferedBy, "hex", "utf8") +
+          decipher.final("utf8");
+
+        const masterUser = await User.findOne({ Number: decrypted });
+
+        if (!masterUser) {
+          return res.status(200).json({ message: "WrongCode" });
+        }
+
         newuser.refferedBy = refferalcode;
       }
 
@@ -60,7 +57,7 @@ exports.createuserifnotexist = async (req, res, next) => {
 
       return res.status(200).json({
         message: "Success",
-        data: newuser
+        data: newuser,
       });
     }
   } catch (error) {
@@ -96,7 +93,7 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 exports.addUser = async (req, res, next) => {
   try {
@@ -115,13 +112,13 @@ exports.addUser = async (req, res, next) => {
 
     /* ----------------------------- Encrypting Text ---------------------------- */
 
-    var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
-    var key = 'password';
+    var algorithm = "aes256"; // or any other algorithm supported by OpenSSL
+    var key = "password";
     var text = phonenumber;
 
     var cipher = crypto.createCipher(algorithm, key);
 
-    var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+    var encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex");
 
     user.referralCode = encrypted;
 
@@ -147,7 +144,6 @@ exports.addUser = async (req, res, next) => {
       user.refferedBy = offerCode;
 
       await user.save();
-
     }
 
     res.status(200).json({
@@ -165,27 +161,25 @@ exports.addUser = async (req, res, next) => {
 exports.cryptic = async (req, res) => {
   try {
     const { phonenumber } = req.body;
-    var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
-    var key = 'password';
+    var algorithm = "aes256"; // or any other algorithm supported by OpenSSL
+    var key = "password";
     var text = phonenumber;
 
-
     var cipher = crypto.createCipher(algorithm, key);
-    var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+    var encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex");
     console.log(text, ":", encrypted);
 
     var decipher = crypto.createDecipher(algorithm, key);
-    var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
+    var decrypted =
+      decipher.update(encrypted, "hex", "utf8") + decipher.final("utf8");
 
     console.log(text, ":", decrypted);
     return res.send();
-
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(400).send(error);
-
   }
-}
+};
 
 exports.updateCartItem = async (req, res) => {
   try {
@@ -274,7 +268,7 @@ exports.updateCartItem = async (req, res) => {
 
 exports.createCartItem = async (req, res) => {
   try {
-    console.log("Create car")
+    console.log("Create car");
     /* --------------------------------- imports -------------------------------- */
     const { phonenumber, productId } = req.body; //userId phone number hoga
 
