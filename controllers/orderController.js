@@ -81,14 +81,7 @@ exports.createOrder = async (req, res) => {
     /* --------------------------- With Referral COde first Time --------------------------- */
     if (usar.refferedBy != null && usar.Order.length == 0) {
 
-      var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
-      var key = 'password';
-      var text = usar.Number.toString();
-
-      var decipher = crypto.createDecipher(algorithm, key);
-      var decrypted = decipher.update(usar.refferedBy, 'hex', 'utf8') + decipher.final('utf8');
-
-      const masterUser = await User.findOne({ Number: decrypted });
+      const masterUser = await User.findById(usar.refferedBy);
 
       if (!masterUser) {
         return res.status(400).json({ message: "Wrong Referral Code" });
@@ -101,6 +94,7 @@ exports.createOrder = async (req, res) => {
       await usar.save();
 
     }
+    /* -------------------------------------------------------------------------- */
 
     const adress = await Address.findById(addressid);
 

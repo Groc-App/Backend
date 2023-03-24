@@ -178,67 +178,65 @@ exports.getAllOffers = async (req, res) => {
     }
 }
 
-exports.redeemreferral = async (req, res) => {
-    try {
-        const { number, offerCode } = req.body;
+// exports.redeemreferral = async (req, res) => {
+//     try {
+//         const { number, offerCode } = req.body;
 
-        if (offerCode) {
+//         if (offerCode) {
 
-        }
+//         }
 
-        /* ------------------------- Decrytinhg Coupon Code ------------------------- */
-
-        var decipher = crypto.createDecipher(algorithm, key);
-        var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
-
-        /* --------------------------- Finding Master User -------------------------- */
-
-        const masterUser = await User.findOne({ Number: decrypted });
-
-        if (!masterUser) {
-            return res.status(200).json({
-                message: "Invalid",
-                data: null
-            })
-        }
-
-        /* ------------ Finding if user has already availed Master Coupon ----------- */
-        var foundFlag = false;
-
-        masterUser.referralOffer.forEach((ref) => {
-            if (ref.refferralNumber == number) {
-                foundFlag = true;
-                return res.status(200).json({
-                    message: "You Have Used Referral Code",
-                    data: null
-                })
-
-            }
-        });
-
-        masterUser.push({
-            refferralNumber: number,
-            isClaimed: false
-        });
-
-        var offer = await Offer.findById(offerId);
-
-        if (!offer) {
-            return res.status(200).json({
-                message: "Invalid",
-                data: null
-            })
-        }
-
-        res.status(200).json({
-            message: "Success",
-
-        })
+//         /* ------------------------- Decrytinhg Coupon Code ------------------------- */
 
 
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message
-        })
-    }
-}
+//         /* --------------------------- Finding Master User -------------------------- */
+
+//         const masterUser = await User.findById(offerCode)
+
+//         if (!masterUser) {
+//             return res.status(200).json({
+//                 message: "Invalid",
+//                 data: null
+//             })
+//         }
+
+//         /* ------------ Finding if user has already availed Master Coupon ----------- */
+//         var foundFlag = false;
+
+//         masterUser.referralOffer.forEach((ref) => {
+//             if (ref.refferralNumber == number) {
+//                 foundFlag = true;
+//                 return res.status(200).json({
+//                     message: "You Have Used Referral Code",
+//                     data: null
+//                 })
+
+//             }
+//         });
+
+//         masterUser.push({
+//             refferralNumber: number,
+//             isClaimed: false
+//         });
+
+//         var offer = await Offer.findById(offerId);
+
+//         if (!offer) {
+//             return res.status(200).json({
+//                 message: "Invalid",
+//                 data: null
+//             })
+//         }
+
+//         res.status(200).json({
+//             message: "Success",
+
+//         })
+
+
+//     } catch (error) {
+//         return res.status(500).json({
+//             message: error.message
+//         })
+//     }
+// }

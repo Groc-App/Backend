@@ -24,27 +24,18 @@ exports.createuserifnotexist = async (req, res, next) => {
 
       await newuser.save();
 
-      var algorithm = "aes256"; // or any other algorithm supported by OpenSSL
-      var key = "password";
-      var text = number;
-
-      var cipher = crypto.createCipher(algorithm, key);
-
-      var encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex");
-
-      newuser.referralCode = encrypted;
+      newuser.referralCode = newuser._id;
 
       if (refferalcode != '') {
-        var algorithm = "aes256"; // or any other algorithm supported by OpenSSL
-        var key = "password";
-        var text = usar.Number.toString();
 
-        var decipher = crypto.createDecipher(algorithm, key);
-        var decrypted =
-          decipher.update(usar.refferedBy, "hex", "utf8") +
-          decipher.final("utf8");
+        if (!mongoose.Types.ObjectId.isValid(refferalcode)) {
+          return res.status(200).json({
+            message: "WrongCode",
+            data: null
+          })
+        }
 
-        const masterUser = await User.findOne({ Number: decrypted });
+        const masterUser = await User.findById(refferalcode);
 
         if (!masterUser) {
           return res.status(200).json({ message: "WrongCode" });
