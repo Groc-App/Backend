@@ -140,7 +140,19 @@ exports.updateCategory = async (req, res) => {
 exports.getallMainCategory = async (req, res) => {
     try {
         console.log("hiiiiiiiiiiiiiiiiiii");
-        const data = await MainCategory.find();
+        var data = await MainCategory.find();
+
+        function compare(a, b) {
+            if (a.Name < b.Name) {
+                return -1;
+            }
+            if (a.Name > b.Name) {
+                return 1;
+            }
+            return 0;
+        }
+
+        data.sort(compare);
 
         res.status(200).send({
             message: "Success",

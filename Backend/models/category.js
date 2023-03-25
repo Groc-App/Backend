@@ -14,6 +14,7 @@ const categorySchema = new Schema(
                 ref: "Product",
             },
         ],
+        catNavImg: String,
         MainCategory: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "MainCategory",
