@@ -31,7 +31,7 @@ exports.fetchAllSubscriptions = async (req, res) => {
 exports.fetchSubscriptionByUser = async (req, res) => {
     try {
         const { number } = req.query;
-        console.log(req.query)
+        (req.query)
         const user = await User.findOne({ number });
 
         if (!user) {
@@ -53,7 +53,7 @@ exports.fetchSubscriptionByUser = async (req, res) => {
             })
         }
 
-        console.log(subscriptions);
+        (subscriptions);
 
         res.status(200).json({
             message: "Success",
@@ -69,11 +69,11 @@ exports.editSubscriptionByUser = async (req, res) => {
     try {
 
         const { subsid, quantity, startDate, endDate, address } = req.body;
-        console.log(subsid, quantity, startDate, endDate, address);
+        (subsid, quantity, startDate, endDate, address);
 
-        console.log(req.query);
+        (req.query);
 
-        const subscription = await Subscription.findByIdAndUpdate(subsid, {quantity: quantity, startDate: startDate, endDate: endDate, address: address});
+        const subscription = await Subscription.findByIdAndUpdate(subsid, { quantity: quantity, startDate: startDate, endDate: endDate, address: address });
 
         // if (!user) {
         //     return res.status(200).json({
@@ -123,9 +123,9 @@ exports.createSubscription = async (req, res) => {
     try {
         const { productId, number, quantity, address, endDate } = req.body;
 
-        console.log(req.body);
+        (req.body);
         //order detail = [{productid, quantity}]
-       
+
 
         const user = await User.findOne({ Number: number });
 
@@ -141,7 +141,7 @@ exports.createSubscription = async (req, res) => {
 
         const adress = await Address.findById(address);
 
-        console.log("Address id:", adress._id);
+        ("Address id:", adress._id);
         var addressId = mongoose.Types.ObjectId(adress._id);
 
 
@@ -162,7 +162,7 @@ exports.createSubscription = async (req, res) => {
         });
         await subscription.save();
 
-        console.log("New Subcription", subscription);
+        ("New Subcription", subscription);
 
         res.status(200).json({
             message: "Subscription Create Successfully",

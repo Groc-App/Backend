@@ -1,44 +1,11 @@
 const Address = require("../models/address");
 const User = require("../models/user");
 
-// exports.getAddress = async (req, res, next) => {
-//     try {
-//         const { number } = req.query;
-
-//         const user = await User.findOne({ Number: number });
-
-//         if (!user) {
-//             res.status(404).send({
-//                 message: "No User Found",
-//                 data: null
-//             })
-//         }
-
-//         const address = user.Address;
-
-//         if (address.length == 0) {
-//             res.status(200).send({
-//                 message: "No address found",
-//                 addresses: address
-//             })
-//         }
-//         res.status(200).send({
-//             message: "Success",
-//             addresses: address
-//         })
-//     } catch (error) {
-//         console.log("This is error:", error);
-//         return res.status(500).json({
-//             message: error.message
-//         })
-//     }
-// }
-
 exports.addAddress = async (req, res, next) => {
   try {
     const { number, address } = req.body;
 
-    console.log("inside add address " + number);
+    ("inside add address " + number);
 
     var user = await User.findOne({ Number: number });
 
@@ -76,7 +43,7 @@ exports.deleteAddress = async (req, res, next) => {
   try {
     const { number, addressid } = req.body;
 
-    console.log("inside delete address " + number);
+    ("inside delete address " + number);
 
     var user = await User.findOne({ Number: number });
 
@@ -131,7 +98,7 @@ exports.updateAddress = async (req, res, next) => {
   try {
     const { addressinfo, addressId } = req.body;
 
-    console.log("inside update address " + addressId);
+    ("inside update address " + addressId);
 
     await Address.findByIdAndUpdate(addressId, {
       Flat_FLoor_Tower: addressinfo["Flat_FLoor_Tower"],
@@ -156,7 +123,7 @@ exports.setSelectedAddress = async (req, res, next) => {
   try {
     const { number, addressid } = req.body;
 
-    console.log("inside set address " + addressid);
+    ("inside set address " + addressid);
 
     var user = await User.findOne({ Number: number });
 

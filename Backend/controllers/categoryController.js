@@ -116,8 +116,8 @@ exports.updateCategory = async (req, res) => {
         for (var i = 0; i < categories.length; i++) {
             var category = categories[i];
             category.imageurl = category.Products[0].ImageUrl[0];
-            console.log(category);
-            console.log("This is category", category.imageurl);
+            (category);
+            ("This is category", category.imageurl);
             await category.save();
             // await Category.save();
         }
@@ -137,7 +137,7 @@ exports.updateCategory = async (req, res) => {
 
 exports.getallMainCategory = async (req, res) => {
     try {
-        console.log("hiiiiiiiiiiiiiiiiiii");
+        ("hiiiiiiiiiiiiiiiiiii");
         const data = await MainCategory.find();
 
         res.status(200).send({

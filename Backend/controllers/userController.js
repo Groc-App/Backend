@@ -7,8 +7,8 @@ exports.createuserifnotexist = async (req, res, next) => {
   try {
     const { number } = req.params;
 
-    console.log("yesssssssssssss");
-    console.log(number);
+    ("yesssssssssssss");
+    (number);
 
     const user = await User.findOne({ Number: number });
 
@@ -27,7 +27,7 @@ exports.createuserifnotexist = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log("This is error:", error);
+    ("This is error:", error);
     return res.status(500).json({
       message: error.message,
     });
@@ -52,7 +52,7 @@ exports.getUser = async (req, res, next) => {
       data: user,
     });
   } catch (error) {
-    console.log("This is error:", error);
+    ("This is error:", error);
     return res.status(500).json({
       message: error.message,
     });
@@ -119,7 +119,7 @@ exports.addUser = async (req, res, next) => {
       data: user,
     });
   } catch (error) {
-    console.log("This is error:", error);
+    ("This is error:", error);
     return res.status(500).json({
       message: error.message,
     });
@@ -136,16 +136,16 @@ exports.cryptic = async (req, res) => {
 
     var cipher = crypto.createCipher(algorithm, key);
     var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
-    console.log(text, ":", encrypted);
+    (text, ":", encrypted);
 
     var decipher = crypto.createDecipher(algorithm, key);
     var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
 
-    console.log(text, ":", decrypted);
+    (text, ":", decrypted);
     return res.send();
 
   } catch (error) {
-    console.log(error)
+    (error)
     return res.status(400).send(error);
 
   }
@@ -163,7 +163,7 @@ exports.updateCartItem = async (req, res) => {
       });
     }
 
-    console.log(phonenumber + "\n" + productId + "\n" + quantity);
+    (phonenumber + "\n" + productId + "\n" + quantity);
 
     const user = await User.findOne({ Number: phonenumber });
     if (!user) {
@@ -196,7 +196,7 @@ exports.updateCartItem = async (req, res) => {
         });
       }
 
-      console.log("UserId:", userId);
+      ("UserId:", userId);
       var cartItem = new CartItem({
         User: userId,
         Item: productId,
@@ -218,10 +218,10 @@ exports.updateCartItem = async (req, res) => {
           data: null,
         });
       }
-      console.log("Before:", user);
+      ("Before:", user);
       user.products.push(cartItem._id);
       await user.save();
-      console.log("After:", user);
+      ("After:", user);
 
       return res.status(200).json({
         message: "Success",
@@ -229,7 +229,7 @@ exports.updateCartItem = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log("This is error:", error);
+    ("This is error:", error);
     return res.status(500).json({
       message: error.message,
     });
@@ -238,12 +238,12 @@ exports.updateCartItem = async (req, res) => {
 
 exports.createCartItem = async (req, res) => {
   try {
-    console.log("Create car")
+    ("Create car")
     /* --------------------------------- imports -------------------------------- */
     const { phonenumber, productId } = req.body; //userId phone number hoga
 
     if (!phonenumber || !productId) {
-      console.log("No phonenumber item generated")
+      ("No phonenumber item generated")
 
       return res.status(404).json({
         message: "Some Queries not passed",
@@ -251,11 +251,11 @@ exports.createCartItem = async (req, res) => {
       });
     }
 
-    console.log(phonenumber + "\n" + productId + "\n");
+    (phonenumber + "\n" + productId + "\n");
 
     const user = await User.findOne({ Number: phonenumber });
     if (!user) {
-      console.log("No user item generated")
+      ("No user item generated")
 
       return res.status(404).json({
         message: "NO USER FOUND",
@@ -264,7 +264,7 @@ exports.createCartItem = async (req, res) => {
     }
     const userId = user._id;
 
-    console.log("UserId:", userId);
+    ("UserId:", userId);
     var cartItem = new CartItem({
       User: userId,
       Item: productId,
@@ -274,7 +274,7 @@ exports.createCartItem = async (req, res) => {
     await cartItem.save();
 
     if (!cartItem) {
-      console.log("No cart item generated")
+      ("No cart item generated")
       return res.status(404).json({
         message: "Cart Item not generated",
         data: null,
@@ -282,24 +282,24 @@ exports.createCartItem = async (req, res) => {
     }
 
     if (!user) {
-      console.log("No user item generated")
+      ("No user item generated")
 
       return res.status(404).json({
         message: "No User Found",
         data: null,
       });
     }
-    console.log("Before:", user);
+    ("Before:", user);
     user.products.push(cartItem._id);
     await user.save();
-    console.log("After:", user);
+    ("After:", user);
 
     return res.status(200).json({
       message: "Success",
       data: cartItem,
     });
   } catch (error) {
-    console.log("This is error:", error);
+    ("This is error:", error);
     return res.status(500).json({
       message: error.message,
     });
@@ -310,7 +310,7 @@ exports.getAddresses = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
 
-    console.log(phonenumber + ' yhi hhhhhhhhhhhhh');
+    (phonenumber + ' yhi hhhhhhhhhhhhh');
 
     const user = await User.findOne({ Number: phonenumber }).populate('Address');
 
@@ -334,7 +334,7 @@ exports.getAddresses = async (req, res, next) => {
       addresses: address,
     });
   } catch (error) {
-    console.log("This is error:", error);
+    ("This is error:", error);
     return res.status(500).json({
       message: error.message,
     });
@@ -345,7 +345,7 @@ exports.getSelectedAddress = async (req, res, next) => {
   try {
     const { id } = req.params;    //id phonenumber h ye
 
-    console.log(id);
+    (id);
 
     const user = await User.findOne({ Number: id }).populate('Address');
 
@@ -371,7 +371,7 @@ exports.getSelectedAddress = async (req, res, next) => {
       data: null,
     });
   } catch (error) {
-    console.log("This is error:", error);
+    ("This is error:", error);
     return res.status(500).json({
       message: error.message,
     });

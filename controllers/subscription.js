@@ -31,12 +31,12 @@ exports.fetchAllSubscriptions = async (req, res) => {
 exports.fetchSubscriptionByUser = async (req, res) => {
     try {
         const { number } = req.query;
-        console.log(req.query)
+        (req.query)
         const user = await User.findOne({ Number: number });
 
-        console.log(user)
+        (user)
         if (!user) {
-            console.log("inside no user")
+            ("inside no user")
 
             return res.status(200).json({
                 message: "No User Found",
@@ -51,13 +51,13 @@ exports.fetchSubscriptionByUser = async (req, res) => {
         }).populate('product').populate('address')
 
         if (!subscriptions) {
-            console.log("inside no")
+            ("inside no")
             return res.status(200).json({
                 message: "No subscriptions Found"
             })
         }
 
-        console.log(subscriptions);
+        (subscriptions);
 
         res.status(200).json({
             message: "Success",
@@ -74,9 +74,9 @@ exports.editSubscriptionByUser = async (req, res) => {
     try {
 
         const { subsid, quantity, startDate, endDate, address } = req.body;
-        console.log(subsid, quantity, startDate, endDate, address);
+        (subsid, quantity, startDate, endDate, address);
 
-        console.log(req.query);
+        (req.query);
 
         const subscription = await Subscription.findByIdAndUpdate(subsid, { quantity: quantity, startDate: startDate, endDate: endDate, address: address });
 
@@ -126,7 +126,7 @@ exports.createSubscription = async (req, res) => {
     try {
         const { productId, number, quantity, address, endDate } = req.body;
 
-        console.log(req.body);
+        (req.body);
         //order detail = [{productid, quantity}]
 
 
@@ -144,7 +144,7 @@ exports.createSubscription = async (req, res) => {
 
         const adress = await Address.findById(address);
 
-        console.log("Address id:", adress._id);
+        ("Address id:", adress._id);
         var addressId = mongoose.Types.ObjectId(adress._id);
 
 
@@ -165,7 +165,7 @@ exports.createSubscription = async (req, res) => {
         });
         await subscription.save();
 
-        console.log("New Subcription", subscription);
+        ("New Subcription", subscription);
 
         res.status(200).json({
             message: "Subscription Create Successfully",

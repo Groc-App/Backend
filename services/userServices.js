@@ -14,7 +14,6 @@ async function createOtp(params) {
     const hash = crypto.createHmac("sha256", key).update(data).digest("hex")
     const fullHash = `${hash}.${expires}`;
 
-    console.log("OTP" + otp);
 
     return fullHash;
 }

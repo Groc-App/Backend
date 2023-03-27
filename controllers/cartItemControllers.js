@@ -52,19 +52,19 @@ exports.deleteCartItembynumber = async (req, res) => {
   try {
     const { phonenumber, productId } = req.body;
 
-    console.log(phonenumber, productId);
+    (phonenumber, productId);
 
     // var item = await CartItem.findOneAndRemove({Item: productid});
-    var user = await User.findOne({Number: phonenumber});
+    var user = await User.findOne({ Number: phonenumber });
 
-    if(!user) return res.status(400).json({"message": "error in finding user"});
+    if (!user) return res.status(400).json({ "message": "error in finding user" });
 
     const userId = user._id;
 
     if (productId && userId) {
       var cartItem = await CartItem.findOne({ Item: productId, User: userId });
 
-      if(!cartItem) return res.status(400).json({"message": "error in finding cartitem"});
+      if (!cartItem) return res.status(400).json({ "message": "error in finding cartitem" });
     }
 
     const cartItemId = cartItem._id;
@@ -78,9 +78,9 @@ exports.deleteCartItembynumber = async (req, res) => {
     }
 
     return res.status(200).json({
-      message:"Success Removed"
+      message: "Success Removed"
     })
-    
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

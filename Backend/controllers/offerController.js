@@ -67,7 +67,7 @@ exports.redeemOffer = async (req, res) => {
         offer.redeemedUsers.forEach((userid) => {
 
             if (user._id.equals(userid)) {
-                console.log("inside if log");
+                ("inside if log");
                 foundFlag = true;
             }
 
@@ -96,14 +96,14 @@ exports.getAllOffers = async (req, res) => {
     try {
 
         const { number } = req.query;
-        console.log("this is number", number);
+        ("this is number", number);
 
         var isUserClaimed = false;
         var isUserRedeemed = false;
 
         const user = await User.findOne({ Number: number });
         const totalUserOrder = user.Order.length;
-        console.log("This is user", user);
+        ("This is user", user);
 
         var customizedoffer = {};
         var resultedArray = [];
@@ -132,18 +132,18 @@ exports.getAllOffers = async (req, res) => {
 
             /* ----------------------------- For Claim Check ---------------------------- */
             if (offer.claimedUsers.forEach((userid) => {
-                console.log(user._id + ":" + userid);
+                (user._id + ":" + userid);
                 if (user._id.equals(userid)) {
-                    console.log("inside if log");
+                    ("inside if log");
                     isUserClaimed = true;
                 }
             }));
 
             /* ----------------------------- For RedeemCheck ---------------------------- */
             if (offer.redeemedUsers.forEach((userid) => {
-                console.log(user._id + ":" + userid);
+                (user._id + ":" + userid);
                 if (user._id.equals(userid)) {
-                    console.log("inside if log");
+                    ("inside if log");
                     isUserRedeemed = true;
                 }
             }));
@@ -164,7 +164,7 @@ exports.getAllOffers = async (req, res) => {
             resultedArray.push(customizedoffer);
 
         }
-        console.log(resultedArray);
+        (resultedArray);
 
         res.status(200).send({
             message: "Success",

@@ -8,7 +8,7 @@ exports.otpLogin = async (req, res, next) => {
             data: resp
         })
     } catch (error) {
-        console.log(error);
+        (error);
         return res.status(500).json({
             message: error.message
         })
@@ -24,7 +24,7 @@ exports.verifyOtp = async (req, res, next) => {
             data: resp
         })
     } catch (error) {
-        console.log("This is error:", error);
+        ("This is error:", error);
         return res.status(500).json({
             message: error.message
         })

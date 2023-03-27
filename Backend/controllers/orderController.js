@@ -14,7 +14,7 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
   try {
     const { userid } = req.params;
 
-    console.log(userid);
+    (userid);
     const usar = await User.findOne({ Number: userid });
 
     const data = await Order.find({ User: usar._id }).populate("OrderDetails.Product").populate("Addres");
@@ -41,7 +41,7 @@ exports.createOrder = async (req, res) => {
   try {
     const { tamount, userid, orderdetail, addressid, offerId, referralCode } = req.body; // address map string bhej rha hu to ek baar check kr liyo krunyi ab ref use kr liya
 
-    console.log(req.body);
+    (req.body);
 
     const usar = await User.findOne({ Number: userid });
 
@@ -78,7 +78,7 @@ exports.createOrder = async (req, res) => {
     }
 
     var uniqId = uniqid.time('ORD-');
-    console.log("UNiqe ID::::", uniqId);
+    ("UNiqe ID::::", uniqId);
 
     const neworder = new Order({
       OrderId: uniqId,
@@ -90,7 +90,7 @@ exports.createOrder = async (req, res) => {
       Addres: adress._id,
     });
 
-    console.log("New Order", neworder);
+    ("New Order", neworder);
 
     /* --------------------------- Redeeming If Offer --------------------------- */
 
@@ -150,7 +150,7 @@ exports.fetchallAllOrdersbyStatus = async (req, res) => {
 exports.updateorderstatus = async (req, res) => {
   try {
     const { orderid, status } = req.body;
-    console.log(status);
+    (status);
 
     const order = await Order.findById(orderid);
 

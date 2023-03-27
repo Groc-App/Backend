@@ -118,8 +118,6 @@ exports.updateCategory = async (req, res) => {
         for (var i = 0; i < categories.length; i++) {
             var category = categories[i];
             category.imageurl = category.Products[0].ImageUrl[0];
-            console.log(category);
-            console.log("This is category", category.imageurl);
             await category.save();
             // await Category.save();
         }
@@ -139,7 +137,6 @@ exports.updateCategory = async (req, res) => {
 
 exports.getallMainCategory = async (req, res) => {
     try {
-        console.log("hiiiiiiiiiiiiiiiiiii");
         var data = await MainCategory.find();
 
         function compare(a, b) {
@@ -171,7 +168,6 @@ exports.fixmaincategory = async (req, res) => {
         var galatmaincateg = await MainCategory.findOne({ Name: 'HouseHold' });
         var galatproducts = galatmaincateg.Products;
 
-        console.log(galatproducts);
 
         var sahimaincateg = await MainCategory.findOne({ Name: 'Household' });
 

@@ -5,7 +5,6 @@ exports.quoteController = async (req, res) => {
 
         var num = Math.random() * (qouteArray.length - 0);
 
-        console.log(parseInt(num));
 
         return res.status(200).json({
             message: "Success",

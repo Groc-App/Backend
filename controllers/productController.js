@@ -28,7 +28,7 @@ exports.addProduct = async (req, res) => {
       Discount: discount,
     });
     await newProduct.save();
-    console.log(req.body);
+    (req.body);
 
     if (mostselling == "true") {
       const mostsellin = await MostSelling.findOne();
@@ -140,10 +140,10 @@ exports.updateProduct = async (req, res) => {
       company,
       imageurl,
     } = req.body;
-    console.log(req.body);
+    (req.body);
 
     const product = await Product.findById(id);
-    console.log(product);
+    (product);
     for (var i = 0; i < product.Category.length; i++) {
       // await Product.findById(id).populate('Category').exec(function (err, data) {
 
@@ -212,7 +212,7 @@ exports.deleteProduct = async (req, res) => {
 exports.fetchProductbyCategory = async (req, res) => {
   try {
     const { category } = req.params;
-    console.log(req.params);
+    (req.params);
 
     if (category == "all") {
       const categories = await Category.find().populate("Products");
@@ -232,7 +232,7 @@ exports.fetchProductbyCategory = async (req, res) => {
       .populate("Products")
       .exec(function (err, data) {
         if (err) res.status(400).json({ error: "Error in populating" });
-        console.log(data);
+        (data);
         res.status(200).send({
           message: "Success",
           data: data,
@@ -246,13 +246,13 @@ exports.fetchProductbyCategory = async (req, res) => {
 exports.fetchProductbyMainCategory = async (req, res) => {
   try {
     const { maincategory } = req.params;
-    console.log(req.params);
+    (req.params);
 
     const categ = MainCategory.findOne({ Name: maincategory })
       .populate("Products")
       .exec(function (err, data) {
         if (err) res.status(400).json({ error: "Error in populating" });
-        console.log(data);
+        (data);
         res.send(data);
       });
   } catch (error) {
@@ -262,7 +262,7 @@ exports.fetchProductbyMainCategory = async (req, res) => {
 
 exports.fetchProductbyId = async (req, res) => {
   const { id } = req.params;
-  console.log(req.params);
+  (req.params);
 
   const product = await Product.findById(id);
   if (!product) res.send(product);
@@ -289,7 +289,7 @@ exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
   try {
     const { mainCategoryId, subCategoryId } = req.query;
 
-    console.log(req.query);
+    (req.query);
 
     var mainProducts;
 
@@ -298,7 +298,7 @@ exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
         message: "No CateogoriesID Found",
       });
     } else if (subCategoryId == "null") {
-      console.log("else if");
+      ("else if");
       mainProducts = await MainCategory.findById(mainCategoryId).populate(
         "Products"
       );
@@ -306,7 +306,7 @@ exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
       mainProducts = await Category.findById(subCategoryId).populate(
         "Products"
       );
-      // console.log(mainProducts);
+      // (mainProducts);
     }
     if (!mainProducts) return res.status(500).json({ error: "No products" });
 

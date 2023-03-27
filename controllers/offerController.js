@@ -51,10 +51,8 @@ exports.updateOffer = async (req, res) => {
 exports.referralId = async (req, res) => {
     try {
         const { number } = req.params;
-        console.log(number);
         const user = await User.findOne({ Number: number });
 
-        console.log(user);
 
         if (!user) {
             return res.status(500).json({
@@ -80,9 +78,6 @@ exports.redeemOffer = async (req, res) => {
 
         const { number, offerId } = req.body;
 
-        console.log(offerId);
-        console.log(number);
-        console.log(req.body);
 
         const user = await User.findOne({ Number: number });
 
@@ -102,7 +97,6 @@ exports.redeemOffer = async (req, res) => {
         }
 
         if (!mongoose.Types.ObjectId.isValid(offerId)) {
-            console.log("Invalid")
             return res.status(200).json({
                 message: "Invalid",
                 data: null
@@ -123,7 +117,6 @@ exports.redeemOffer = async (req, res) => {
         offer.redeemedUsers.forEach((userid) => {
 
             if (user._id.equals(userid)) {
-                console.log("inside if log");
                 foundFlag = true;
             }
 
@@ -136,7 +129,6 @@ exports.redeemOffer = async (req, res) => {
             })
         }
 
-        console.log("Passed All valid coupon")
         return res.status(200).json({
             message: offer.worth.toString(),
             // data: offer
@@ -153,14 +145,12 @@ exports.getAllOffers = async (req, res) => {
     try {
 
         const { number } = req.query;
-        console.log("this is number", number);
 
         var isUserClaimed = false;
         var isUserRedeemed = false;
 
         const user = await User.findOne({ Number: number });
         const totalUserOrder = user.Order.length;
-        console.log("This is user", user);
 
         var customizedoffer = {};
         var resultedArray = [];
@@ -189,18 +179,14 @@ exports.getAllOffers = async (req, res) => {
 
             /* ----------------------------- For Claim Check ---------------------------- */
             if (offer.claimedUsers.forEach((userid) => {
-                console.log(user._id + ":" + userid);
                 if (user._id.equals(userid)) {
-                    console.log("inside if log");
                     isUserClaimed = true;
                 }
             }));
 
             /* ----------------------------- For RedeemCheck ---------------------------- */
             if (offer.redeemedUsers.forEach((userid) => {
-                console.log(user._id + ":" + userid);
                 if (user._id.equals(userid)) {
-                    console.log("inside if log");
                     isUserRedeemed = true;
                 }
             }));
@@ -234,7 +220,6 @@ exports.getAllOffers = async (req, res) => {
         }
 
         resultedArray.sort(compare);
-        console.log(resultedArray);
 
         res.status(200).send({
             message: "Success",

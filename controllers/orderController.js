@@ -15,7 +15,6 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
   try {
     const { userid } = req.params;
 
-    console.log(userid);
     const usar = await User.findOne({ Number: userid });
 
     const data = await Order.find({ User: usar._id }).populate("OrderDetails.Product").populate("Addres");
@@ -42,14 +41,11 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
 exports.verifyReferral = async (req, res) => {
   try {
 
-    console.log("Inside verify Referral")
     const { number } = req.body;
 
-    console.log(number);
 
     const user = await User.findOne({ Number: number });
 
-    console.log(user)
 
     if (user.refferedBy != null && user.refferedBy && user.Order.length == 0) {
       return res.status(200).json({
@@ -73,7 +69,6 @@ exports.createOrder = async (req, res) => {
   try {
     const { tamount, userid, orderdetail, addressid, offerId } = req.body; // address map string bhej rha hu to ek baar check kr liyo krunyi ab ref use kr liya
 
-    console.log(req.body);
 
     const usar = await User.findOne({ Number: userid });
 
@@ -114,7 +109,6 @@ exports.createOrder = async (req, res) => {
       Addres: adress._id,
     });
 
-    console.log("New Order", neworder);
 
     /* --------------------------- Redeeming If Offer --------------------------- */
 
