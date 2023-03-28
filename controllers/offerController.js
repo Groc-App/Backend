@@ -227,7 +227,6 @@ exports.getAllOffers = async (req, res) => {
         })
 
     } catch (error) {
-        print(error)
         return res.status(500).json({
             message: error.message
         })
