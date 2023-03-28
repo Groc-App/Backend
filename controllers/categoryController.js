@@ -1,8 +1,8 @@
-import { Category } from "../models/category.js"
-import { MainCategory } from "../models/maincategory.js"
-import { Product } from "../models/product.js"
+import Category from "../models/category.js"
+import MainCategory from "../models/maincategory.js"
+import Product from "../models/product.js"
 
-exports.addCatergory = async (req, res) => {
+export const addCatergory = async (req, res) => {
     try {
         const { name, url } = req.body;
 
@@ -33,7 +33,7 @@ exports.addCatergory = async (req, res) => {
     }
 }
 
-exports.getCategoryByMaincategory = async (req, res) => {
+export const getCategoryByMaincategory = async (req, res) => {
     try {
 
         const { mainCategoryId } = req.params;
@@ -50,7 +50,7 @@ exports.getCategoryByMaincategory = async (req, res) => {
     }
 }
 
-exports.getAllCategory = async (req, res) => {
+export const getAllCategory = async (req, res) => {
     try {
         const categories = await Category.find();
         res.status(200).send({
@@ -65,7 +65,7 @@ exports.getAllCategory = async (req, res) => {
     }
 }
 
-exports.deleteCategory = async (req, res) => {
+export const deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
@@ -86,7 +86,7 @@ exports.deleteCategory = async (req, res) => {
     }
 }
 
-exports.getCategoryByName = async (req, res) => {
+export const getCategoryByName = async (req, res) => {
     try {
         const { name } = req.params;
         if (!name) {
@@ -110,7 +110,7 @@ exports.getCategoryByName = async (req, res) => {
     }
 }
 
-exports.updateCategory = async (req, res) => {
+export const updateCategory = async (req, res) => {
     try {
         var categories = await Category.find().populate('Products');
 
@@ -134,7 +134,7 @@ exports.updateCategory = async (req, res) => {
 }
 
 
-exports.getallMainCategory = async (req, res) => {
+export const getallMainCategory = async (req, res) => {
     try {
         var data = await MainCategory.find();
 
@@ -162,7 +162,7 @@ exports.getallMainCategory = async (req, res) => {
     }
 }
 
-exports.fixmaincategory = async (req, res) => {
+export const fixmaincategory = async (req, res) => {
     try {
         var galatmaincateg = await MainCategory.findOne({ Name: 'HouseHold' });
         var galatproducts = galatmaincateg.Products;

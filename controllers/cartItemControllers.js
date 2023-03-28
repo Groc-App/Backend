@@ -1,8 +1,8 @@
-const { error } = require("console");
-import { CartItem } from "../models/cartitem.js"
-import { User } from "../models/user.js";
 
-exports.addCartItem = async (req, res) => {
+import CartItem from "../models/cartitem.js"
+import User from "../models/user.js";
+
+export const addCartItem = async (req, res) => {
   try {
     const { userid, productid, itemcount } = req.body;
 
@@ -19,7 +19,7 @@ exports.addCartItem = async (req, res) => {
   }
 };
 
-exports.deleteCartItem = async (req, res) => {
+export const deleteCartItem = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -32,7 +32,7 @@ exports.deleteCartItem = async (req, res) => {
   }
 };
 
-exports.updateQuantity = async (req, res) => {
+export const updateQuantity = async (req, res) => {
   try {
     const { id, quantity } = req.body; // cart item ki id h ye na ki userid
 
@@ -45,7 +45,7 @@ exports.updateQuantity = async (req, res) => {
   }
 };
 
-exports.deleteCartItembynumber = async (req, res) => {
+export const deleteCartItembynumber = async (req, res) => {
   try {
     const { phonenumber, productId } = req.body;
 

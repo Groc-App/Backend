@@ -37,4 +37,5 @@ const maincategorySchema = new Schema(
 
 const MainCategory = mongoose.model("MainCategory", maincategorySchema);
 
-module.exports = MainCategory;
+export default MainCategory;
+

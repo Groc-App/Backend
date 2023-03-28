@@ -13,4 +13,5 @@ const mostsellingSchema = new Schema({
 
 const MostSelling = mongoose.model("MostSelling", mostsellingSchema);
 
-module.exports = MostSelling;
+export default MostSelling
+

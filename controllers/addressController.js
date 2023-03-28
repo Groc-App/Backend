@@ -1,8 +1,8 @@
-import { Address } from "../models/address.js"
+import Address from "../models/address.js"
 
-import { User } from "../models/user.js";
+import User from "../models/user.js";
 
-exports.addAddress = async (req, res, next) => {
+export const addAddress = async (req, res, next) => {
   try {
     const { number, address } = req.body;
 
@@ -40,7 +40,7 @@ exports.addAddress = async (req, res, next) => {
   }
 };
 
-exports.deleteAddress = async (req, res, next) => {
+export const deleteAddress = async (req, res, next) => {
   try {
     const { number, addressid } = req.body;
 
@@ -95,7 +95,7 @@ exports.deleteAddress = async (req, res, next) => {
   }
 };
 
-exports.updateAddress = async (req, res, next) => {
+export const updateAddress = async (req, res, next) => {
   try {
     const { addressinfo, addressId } = req.body;
 
@@ -120,7 +120,7 @@ exports.updateAddress = async (req, res, next) => {
   }
 };
 
-exports.setSelectedAddress = async (req, res, next) => {
+export const setSelectedAddress = async (req, res, next) => {
   try {
     const { number, addressid } = req.body;
 

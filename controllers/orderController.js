@@ -1,13 +1,13 @@
-import { CartItem } from "../models/cartitem.js"
-import { Address } from "../models/address.js"
-import { Order } from "../models/orders.js"
-import { uniqid } from 'uniqid';
-import { Offer } from '../models/offers.js'
-import { User } from '../models/user.js'
+import CartItem from "../models/cartitem.js"
+import Address from "../models/address.js"
+import Order from "../models/orders.js"
+import uniqid from 'uniqid';
+import Offer from '../models/offers.js'
+import User from '../models/user.js'
 
 
 
-exports.fetchallOrdersbyUserId = async (req, res) => {
+export const fetchallOrdersbyUserId = async (req, res) => {
   try {
     const { userid } = req.params;
 
@@ -34,7 +34,7 @@ exports.fetchallOrdersbyUserId = async (req, res) => {
 // ordere id generate krvani h
 
 
-exports.verifyReferral = async (req, res) => {
+export const verifyReferral = async (req, res) => {
   try {
 
     const { number } = req.body;
@@ -61,7 +61,7 @@ exports.verifyReferral = async (req, res) => {
   }
 }
 
-exports.createOrder = async (req, res) => {
+export const createOrder = async (req, res) => {
   try {
     const { tamount, userid, orderdetail, addressid, offerId } = req.body; // address map string bhej rha hu to ek baar check kr liyo krunyi ab ref use kr liya
 
@@ -146,7 +146,7 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-exports.fetchallAllOrdersbyStatus = async (req, res) => {
+export const fetchallAllOrdersbyStatus = async (req, res) => {
   try {
     const { status } = req.params;
 
@@ -168,7 +168,7 @@ exports.fetchallAllOrdersbyStatus = async (req, res) => {
   }
 };
 
-exports.updateorderstatus = async (req, res) => {
+export const updateorderstatus = async (req, res) => {
   try {
     const { orderid, status } = req.body;
     console.log(status);

@@ -1,10 +1,11 @@
-import { Offer } from '../models/offers.js'
+import Offer from '../models/offers.js'
 import mongoose from 'mongoose';
-const User = require('../models/user.js');
+import User from "../models/user.js";
 
 
 
-exports.postOffers = async (req, res) => {
+
+export const postOffers = async (req, res) => {
     try {
         const { number, description, name } = req.body;
 
@@ -24,7 +25,7 @@ exports.postOffers = async (req, res) => {
         })
     }
 }
-exports.updateOffer = async (req, res) => {
+export const updateOffer = async (req, res) => {
     try {
         const { number, offerId } = req.body;
 
@@ -48,7 +49,7 @@ exports.updateOffer = async (req, res) => {
     }
 }
 
-exports.referralId = async (req, res) => {
+export const referralId = async (req, res) => {
     try {
         const { number } = req.params;
         const user = await User.findOne({ Number: number });
@@ -72,7 +73,7 @@ exports.referralId = async (req, res) => {
         });
     }
 }
-exports.redeemOffer = async (req, res) => {
+export const redeemOffer = async (req, res) => {
     try {
 
 
@@ -141,7 +142,7 @@ exports.redeemOffer = async (req, res) => {
         })
     }
 }
-exports.getAllOffers = async (req, res) => {
+export const getAllOffers = async (req, res) => {
     try {
 
         const { number } = req.query;
@@ -233,7 +234,7 @@ exports.getAllOffers = async (req, res) => {
     }
 }
 
-exports.redeemreferral = async (req, res) => {
+export const redeemreferral = async (req, res) => {
     try {
         const { number, offerCode } = req.body;
 

@@ -1,10 +1,10 @@
-import { Category } from "../models/category.js"
+import Category from "../models/category.js"
 
-import { Product } from "../models/product.js";
-import { MainCategory } from "../models/maincategory.js"
-import { MostSelling } from "../models/mostselling.js";
+import Product from "../models/product.js";
+import MainCategory from "../models/maincategory.js"
+import MostSelling from "../models/mostselling.js";
 
-exports.addProduct = async (req, res) => {
+export const addProduct = async (req, res) => {
   try {
     const {
       name,
@@ -129,7 +129,7 @@ exports.addProduct = async (req, res) => {
 
 //       Only this endpoint is not working
 
-exports.updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   try {
     const {
       id,
@@ -196,7 +196,7 @@ exports.updateProduct = async (req, res) => {
 
 // on cascade delete add krna h
 
-exports.deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -210,7 +210,7 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-exports.fetchProductbyCategory = async (req, res) => {
+export const fetchProductbyCategory = async (req, res) => {
   try {
     const { category } = req.params;
     (req.params);
@@ -244,7 +244,7 @@ exports.fetchProductbyCategory = async (req, res) => {
   }
 };
 
-exports.fetchProductbyMainCategory = async (req, res) => {
+export const fetchProductbyMainCategory = async (req, res) => {
   try {
     const { maincategory } = req.params;
     (req.params);
@@ -261,7 +261,7 @@ exports.fetchProductbyMainCategory = async (req, res) => {
   }
 };
 
-exports.fetchProductbyId = async (req, res) => {
+export const fetchProductbyId = async (req, res) => {
   const { id } = req.params;
   (req.params);
 
@@ -273,7 +273,7 @@ exports.fetchProductbyId = async (req, res) => {
   });
 };
 
-exports.fetchproductsbyMostSelling = async (req, res) => {
+export const fetchproductsbyMostSelling = async (req, res) => {
   try {
     var data = await MostSelling.findOne().populate("Products");
 
@@ -286,7 +286,7 @@ exports.fetchproductsbyMostSelling = async (req, res) => {
   }
 };
 
-exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
+export const fetchProductByMainCategoryAndCategory = async (req, res) => {
   try {
     const { mainCategoryId, subCategoryId } = req.query;
 
@@ -320,7 +320,7 @@ exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
   }
 };
 
-exports.fetchAllProducts = async (req, res) => {
+export const fetchAllProducts = async (req, res) => {
   try {
     const product = await Product.find();
     // .populate("Category")
@@ -342,7 +342,7 @@ exports.fetchAllProducts = async (req, res) => {
   }
 };
 
-exports.updatemostsellingtag = async (req, res) => {
+export const updatemostsellingtag = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -366,7 +366,7 @@ exports.updatemostsellingtag = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
-exports.fixmostsellinproducts = async (req, res) => {
+export const fixmostsellinproducts = async (req, res) => {
   try {
     var prdctids = [];
 

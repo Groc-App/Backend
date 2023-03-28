@@ -1,12 +1,12 @@
-import { User } from '../models/user.js'
+import User from '../models/user.js'
 
 import mongoose from 'mongoose';
-import { Address } from "../models/address.js"
-import { Subscription } from "../models/subscription.js"
+import Address from "../models/address.js"
+import Subscription from "../models/subscription.js"
 
 
 
-exports.fetchAllSubscriptions = async (req, res) => {
+export const fetchAllSubscriptions = async (req, res) => {
     try {
 
         const subscriptions = await Subscription.find();
@@ -27,7 +27,7 @@ exports.fetchAllSubscriptions = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
-exports.fetchSubscriptionByUser = async (req, res) => {
+export const fetchSubscriptionByUser = async (req, res) => {
     try {
         const { number } = req.query;
         (req.query)
@@ -69,7 +69,7 @@ exports.fetchSubscriptionByUser = async (req, res) => {
     }
 };
 
-exports.editSubscriptionByUser = async (req, res) => {
+export const editSubscriptionByUser = async (req, res) => {
     try {
 
         const { subsid, quantity, startDate, endDate, address } = req.body;
@@ -96,7 +96,7 @@ exports.editSubscriptionByUser = async (req, res) => {
     }
 };
 
-exports.cancelSubscriptionByUser = async (req, res) => {
+export const cancelSubscriptionByUser = async (req, res) => {
     try {
 
         const { subscriptionId } = req.query;
@@ -121,7 +121,7 @@ exports.cancelSubscriptionByUser = async (req, res) => {
     }
 };
 
-exports.createSubscription = async (req, res) => {
+export const createSubscription = async (req, res) => {
     try {
         const { productId, number, quantity, address, endDate } = req.body;
 

@@ -1,11 +1,11 @@
-import { CartItem } from "../models/cartitem.js"
+import CartItem from "../models/cartitem.js"
 
-import { User } from '../models/user.js'
+import User from '../models/user.js'
 
 import mongoose from 'mongoose';
 
 
-exports.createuserifnotexist = async (req, res, next) => {
+export const createuserifnotexist = async (req, res, next) => {
   try {
     const { number, refferalcode } = req.body;
     ("refferal code is ::: " + refferalcode);
@@ -60,7 +60,7 @@ exports.createuserifnotexist = async (req, res, next) => {
   }
 };
 
-exports.getUser = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
 
@@ -86,7 +86,7 @@ exports.getUser = async (req, res, next) => {
 };
 
 
-exports.addUser = async (req, res, next) => {
+export const addUser = async (req, res, next) => {
   try {
     const { number, offerCode } = req.query;
 
@@ -151,7 +151,7 @@ exports.addUser = async (req, res, next) => {
 
 
 
-exports.updateCartItem = async (req, res) => {
+export const updateCartItem = async (req, res) => {
   try {
     /* --------------------------------- imports -------------------------------- */
     const { phonenumber, productId, quantity } = req.body; //userId phone number hoga
@@ -236,7 +236,7 @@ exports.updateCartItem = async (req, res) => {
   }
 };
 
-exports.createCartItem = async (req, res) => {
+export const createCartItem = async (req, res) => {
   try {
     ("Create car");
     /* --------------------------------- imports -------------------------------- */
@@ -299,7 +299,7 @@ exports.createCartItem = async (req, res) => {
   }
 };
 
-exports.getAddresses = async (req, res, next) => {
+export const getAddresses = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
 
@@ -336,7 +336,7 @@ exports.getAddresses = async (req, res, next) => {
   }
 };
 
-exports.getSelectedAddress = async (req, res, next) => {
+export const getSelectedAddress = async (req, res, next) => {
   try {
     const { id } = req.params; //id phonenumber h ye
 
@@ -373,7 +373,7 @@ exports.getSelectedAddress = async (req, res, next) => {
   }
 };
 
-exports.FetchallItemsbyUserId = async (req, res) => {
+export const FetchallItemsbyUserId = async (req, res) => {
   try {
     const { id } = req.params; // user id
 
