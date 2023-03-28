@@ -13,6 +13,13 @@ export const fetchallOrdersbyUserId = async (req, res) => {
 
     const usar = await User.findOne({ Number: userid });
 
+    if (!usar) {
+      return res.status(200).json({
+        message: "No User Found",
+        data: null
+      })
+    }
+
     const data = await Order.find({ User: usar._id }).populate("OrderDetails.Product").populate("Addres");
 
     if (!data) {
@@ -41,7 +48,12 @@ export const verifyReferral = async (req, res) => {
 
 
     const user = await User.findOne({ Number: number });
-
+    if (!user) {
+      return res.status(200).json({
+        message: "No User Found",
+        data: null
+      })
+    }
 
     if (user.refferedBy != null && user.refferedBy && user.Order.length == 0) {
       return res.status(200).json({
@@ -67,6 +79,13 @@ export const createOrder = async (req, res) => {
 
 
     const usar = await User.findOne({ Number: userid });
+
+    if (!usar) {
+      return res.status(200).json({
+        message: "No User Found",
+        data: null
+      })
+    }
 
 
     /* --------------------------- With Referral COde first Time --------------------------- */

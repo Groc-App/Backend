@@ -3,7 +3,7 @@ import { createSubscription, fetchSubscriptionByUser, cancelSubscriptionByUser, 
 const router = Router();
 
 router.post("/createSubscription", createSubscription);
-router.get("/fetchSubscriptionByUser", fetchSubscriptionByUser);
+router.post("/fetchSubscriptionByUser", fetchSubscriptionByUser);
 router.post("/editSubscriptionByUser", editSubscriptionByUser);
 router.delete("/cancelSubscriptionByUser", cancelSubscriptionByUser);
 

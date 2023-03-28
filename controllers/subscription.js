@@ -29,11 +29,9 @@ export const fetchAllSubscriptions = async (req, res) => {
 };
 export const fetchSubscriptionByUser = async (req, res) => {
     try {
-        const { number } = req.query;
-        (req.query)
+        const { number } = req.body;
         const user = await User.findOne({ Number: number });
 
-        (user)
         if (!user) {
             ("inside no user")
 
@@ -56,7 +54,6 @@ export const fetchSubscriptionByUser = async (req, res) => {
             })
         }
 
-        (subscriptions);
 
         res.status(200).json({
             message: "Success",
@@ -74,8 +71,6 @@ export const editSubscriptionByUser = async (req, res) => {
 
         const { subsid, quantity, startDate, endDate, address } = req.body;
         (subsid, quantity, startDate, endDate, address);
-
-        (req.query);
 
         const subscription = await Subscription.findByIdAndUpdate(subsid, { quantity: quantity, startDate: startDate, endDate: endDate, address: address });
 
@@ -110,7 +105,7 @@ export const cancelSubscriptionByUser = async (req, res) => {
                 data: null
             })
         }
-
+        intelcore
         res.status(200).json({
             message: "User",
             data: user

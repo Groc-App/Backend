@@ -19,9 +19,9 @@ app.use(urlencoded({ extended: false }));
 app.use(cors());
 app.use(json());
 
-// if (process.env.NODE_ENV === "development") {
-//     app.use(morgan("dev"));
-// }
+if (process.env.NODE_ENV === "development") {
+    app.use(morgan("dev"));
+}
 /* ---------------------------  Routes --------------------------- */
 
 // import authRouter from "./routes/user/auth.js";

@@ -145,8 +145,8 @@ export const redeemOffer = async (req, res) => {
 export const getAllOffers = async (req, res) => {
     try {
 
-        const { number } = req.query;
-
+        const { number } = req.body;
+        console.log(number);
         var isUserClaimed = false;
         var isUserRedeemed = false;
 

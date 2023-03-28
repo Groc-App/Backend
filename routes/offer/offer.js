@@ -4,7 +4,7 @@ import { verifyReferral } from "../../controllers/orderController.js";
 const router = Router();
 // const authController = require("../controller/authController");
 
-router.get("/getAllOffers", getAllOffers);
+router.post("/getAllOffers", getAllOffers);
 
 router.post('/redeemOffer', redeemOffer);
 
