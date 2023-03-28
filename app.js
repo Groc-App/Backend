@@ -1,17 +1,13 @@
 
 import express, { urlencoded, json } from "express";
-import mongoose from "mongoose";
 import { config } from "dotenv";
 import path from "path";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
-// const auth = require("./routes/auth");
 const app = express();
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 
 config({ path: "./config/config.env" });
 
@@ -28,7 +24,7 @@ app.use(json());
 // }
 /* ---------------------------  Routes --------------------------- */
 
-import authRouter from "./routes/user/auth.js";
+// import authRouter from "./routes/user/auth.js";
 import productRouter from "./routes/products/product.js";
 import categoryRouter from './routes/category/category.js';
 import cartRouter from "./routes/cart/cartitem.js";
@@ -39,7 +35,6 @@ import subscriptionRouter from "./routes/subscription/subscription.js";
 import addressRouter from './routes/address/address.js';
 import userRouter from './routes/user/user.js';
 
-app.use("/", authRouter);
 app.use("/address", addressRouter);
 app.use("/user", userRouter);
 app.use("/product", productRouter);

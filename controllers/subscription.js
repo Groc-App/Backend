@@ -2,7 +2,7 @@ import { User } from '../models/user.js'
 
 import mongoose from 'mongoose';
 import { Address } from "../models/address.js"
-import { Subscription } from "../models/subscription"
+import { Subscription } from "../models/subscription.js"
 
 
 
