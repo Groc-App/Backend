@@ -289,9 +289,7 @@ export const fetchproductsbyMostSelling = async (req, res) => {
 export const fetchProductByMainCategoryAndCategory = async (req, res) => {
   try {
     const { mainCategoryId, subCategoryId } = req.query;
-
-    (req.query);
-
+    // console.log(req.par)
     var mainProducts;
 
     if (mainCategoryId == "null" && subCategoryId == "null") {
