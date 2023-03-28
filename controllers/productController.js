@@ -1,9 +1,9 @@
-const Category = require("../models/category");
-const Product = require("../models/product");
-const MainCategory = require("../models/maincategory");
-const MostSelling = require("../models/mostselling");
+import Category, { findOne, findById, find } from "../models/category.js";
+import Product, { findById as _findById, findByIdAndDelete, find as _find } from "../models/product.js";
+import MainCategory, { findOne as _findOne, findById as __findById } from "../models/maincategory.js";
+import MostSelling, { findOne as __findOne } from "../models/mostselling.js";
 
-exports.addProduct = async (req, res) => {
+export async function addProduct(req, res) {
   try {
     const {
       name,
@@ -31,7 +31,7 @@ exports.addProduct = async (req, res) => {
     (req.body);
 
     if (mostselling == "true") {
-      const mostsellin = await MostSelling.findOne();
+      const mostsellin = await __findOne();
       if (!mostsellin) {
         const newmostsellin = new MostSelling();
         newmostsellin.Products.push(newProduct._id);
@@ -42,11 +42,11 @@ exports.addProduct = async (req, res) => {
       }
     }
 
-    const maincateg = await MainCategory.findOne({ Name: maincategory });
+    const maincateg = await _findOne({ Name: maincategory });
 
     if (maincateg) {
       for (var i = 0; i < category.length; i++) {
-        const categ = await Category.findOne({ Name: category[i] });
+        const categ = await findOne({ Name: category[i] });
         if (!categ) {
           const newcateg = new Category({ Name: category[i] });
 
@@ -85,7 +85,7 @@ exports.addProduct = async (req, res) => {
     } else {
       const newmaincateg = new MainCategory({ Name: maincategory });
       for (var i = 0; i < category.length; i++) {
-        const categ = await Category.findOne({ Name: category[i] });
+        const categ = await findOne({ Name: category[i] });
         if (!categ) {
           const newcateg = new Category({ Name: category[i] });
 
@@ -124,11 +124,11 @@ exports.addProduct = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
 //       Only this endpoint is not working
 
-exports.updateProduct = async (req, res) => {
+export async function updateProduct(req, res) {
   try {
     const {
       id,
@@ -142,13 +142,13 @@ exports.updateProduct = async (req, res) => {
     } = req.body;
     (req.body);
 
-    const product = await Product.findById(id);
+    const product = await _findById(id);
     (product);
     for (var i = 0; i < product.Category.length; i++) {
       // await Product.findById(id).populate('Category').exec(function (err, data) {
 
       // })
-      const categ = await Category.findById(product.Category[i]);
+      const categ = await findById(product.Category[i]);
 
       if (!categ) res.status(400).json({ error: "custom" });
       categ.Products.filter((e) => e !== product._id);
@@ -156,7 +156,7 @@ exports.updateProduct = async (req, res) => {
     product.Category = [];
 
     for (var i = 0; i < category.length; i++) {
-      const categ = await Category.find({ Name: category[i] });
+      const categ = await find({ Name: category[i] });
 
       if (!categ) {
         const newcateg = new Category({ Name: category[i] });
@@ -191,15 +191,15 @@ exports.updateProduct = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
 // on cascade delete add krna h
 
-exports.deleteProduct = async (req, res) => {
+export async function deleteProduct(req, res) {
   try {
     const { id } = req.params;
 
-    const product = await Product.findByIdAndDelete(id);
+    const product = await findByIdAndDelete(id);
 
     if (!product) res.status(404).json({ error: "Error in Updating" });
 
@@ -207,15 +207,15 @@ exports.deleteProduct = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.fetchProductbyCategory = async (req, res) => {
+export async function fetchProductbyCategory(req, res) {
   try {
     const { category } = req.params;
     (req.params);
 
     if (category == "all") {
-      const categories = await Category.find().populate("Products");
+      const categories = await find().populate("Products");
 
       if (!categories) {
         res.status(404).send({
@@ -228,7 +228,7 @@ exports.fetchProductbyCategory = async (req, res) => {
       });
     }
 
-    Category.findOne({ Name: category })
+    findOne({ Name: category })
       .populate("Products")
       .exec(function (err, data) {
         if (err) res.status(400).json({ error: "Error in populating" });
@@ -241,14 +241,14 @@ exports.fetchProductbyCategory = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.fetchProductbyMainCategory = async (req, res) => {
+export async function fetchProductbyMainCategory(req, res) {
   try {
     const { maincategory } = req.params;
     (req.params);
 
-    const categ = MainCategory.findOne({ Name: maincategory })
+    const categ = _findOne({ Name: maincategory })
       .populate("Products")
       .exec(function (err, data) {
         if (err) res.status(400).json({ error: "Error in populating" });
@@ -258,23 +258,23 @@ exports.fetchProductbyMainCategory = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.fetchProductbyId = async (req, res) => {
+export async function fetchProductbyId(req, res) {
   const { id } = req.params;
   (req.params);
 
-  const product = await Product.findById(id);
+  const product = await _findById(id);
   if (!product) res.send(product);
   return res.status(200).json({
     message: "Success",
     data: product,
   });
-};
+}
 
-exports.fetchproductsbyMostSelling = async (req, res) => {
+export async function fetchproductsbyMostSelling(req, res) {
   try {
-    var data = await MostSelling.findOne().populate("Products");
+    var data = await __findOne().populate("Products");
 
     return res.status(200).json({
       message: "Successfully",
@@ -283,9 +283,9 @@ exports.fetchproductsbyMostSelling = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
+export async function fetchProductByMainCategoryAndCategory(req, res) {
   try {
     const { mainCategoryId, subCategoryId } = req.query;
 
@@ -299,11 +299,11 @@ exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
       });
     } else if (subCategoryId == "null") {
       ("else if");
-      mainProducts = await MainCategory.findById(mainCategoryId).populate(
+      mainProducts = await __findById(mainCategoryId).populate(
         "Products"
       );
     } else {
-      mainProducts = await Category.findById(subCategoryId).populate(
+      mainProducts = await findById(subCategoryId).populate(
         "Products"
       );
       // (mainProducts);
@@ -317,11 +317,11 @@ exports.fetchProductByMainCategoryAndCategory = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.fetchAllProducts = async (req, res) => {
+export async function fetchAllProducts(req, res) {
   try {
-    const product = await Product.find();
+    const product = await _find();
     // .populate("Category")
     // .populate("MainCategory");
 
@@ -339,13 +339,13 @@ exports.fetchAllProducts = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.updatemostsellingtag = async (req, res) => {
+export async function updatemostsellingtag(req, res) {
   try {
     const { id } = req.params;
 
-    const product = await Product.findById(id);
+    const product = await _findById(id);
 
     if (!product) {
       return res.status(200).send({
@@ -364,18 +364,18 @@ exports.updatemostsellingtag = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-};
-exports.fixmostsellinproducts = async (req, res) => {
+}
+export async function fixmostsellinproducts(req, res) {
   try {
     var prdctids = [];
 
-    var prdctlist = await Product.find();
+    var prdctlist = await _find();
     for (var i = 0; i < prdctlist.length; i++) {
       if (prdctlist[i].MostSelling == true)
         prdctids.push(prdctlist[i]._id);
     }
 
-    var mostsell = await MostSelling.findOne();
+    var mostsell = await __findOne();
 
     for (var i = 0; i < prdctids.length; i++) {
       mostsell.Products.push(prdctids[i]);

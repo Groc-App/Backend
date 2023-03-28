@@ -1,8 +1,8 @@
 // import 'mongoose';
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const Category = require("./category");
+import { Schema as _Schema, model } from "mongoose";
+const Schema = _Schema;
+import Category from "./category";
 
 const productSchema = new Schema({
   Name: {
@@ -13,7 +13,7 @@ const productSchema = new Schema({
   Description: String,
   Category: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: _Schema.Types.ObjectId,
       ref: "Category",
     },
   ],
@@ -36,6 +36,6 @@ const productSchema = new Schema({
   },
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Product = model("Product", productSchema);
 
-module.exports = Product;
+export default Product;

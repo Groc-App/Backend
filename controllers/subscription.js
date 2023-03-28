@@ -1,16 +1,16 @@
-const { error } = require("console");
-const User = require("../models/user");
-const Product = require("../models/product");
-const Order = require("../models/orders");
-const Subscription = require("../models/subscription");
-var mongoose = require('mongoose');
-const Address = require("../models/address");
+import { error } from "console";
+import { findOne } from "../models/user.js";
+import Product from "../models/product.js";
+import Order from "../models/orders";
+import Subscription, { find, findByIdAndUpdate, findByIdAndRemove } from "../models/subscription.js";
+import { Types } from 'mongoose';
+import { findById } from "../models/address.js";
 
 
-exports.fetchAllSubscriptions = async (req, res) => {
+export async function fetchAllSubscriptions(req, res) {
     try {
 
-        const subscriptions = await Subscription.find();
+        const subscriptions = await find();
 
 
         if (!subscriptions) {
@@ -27,12 +27,12 @@ exports.fetchAllSubscriptions = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
-exports.fetchSubscriptionByUser = async (req, res) => {
+}
+export async function fetchSubscriptionByUser(req, res) {
     try {
         const { number } = req.query;
         (req.query)
-        const user = await User.findOne({ Number: number });
+        const user = await findOne({ Number: number });
 
         (user)
         if (!user) {
@@ -46,7 +46,7 @@ exports.fetchSubscriptionByUser = async (req, res) => {
 
         const userId = user._id;
 
-        const subscriptions = await Subscription.find({
+        const subscriptions = await find({
             subscriber: userId
         }).populate('product').populate('address')
 
@@ -68,9 +68,9 @@ exports.fetchSubscriptionByUser = async (req, res) => {
         console.log(error);
         res.status(400).json({ error: error.message });
     }
-};
+}
 
-exports.editSubscriptionByUser = async (req, res) => {
+export async function editSubscriptionByUser(req, res) {
     try {
 
         const { subsid, quantity, startDate, endDate, address } = req.body;
@@ -78,7 +78,7 @@ exports.editSubscriptionByUser = async (req, res) => {
 
         (req.query);
 
-        const subscription = await Subscription.findByIdAndUpdate(subsid, { quantity: quantity, startDate: startDate, endDate: endDate, address: address });
+        const subscription = await findByIdAndUpdate(subsid, { quantity: quantity, startDate: startDate, endDate: endDate, address: address });
 
         // if (!user) {
         //     return res.status(200).json({
@@ -95,15 +95,15 @@ exports.editSubscriptionByUser = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
+}
 
-exports.cancelSubscriptionByUser = async (req, res) => {
+export async function cancelSubscriptionByUser(req, res) {
     try {
 
         const { subscriptionId } = req.query;
 
 
-        const user = await Subscription.findByIdAndRemove(subscriptionId);
+        const user = await findByIdAndRemove(subscriptionId);
 
         if (!user) {
             return res.status(200).json({
@@ -120,9 +120,9 @@ exports.cancelSubscriptionByUser = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
+}
 
-exports.createSubscription = async (req, res) => {
+export async function createSubscription(req, res) {
     try {
         const { productId, number, quantity, address, endDate } = req.body;
 
@@ -130,7 +130,7 @@ exports.createSubscription = async (req, res) => {
         //order detail = [{productid, quantity}]
 
 
-        const user = await User.findOne({ Number: number });
+        const user = await findOne({ Number: number });
 
         if (!user) {
             return res.status(200).json({
@@ -140,12 +140,12 @@ exports.createSubscription = async (req, res) => {
         }
 
         const userId = user._id;
-        var prodId = mongoose.Types.ObjectId(productId);
+        var prodId = Types.ObjectId(productId);
 
-        const adress = await Address.findById(address);
+        const adress = await findById(address);
 
         ("Address id:", adress._id);
-        var addressId = mongoose.Types.ObjectId(adress._id);
+        var addressId = Types.ObjectId(adress._id);
 
 
 
@@ -177,5 +177,5 @@ exports.createSubscription = async (req, res) => {
         res.status(400).json({ error: error.message });
 
     }
-};
+}
 

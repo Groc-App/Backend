@@ -1,7 +1,7 @@
 // import 'mongoose';
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema as _Schema, model } from "mongoose";
+const Schema = _Schema;
 
 const categorySchema = new Schema(
     {
@@ -10,12 +10,12 @@ const categorySchema = new Schema(
         },
         Products: [
             {
-                type: mongoose.Schema.Types.ObjectId,
+                type: _Schema.Types.ObjectId,
                 ref: "Product",
             },
         ],
         MainCategory: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: _Schema.Types.ObjectId,
             ref: "MainCategory",
         },
         imageurl: String
@@ -31,6 +31,6 @@ const categorySchema = new Schema(
     }
 );
 
-const Category = mongoose.model("Category", categorySchema);
+const Category = model("Category", categorySchema);
 
-module.exports = Category;
+export default Category;

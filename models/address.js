@@ -1,12 +1,12 @@
 // import 'mongoose';
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema as _Schema, model } from "mongoose";
+const Schema = _Schema;
 
 const addressSchema = new Schema(
     {
         UserId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: _Schema.Types.ObjectId,
             ref: "User",
         },
         Flat_FLoor_Tower: {
@@ -18,7 +18,8 @@ const addressSchema = new Schema(
         Pincode: String,
         defaultAddress: {
             default: false,
-            type: Boolean}
+            type: Boolean
+        }
     },
     {
         toJSON: {
@@ -31,6 +32,6 @@ const addressSchema = new Schema(
     }
 );
 
-const Address = mongoose.model("Address", addressSchema);
+const Address = model("Address", addressSchema);
 
-module.exports = Address;
+export default Address;

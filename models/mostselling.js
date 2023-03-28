@@ -1,15 +1,15 @@
 // import 'mongoose';
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema as _Schema, model } from "mongoose";
+const Schema = _Schema;
 
 const mostsellingSchema = new Schema({
   Products: [{
-    type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+    type: _Schema.Types.ObjectId,
+    ref: 'Product',
   }],
 });
 
-const MostSelling = mongoose.model("MostSelling", mostsellingSchema);
+const MostSelling = model("MostSelling", mostsellingSchema);
 
-module.exports = MostSelling;
+export default MostSelling;

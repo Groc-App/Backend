@@ -1,7 +1,7 @@
 // import 'mongoose';
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema as _Schema, model } from "mongoose";
+const Schema = _Schema;
 
 const offerSchema = new Schema(
     {
@@ -13,13 +13,13 @@ const offerSchema = new Schema(
         description: String,
         claimedUsers: [
             {
-                type: mongoose.Schema.Types.ObjectId,
+                type: _Schema.Types.ObjectId,
                 ref: "User",
             },
         ],
         redeemedUsers: [
             {
-                type: mongoose.Schema.Types.ObjectId,
+                type: _Schema.Types.ObjectId,
                 ref: "User",
             },
         ]
@@ -35,6 +35,6 @@ const offerSchema = new Schema(
     }
 );
 
-const Offer = mongoose.model("Offer", offerSchema);
+const Offer = model("Offer", offerSchema);
 
-module.exports = Offer;
+export default Offer;

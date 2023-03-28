@@ -1,23 +1,23 @@
 // import { Int32 } from 'bson';
 // import 'mongoose';
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema as _Schema, model } from "mongoose";
+const Schema = _Schema;
 
 const userSchema = new Schema({
     Number: {
         type: String,
     },
     Address: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: _Schema.Types.ObjectId,
         ref: "Address",
     }],
     Order: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: _Schema.Types.ObjectId,
         ref: 'Order',
     }],
     products: [{                                            // ye array of cart items h
-        type: mongoose.Schema.Types.ObjectId,
+        type: _Schema.Types.ObjectId,
         ref: 'CartItem',
     }],
     selectedAddress: {
@@ -45,6 +45,6 @@ const userSchema = new Schema({
     }
 });
 
-const User = mongoose.model("User", userSchema);
+const User = model("User", userSchema);
 
-module.exports = User;
+export default User;

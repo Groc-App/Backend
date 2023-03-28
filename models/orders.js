@@ -1,8 +1,8 @@
 // import 'mongoose';
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const Category = require("./category");
+import { Schema as _Schema, model } from "mongoose";
+const Schema = _Schema;
+import Category from "./category";
 
 const orderSchema = new Schema({
     OrderId: String,
@@ -10,19 +10,19 @@ const orderSchema = new Schema({
     OrderStatus: String,
     Date: Date,
     Addres: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: _Schema.Types.ObjectId,
         ref: 'Address',
     },
     OrderDetails: [{
         Product: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: _Schema.Types.ObjectId,
             ref: 'Product',
         },
         Quantity: Number
     }
     ],
     User: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: _Schema.Types.ObjectId,
         ref: 'User',
     },
 },
@@ -37,6 +37,6 @@ const orderSchema = new Schema({
     // }
 );
 
-const Order = mongoose.model("Order", orderSchema);
+const Order = model("Order", orderSchema);
 
-module.exports = Order;
+export default Order;
