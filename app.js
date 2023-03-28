@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { config } from "dotenv";
 import path from "path";
 import morgan from "morgan";
-import connectDB from "./config/db";
+import connectDB from "./config/db.js";
 // const auth = require("./routes/auth");
 const app = express();
 import cors from "cors";
