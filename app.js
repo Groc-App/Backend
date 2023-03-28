@@ -12,27 +12,6 @@ var cookieParser = require("cookie-parser");
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express')
 
-var options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Groc App',
-            version: "1.0.0"
-        },
-        servers: [{
-            url: 'htpp://localhost:8000/'
-        }]
-    },
-    apis: [
-        './app.js',
-        './routes/category/category.js'
-    ]
-}
-
-const swaggerSpec = swaggerJSDoc(options)
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 dotenv.config({ path: "./config/config.env" });
 
 connectDB();
@@ -43,9 +22,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.json());
 
-if (process.env.NODE_ENV === "development") {
-    app.use(morgan("dev"));
-}
+// if (process.env.NODE_ENV === "development") {
+//     app.use(morgan("dev"));
+// }
 /* ---------------------------  Routes --------------------------- */
 
 const authRouter = require("./routes/user/auth");
