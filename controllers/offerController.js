@@ -1,4 +1,4 @@
-import Offer, { findById, find } from '../models/offers.js';
+import { Offer } from '../models/offers.js';
 import { Types } from 'mongoose';
 import { findOne } from '../models/user.js';
 

@@ -1,12 +1,13 @@
 // import 'mongoose';
 
-import { Schema as _Schema, model } from "mongoose";
-const Schema = _Schema;
+import mongoose from 'mongoose';
+
+const Schema = mongoose.Schema;
 
 const addressSchema = new Schema(
     {
         UserId: {
-            type: _Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
         Flat_FLoor_Tower: {
@@ -32,6 +33,6 @@ const addressSchema = new Schema(
     }
 );
 
-const Address = model("Address", addressSchema);
+const Address = mongoose.model("Address", addressSchema);
 
-export default Address;
+module.exports = Address;

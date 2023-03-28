@@ -1,7 +1,9 @@
 // import 'mongoose';
 
-import { Schema as _Schema, model } from "mongoose";
-const Schema = _Schema;
+import mongoose from 'mongoose';
+
+
+const Schema = mongoose.Schema;
 
 const maincategorySchema = new Schema(
   {
@@ -10,13 +12,13 @@ const maincategorySchema = new Schema(
     },
     Products: [
       {
-        type: _Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
       },
     ],
     Categories: [
       {
-        type: _Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Category",
       },
     ],
@@ -33,6 +35,6 @@ const maincategorySchema = new Schema(
   }
 );
 
-const MainCategory = model("MainCategory", maincategorySchema);
+const MainCategory = mongoose.model("MainCategory", maincategorySchema);
 
-export default MainCategory;
+module.exports = MainCategory;

@@ -1,10 +1,11 @@
-import Address from "../models/address.js";
-import CartItem, { findOne } from "../models/cartitem.js";
-import User, { findOne as _findOne, findById } from "../models/user.js";
-import { Types } from 'mongoose';
+import { CartItem } from "../models/cartitem.js"
+
+import { User } from '../models/user.js'
+
+import mongoose from 'mongoose';
 
 
-export async function createuserifnotexist(req, res, next) {
+exports.createuserifnotexist = async (req, res, next) => {
   try {
     const { number, refferalcode } = req.body;
     ("refferal code is ::: " + refferalcode);
@@ -12,7 +13,7 @@ export async function createuserifnotexist(req, res, next) {
     ("yesssssssssssss");
     (number);
 
-    const user = await _findOne({ Number: number });
+    const user = await User.findOne({ Number: number });
 
     if (user != null) {
       return res.status(200).json({
@@ -28,14 +29,14 @@ export async function createuserifnotexist(req, res, next) {
 
       if (refferalcode != '') {
 
-        if (!Types.ObjectId.isValid(refferalcode)) {
+        if (!mongoose.Types.ObjectId.isValid(refferalcode)) {
           return res.status(200).json({
             message: "WrongCode",
             data: null
           })
         }
 
-        const masterUser = await findById(refferalcode);
+        const masterUser = await User.findById(refferalcode);
 
         if (!masterUser) {
           return res.status(200).json({ message: "WrongCode" });
@@ -57,13 +58,13 @@ export async function createuserifnotexist(req, res, next) {
       message: error.message,
     });
   }
-}
+};
 
-export async function getUser(req, res, next) {
+exports.getUser = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
 
-    const user = await _findOne({ Number: number });
+    const user = await User.findOne({ Number: number });
 
     if (!user) {
       res.status(404).send({
@@ -82,14 +83,14 @@ export async function getUser(req, res, next) {
       message: error.message,
     });
   }
-}
+};
 
 
-export async function addUser(req, res, next) {
+exports.addUser = async (req, res, next) => {
   try {
     const { number, offerCode } = req.query;
 
-    const foundUser = await _findOne({ Number: number });
+    const foundUser = await User.findOne({ Number: number });
 
     if (foundUser) {
       return res.status(404).send({
@@ -146,11 +147,11 @@ export async function addUser(req, res, next) {
       message: error.message,
     });
   }
-}
+};
 
 
 
-export async function updateCartItem(req, res) {
+exports.updateCartItem = async (req, res) => {
   try {
     /* --------------------------------- imports -------------------------------- */
     const { phonenumber, productId, quantity } = req.body; //userId phone number hoga
@@ -164,7 +165,7 @@ export async function updateCartItem(req, res) {
 
     (phonenumber + "\n" + productId + "\n" + quantity);
 
-    const user = await _findOne({ Number: phonenumber });
+    const user = await User.findOne({ Number: phonenumber });
     if (!user) {
       return res.status(404).json({
         message: "NO USER FOUND",
@@ -174,7 +175,7 @@ export async function updateCartItem(req, res) {
     const userId = user._id;
 
     if (productId && userId) {
-      var cartItem = await findOne({ Item: productId, User: userId });
+      var cartItem = await CartItem.findOne({ Item: productId, User: userId });
     }
 
     if (cartItem) {
@@ -233,9 +234,9 @@ export async function updateCartItem(req, res) {
       message: error.message,
     });
   }
-}
+};
 
-export async function createCartItem(req, res) {
+exports.createCartItem = async (req, res) => {
   try {
     ("Create car");
     /* --------------------------------- imports -------------------------------- */
@@ -250,7 +251,7 @@ export async function createCartItem(req, res) {
 
     (phonenumber + "\n" + productId + "\n");
 
-    const user = await _findOne({ Number: phonenumber });
+    const user = await User.findOne({ Number: phonenumber });
     if (!user) {
       return res.status(404).json({
         message: "NO USER FOUND",
@@ -296,15 +297,15 @@ export async function createCartItem(req, res) {
       message: error.message,
     });
   }
-}
+};
 
-export async function getAddresses(req, res, next) {
+exports.getAddresses = async (req, res, next) => {
   try {
     const { phonenumber } = req.body;
 
     (phonenumber + " yhi hhhhhhhhhhhhh");
 
-    const user = await _findOne({ Number: phonenumber }).populate(
+    const user = await User.findOne({ Number: phonenumber }).populate(
       "Address"
     );
 
@@ -333,15 +334,15 @@ export async function getAddresses(req, res, next) {
       message: error.message,
     });
   }
-}
+};
 
-export async function getSelectedAddress(req, res, next) {
+exports.getSelectedAddress = async (req, res, next) => {
   try {
     const { id } = req.params; //id phonenumber h ye
 
     (id);
 
-    const user = await _findOne({ Number: id }).populate("Address");
+    const user = await User.findOne({ Number: id }).populate("Address");
 
     if (!user) {
       return res.status(404).send({
@@ -370,13 +371,13 @@ export async function getSelectedAddress(req, res, next) {
       message: error.message,
     });
   }
-}
+};
 
-export async function FetchallItemsbyUserId(req, res) {
+exports.FetchallItemsbyUserId = async (req, res) => {
   try {
     const { id } = req.params; // user id
 
-    const data = await _findOne({ Number: id }).populate({
+    const data = await User.findOne({ Number: id }).populate({
       path: "products",
       populate: {
         path: "Item",
@@ -399,4 +400,4 @@ export async function FetchallItemsbyUserId(req, res) {
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
-}
+};

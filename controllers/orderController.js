@@ -1,19 +1,19 @@
-import { error } from "console";
-import { deleteMany } from "../models/cartitem.js";
-import { findOne, findById } from "../models/user.js";
-import Order, { find, findById as _findById } from "../models/orders.js";
-import { findById as __findById } from "../models/address.js";
-import { time } from 'uniqid';
-import { findById as ___findById } from "../models/offers.js";
+import { CartItem } from "../models/cartitem.js"
+import { Address } from "../models/address.js"
+import { Order } from "../models/orders.js"
+import { uniqid } from 'uniqid';
+import { Offer } from '../models/offers.js'
+import { User } from '../models/user.js'
 
 
-export async function fetchallOrdersbyUserId(req, res) {
+
+exports.fetchallOrdersbyUserId = async (req, res) => {
   try {
     const { userid } = req.params;
 
-    const usar = await findOne({ Number: userid });
+    const usar = await User.findOne({ Number: userid });
 
-    const data = await find({ User: usar._id }).populate("OrderDetails.Product").populate("Addres");
+    const data = await Order.find({ User: usar._id }).populate("OrderDetails.Product").populate("Addres");
 
     if (!data) {
       return res.status(200).json({
@@ -29,18 +29,18 @@ export async function fetchallOrdersbyUserId(req, res) {
     console.error(error)
     res.status(400).json({ error: error.message });
   }
-}
+};
 
 // ordere id generate krvani h
 
 
-export async function verifyReferral(req, res) {
+exports.verifyReferral = async (req, res) => {
   try {
 
     const { number } = req.body;
 
 
-    const user = await findOne({ Number: number });
+    const user = await User.findOne({ Number: number });
 
 
     if (user.refferedBy != null && user.refferedBy && user.Order.length == 0) {
@@ -61,18 +61,18 @@ export async function verifyReferral(req, res) {
   }
 }
 
-export async function createOrder(req, res) {
+exports.createOrder = async (req, res) => {
   try {
     const { tamount, userid, orderdetail, addressid, offerId } = req.body; // address map string bhej rha hu to ek baar check kr liyo krunyi ab ref use kr liya
 
 
-    const usar = await findOne({ Number: userid });
+    const usar = await User.findOne({ Number: userid });
 
 
     /* --------------------------- With Referral COde first Time --------------------------- */
     if (usar.refferedBy != null && usar.Order.length == 0) {
 
-      const masterUser = await findById(usar.refferedBy);
+      const masterUser = await User.findById(usar.refferedBy);
 
       if (!masterUser) {
         return res.status(400).json({ message: "Wrong Referral Code" });
@@ -87,13 +87,13 @@ export async function createOrder(req, res) {
     }
     /* -------------------------------------------------------------------------- */
 
-    const adress = await __findById(addressid);
+    const adress = await Address.findById(addressid);
 
     if (!adress) {
       return res.status(400).json({ error: "num address found" });
     }
 
-    var uniqId = time('ORD-');
+    var uniqId = uniqid.time('ORD-');
 
     const neworder = new Order({
       OrderId: uniqId,
@@ -117,7 +117,7 @@ export async function createOrder(req, res) {
       }
       else {
 
-        var offer = await ___findById(offerId);
+        var offer = await Offer.findById(offerId);
 
         offer.redeemedUsers.push(usar._id);
 
@@ -132,7 +132,7 @@ export async function createOrder(req, res) {
 
     const usarId = usar._id;
 
-    await deleteMany({ User: usarId });
+    await CartItem.deleteMany({ User: usarId });
 
     usar.products = [];
     await usar.save();
@@ -144,13 +144,13 @@ export async function createOrder(req, res) {
     console.log(error);
     res.status(400).json({ error: error.message });
   }
-}
+};
 
-export async function fetchallAllOrdersbyStatus(req, res) {
+exports.fetchallAllOrdersbyStatus = async (req, res) => {
   try {
     const { status } = req.params;
 
-    const data = await find({ OrderStatus: status }).populate("OrderDetails.Product").populate("Addres");
+    const data = await Order.find({ OrderStatus: status }).populate("OrderDetails.Product").populate("Addres");
 
     if (!data) {
       return res.status(200).json({
@@ -166,14 +166,14 @@ export async function fetchallAllOrdersbyStatus(req, res) {
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
-}
+};
 
-export async function updateorderstatus(req, res) {
+exports.updateorderstatus = async (req, res) => {
   try {
     const { orderid, status } = req.body;
     console.log(status);
 
-    const order = await _findById(orderid);
+    const order = await Order.findById(orderid);
 
     if (!order) {
       return res.status(300).json({
@@ -191,4 +191,4 @@ export async function updateorderstatus(req, res) {
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
-}
+};

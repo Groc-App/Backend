@@ -1,8 +1,8 @@
-import Category, { find, deleteOne, findOne, findById } from "../models/category.js";
-import { find as _find, findOne as _findOne } from "../models/maincategory.js";
-import { findById as _findById } from "../models/product.js";
+import { Category } from "../models/category.js"
+import { MainCategory } from "../models/maincategory.js"
+import { Product } from "../models/product.js"
 
-export async function addCatergory(req, res) {
+exports.addCatergory = async (req, res) => {
     try {
         const { name, url } = req.body;
 
@@ -11,7 +11,7 @@ export async function addCatergory(req, res) {
                 message: "Please provide name and url"
             })
         }
-        const existCategory = await find({ name: name });
+        const existCategory = await Category.find({ name: name });
         if (existCategory) {
             res.status(400).json({
                 message: "Success",
@@ -33,11 +33,11 @@ export async function addCatergory(req, res) {
     }
 }
 
-export async function getCategoryByMaincategory(req, res) {
+exports.getCategoryByMaincategory = async (req, res) => {
     try {
 
         const { mainCategoryId } = req.params;
-        const categories = await find({ MainCategory: mainCategoryId });
+        const categories = await Category.find({ MainCategory: mainCategoryId });
         res.status(200).send({
             message: "Success",
             data: categories
@@ -50,9 +50,9 @@ export async function getCategoryByMaincategory(req, res) {
     }
 }
 
-export async function getAllCategory(req, res) {
+exports.getAllCategory = async (req, res) => {
     try {
-        const categories = await find();
+        const categories = await Category.find();
         res.status(200).send({
             message: "Success",
             data: categories
@@ -65,7 +65,7 @@ export async function getAllCategory(req, res) {
     }
 }
 
-export async function deleteCategory(req, res) {
+exports.deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
@@ -74,7 +74,7 @@ export async function deleteCategory(req, res) {
                 // data: category
             })
         }
-        const category = await deleteOne({ _id: id });
+        const category = await Category.deleteOne({ _id: id });
         res.status(200).send({
             message: "Success",
             data: category
@@ -86,7 +86,7 @@ export async function deleteCategory(req, res) {
     }
 }
 
-export async function getCategoryByName(req, res) {
+exports.getCategoryByName = async (req, res) => {
     try {
         const { name } = req.params;
         if (!name) {
@@ -96,7 +96,7 @@ export async function getCategoryByName(req, res) {
             })
         }
 
-        const category = await findOne({ Name: name }).populate('Products');
+        const category = await Category.findOne({ Name: name }).populate('Products');
 
         res.status(200).send({
             message: "Success",
@@ -110,9 +110,9 @@ export async function getCategoryByName(req, res) {
     }
 }
 
-export async function updateCategory(req, res) {
+exports.updateCategory = async (req, res) => {
     try {
-        var categories = await find().populate('Products');
+        var categories = await Category.find().populate('Products');
 
         for (var i = 0; i < categories.length; i++) {
             var category = categories[i];
@@ -134,9 +134,9 @@ export async function updateCategory(req, res) {
 }
 
 
-export async function getallMainCategory(req, res) {
+exports.getallMainCategory = async (req, res) => {
     try {
-        var data = await _find();
+        var data = await MainCategory.find();
 
         function compare(a, b) {
             if (a.Name < b.Name) {
@@ -162,18 +162,18 @@ export async function getallMainCategory(req, res) {
     }
 }
 
-export async function fixmaincategory(req, res) {
+exports.fixmaincategory = async (req, res) => {
     try {
-        var galatmaincateg = await _findOne({ Name: 'HouseHold' });
+        var galatmaincateg = await MainCategory.findOne({ Name: 'HouseHold' });
         var galatproducts = galatmaincateg.Products;
 
 
-        var sahimaincateg = await _findOne({ Name: 'Household' });
+        var sahimaincateg = await MainCategory.findOne({ Name: 'Household' });
 
         for (var i = 0; i < galatproducts.length; i++) {
             sahimaincateg.Products.push(galatproducts[i]);
 
-            var producttobechanged = await _findById(galatproducts[i]);
+            var producttobechanged = await Product.findById(galatproducts[i]);
             producttobechanged.MainCategory = sahimaincateg._id;
             await producttobechanged.save();
         }
@@ -183,7 +183,7 @@ export async function fixmaincategory(req, res) {
         for (var i = 0; i < galatcategory.length; i++) {
             sahimaincateg.Products.push(galatcategory[i]);
 
-            var categtobechanged = await findById(galatcategory[i]);
+            var categtobechanged = await Category.findById(galatcategory[i]);
             categtobechanged.MainCategory = sahimaincateg._id;
             await categtobechanged.save();
         }

@@ -1,13 +1,15 @@
-import { findOne } from "../models/user.js";
-import Subscription, { find, findByIdAndUpdate, findByIdAndRemove } from "../models/subscription.js";
-import { Types } from 'mongoose';
-import { findById } from "../models/address.js";
+import { User } from '../models/user.js'
+
+import mongoose from 'mongoose';
+import { Address } from "../models/address.js"
+import { Subscription } from "../models/subscription"
 
 
-export async function fetchAllSubscriptions(req, res) {
+
+exports.fetchAllSubscriptions = async (req, res) => {
     try {
 
-        const subscriptions = await find();
+        const subscriptions = await Subscription.find();
 
 
         if (!subscriptions) {
@@ -24,12 +26,12 @@ export async function fetchAllSubscriptions(req, res) {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-}
-export async function fetchSubscriptionByUser(req, res) {
+};
+exports.fetchSubscriptionByUser = async (req, res) => {
     try {
         const { number } = req.query;
         (req.query)
-        const user = await findOne({ Number: number });
+        const user = await User.findOne({ Number: number });
 
         (user)
         if (!user) {
@@ -43,7 +45,7 @@ export async function fetchSubscriptionByUser(req, res) {
 
         const userId = user._id;
 
-        const subscriptions = await find({
+        const subscriptions = await Subscription.find({
             subscriber: userId
         }).populate('product').populate('address')
 
@@ -65,9 +67,9 @@ export async function fetchSubscriptionByUser(req, res) {
         console.log(error);
         res.status(400).json({ error: error.message });
     }
-}
+};
 
-export async function editSubscriptionByUser(req, res) {
+exports.editSubscriptionByUser = async (req, res) => {
     try {
 
         const { subsid, quantity, startDate, endDate, address } = req.body;
@@ -75,7 +77,7 @@ export async function editSubscriptionByUser(req, res) {
 
         (req.query);
 
-        const subscription = await findByIdAndUpdate(subsid, { quantity: quantity, startDate: startDate, endDate: endDate, address: address });
+        const subscription = await Subscription.findByIdAndUpdate(subsid, { quantity: quantity, startDate: startDate, endDate: endDate, address: address });
 
         // if (!user) {
         //     return res.status(200).json({
@@ -92,15 +94,15 @@ export async function editSubscriptionByUser(req, res) {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-}
+};
 
-export async function cancelSubscriptionByUser(req, res) {
+exports.cancelSubscriptionByUser = async (req, res) => {
     try {
 
         const { subscriptionId } = req.query;
 
 
-        const user = await findByIdAndRemove(subscriptionId);
+        const user = await Subscription.findByIdAndRemove(subscriptionId);
 
         if (!user) {
             return res.status(200).json({
@@ -117,9 +119,9 @@ export async function cancelSubscriptionByUser(req, res) {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-}
+};
 
-export async function createSubscription(req, res) {
+exports.createSubscription = async (req, res) => {
     try {
         const { productId, number, quantity, address, endDate } = req.body;
 
@@ -127,7 +129,7 @@ export async function createSubscription(req, res) {
         //order detail = [{productid, quantity}]
 
 
-        const user = await findOne({ Number: number });
+        const user = await User.findOne({ Number: number });
 
         if (!user) {
             return res.status(200).json({
@@ -137,12 +139,12 @@ export async function createSubscription(req, res) {
         }
 
         const userId = user._id;
-        var prodId = Types.ObjectId(productId);
+        var prodId = mongoose.Types.ObjectId(productId);
 
-        const adress = await findById(address);
+        const adress = await Address.findById(address);
 
         ("Address id:", adress._id);
-        var addressId = Types.ObjectId(adress._id);
+        var addressId = mongoose.Types.ObjectId(adress._id);
 
 
 
@@ -174,5 +176,5 @@ export async function createSubscription(req, res) {
         res.status(400).json({ error: error.message });
 
     }
-}
+};
 

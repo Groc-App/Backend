@@ -1,11 +1,12 @@
 // import 'mongoose';
 
-import { Schema as _Schema, model } from "mongoose";
-const Schema = _Schema;
+import mongoose from 'mongoose';
+
+const Schema = mongoose.Schema;
 
 const subscriptionSchema = new Schema({
     product: {
-        type: _Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
     },
     quantity: Number,
@@ -13,11 +14,11 @@ const subscriptionSchema = new Schema({
     startDate: Date,
     endDate: Date,
     address: {
-        type: _Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Address',
     },
     subscriber: {
-        type: _Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
 }, {
@@ -31,6 +32,6 @@ const subscriptionSchema = new Schema({
     },
 });
 
-const Subscription = model("Subscription", subscriptionSchema);
+const Subscription = mongoose.model("Subscription", subscriptionSchema);
 
-export default Subscription;
+module.exports = Subscription;

@@ -1,7 +1,8 @@
 // import 'mongoose';
 
-import { Schema as _Schema, model } from "mongoose";
-const Schema = _Schema;
+import mongoose from 'mongoose';
+
+const Schema = mongoose.Schema;
 
 const categorySchema = new Schema(
     {
@@ -10,12 +11,12 @@ const categorySchema = new Schema(
         },
         Products: [
             {
-                type: _Schema.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref: "Product",
             },
         ],
         MainCategory: {
-            type: _Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "MainCategory",
         },
         imageurl: String
@@ -31,6 +32,6 @@ const categorySchema = new Schema(
     }
 );
 
-const Category = model("Category", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 
-export default Category;
+module.exports = Category;
