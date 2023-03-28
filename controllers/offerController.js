@@ -150,22 +150,22 @@ exports.getAllOffers = async (req, res) => {
         var isUserRedeemed = false;
 
         const user = await User.findOne({ Number: number });
+        if (!user) {
+            return res.status(200).json({
+                message: "No user Found",
+                data: null
+            })
+        }
         const totalUserOrder = user.Order.length;
 
         var customizedoffer = {};
         var resultedArray = [];
 
-        if (!user) {
-            return res.status(200).send({
-                message: "No user Found",
-                data: null
-            })
-        }
 
         var offers = await Offer.find();
 
         if (!offers) {
-            return res.status(200).send({
+            return res.status(200).json({
                 message: "No Offers Found",
                 data: null
             })
@@ -221,7 +221,7 @@ exports.getAllOffers = async (req, res) => {
 
         resultedArray.sort(compare);
 
-        res.status(200).send({
+        res.status(200).json({
             message: "Success",
             data: resultedArray
         })
