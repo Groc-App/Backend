@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { postOffers, getAllOffers, updateOffer, redeemOffer, referralId } from "../../controllers/offerController.js";
-import { verifyReferral } from "../../controllers/orderController";
+import { verifyReferral } from "../../controllers/orderController.js";
 const router = Router();
 // const authController = require("../controller/authController");
 
