@@ -4,7 +4,7 @@ const CartItem = require("../models/cartitem");
 const User = require("../models/user");
 const mongoose = require('mongoose')
 
-const { use } = require("../routes/user/user");
+const { use } = require("../routes/user/user").default;
 
 exports.createuserifnotexist = async (req, res, next) => {
   try {

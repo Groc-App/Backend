@@ -1,7 +1,7 @@
-const express = require("express");
-const { postOffers, getAllOffers, updateOffer, redeemOffer, referralId } = require("../../controllers/offerController");
-const { verifyReferral } = require("../../controllers/orderController");
-const router = express.Router();
+import { Router } from "express";
+import { postOffers, getAllOffers, updateOffer, redeemOffer, referralId } from "../../controllers/offerController.js";
+import { verifyReferral } from "../../controllers/orderController";
+const router = Router();
 // const authController = require("../controller/authController");
 
 router.get("/getAllOffers", getAllOffers);
@@ -16,4 +16,4 @@ router.post("/postOffer", postOffers);
 
 router.patch("/updateOffer", updateOffer);
 
-module.exports = router;
+export default router;

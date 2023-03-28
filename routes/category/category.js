@@ -1,7 +1,7 @@
-const express = require("express");
-const swaggerJSDoc = require("swagger-jsdoc");
-const { getAllCategory, addCatergory, deleteCategory, getallMainCategory, getCategoryByMaincategory, updateCategory, fixmaincategory } = require("../../controllers/categoryController");
-const router = express.Router();
+import { Router } from "express";
+import swaggerJSDoc from "swagger-jsdoc";
+import { getAllCategory, addCatergory, deleteCategory, getallMainCategory, getCategoryByMaincategory, updateCategory, fixmaincategory } from "../../controllers/categoryController.js";
+const router = Router();
 // const authController = require("../controller/authController");
 
 router.post("/addCategory", addCatergory);
@@ -20,4 +20,4 @@ router.delete('/deleteCategory/:id', deleteCategory);
 
 // router.post("/login", authController.login);
 
-module.exports = router;
+export default router;

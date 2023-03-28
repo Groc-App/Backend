@@ -1,11 +1,11 @@
-const express = require("express");
-const { createSubscription, fetchSubscriptionByUser, cancelSubscriptionByUser, editSubscriptionByUser } = require("../../controllers/subscription");
-const router = express.Router();
+import { Router } from "express";
+import { createSubscription, fetchSubscriptionByUser, cancelSubscriptionByUser, editSubscriptionByUser } from "../../controllers/subscription.js";
+const router = Router();
 
 router.post("/createSubscription", createSubscription);
 router.get("/fetchSubscriptionByUser", fetchSubscriptionByUser);
 router.post("/editSubscriptionByUser", editSubscriptionByUser);
 router.delete("/cancelSubscriptionByUser", cancelSubscriptionByUser);
 
-module.exports = router;
+export default router;
 

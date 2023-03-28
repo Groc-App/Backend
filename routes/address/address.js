@@ -1,6 +1,6 @@
-const express = require("express");
-const { addAddress, deleteAddress, setSelectedAddress, updateAddress } = require("../../controllers/addressController");
-const router = express.Router();
+import { Router } from "express";
+import { addAddress, deleteAddress, setSelectedAddress, updateAddress } from "../../controllers/addressController.js";
+const router = Router();
 // const authController = require("../controller/authController");
 
 router.post("/addAddress", addAddress);
@@ -10,4 +10,4 @@ router.post("/updateAddress", updateAddress);
 
 // router.get('/getAddress', getAddress)
 
-module.exports = router;
+export default router;

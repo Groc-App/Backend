@@ -1,10 +1,10 @@
-const Offer = require('../models/offers');
-const mongoose = require('mongoose')
-const User = require('../models/user');
+import Offer, { findById, find } from '../models/offers.js';
+import { Types } from 'mongoose';
+import { findOne } from '../models/user.js';
 
 
 
-exports.postOffers = async (req, res) => {
+export async function postOffers(req, res) {
     try {
         const { number, description, name } = req.body;
 
@@ -24,13 +24,13 @@ exports.postOffers = async (req, res) => {
         })
     }
 }
-exports.updateOffer = async (req, res) => {
+export async function updateOffer(req, res) {
     try {
         const { number, offerId } = req.body;
 
-        const user = await User.findOne({ Number: number });
+        const user = await findOne({ Number: number });
 
-        var offer = await Offer.findById(offerId);
+        var offer = await findById(offerId);
 
         offer.claimedUsers.push(user._id);
         await offer.save();
@@ -48,10 +48,10 @@ exports.updateOffer = async (req, res) => {
     }
 }
 
-exports.referralId = async (req, res) => {
+export async function referralId(req, res) {
     try {
         const { number } = req.params;
-        const user = await User.findOne({ Number: number });
+        const user = await findOne({ Number: number });
 
 
         if (!user) {
@@ -72,14 +72,14 @@ exports.referralId = async (req, res) => {
         });
     }
 }
-exports.redeemOffer = async (req, res) => {
+export async function redeemOffer(req, res) {
     try {
 
 
         const { number, offerId } = req.body;
 
 
-        const user = await User.findOne({ Number: number });
+        const user = await findOne({ Number: number });
 
         if (offerId == 'REF10') {
             if ((user.referralOffer.referredPeople - user.referralOffer.isClaimed) > 0) {
@@ -96,14 +96,14 @@ exports.redeemOffer = async (req, res) => {
             }
         }
 
-        if (!mongoose.Types.ObjectId.isValid(offerId)) {
+        if (!Types.ObjectId.isValid(offerId)) {
             return res.status(200).json({
                 message: "Invalid",
                 data: null
             })
         }
 
-        var offer = await Offer.findById({ _id: offerId });
+        var offer = await findById({ _id: offerId });
 
         if (!offer) {
             return res.status(200).json({
@@ -141,7 +141,7 @@ exports.redeemOffer = async (req, res) => {
         })
     }
 }
-exports.getAllOffers = async (req, res) => {
+export async function getAllOffers(req, res) {
     try {
 
         const { number } = req.query;
@@ -149,7 +149,7 @@ exports.getAllOffers = async (req, res) => {
         var isUserClaimed = false;
         var isUserRedeemed = false;
 
-        const user = await User.findOne({ Number: number });
+        const user = await findOne({ Number: number });
         if (!user) {
             return res.status(200).json({
                 message: "No user Found",
@@ -162,7 +162,7 @@ exports.getAllOffers = async (req, res) => {
         var resultedArray = [];
 
 
-        var offers = await Offer.find();
+        var offers = await find();
 
         if (!offers) {
             return res.status(200).json({
@@ -233,7 +233,7 @@ exports.getAllOffers = async (req, res) => {
     }
 }
 
-exports.redeemreferral = async (req, res) => {
+export async function redeemreferral(req, res) {
     try {
         const { number, offerCode } = req.body;
 
@@ -248,7 +248,7 @@ exports.redeemreferral = async (req, res) => {
 
         /* --------------------------- Finding Master User -------------------------- */
 
-        const masterUser = await User.findOne({ Number: decrypted });
+        const masterUser = await findOne({ Number: decrypted });
 
         if (!masterUser) {
             return res.status(200).json({
@@ -276,7 +276,7 @@ exports.redeemreferral = async (req, res) => {
             isClaimed: false
         });
 
-        var offer = await Offer.findById(offerId);
+        var offer = await findById(offerId);
 
         if (!offer) {
             return res.status(200).json({

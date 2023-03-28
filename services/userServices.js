@@ -1,17 +1,17 @@
-const otpGenerator = require('otp-generator');
-const crypto = require('crypto');
+import { generate } from 'otp-generator';
+import { createHmac } from 'crypto';
 const key = "PrakharArjun";
 
 async function createOtp(params) {
 
-    const otp = otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
+    const otp = generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
 
     const ttl = 5 * 60 * 1000;
 
     const expires = Date.now() + ttl;
     const data = `${params.phone}.${otp}.${expires}`;
 
-    const hash = crypto.createHmac("sha256", key).update(data).digest("hex")
+    const hash = createHmac("sha256", key).update(data).digest("hex")
     const fullHash = `${hash}.${expires}`;
 
 
@@ -32,7 +32,7 @@ async function verifyOtp(params) {
     }
 
     let data = `${params.phone}.${params.otp}.${expires}`
-    let newCalculateHash = crypto.createHmac("sha256", key).update(data).digest("hex");
+    let newCalculateHash = createHmac("sha256", key).update(data).digest("hex");
 
     if (newCalculateHash == hashValue) {
         return {
@@ -45,7 +45,7 @@ async function verifyOtp(params) {
 
 }
 
-module.exports = {
+export default {
     createOtp,
     verifyOtp
 }

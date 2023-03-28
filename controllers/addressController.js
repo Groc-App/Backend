@@ -1,13 +1,13 @@
-const Address = require("../models/address");
-const User = require("../models/user");
+import Address, { findById, findByIdAndDelete, findOne, findByIdAndUpdate, find } from "../models/address.js";
+import { findOne as _findOne } from "../models/user.js";
 
-exports.addAddress = async (req, res, next) => {
+export async function addAddress(req, res, next) {
   try {
     const { number, address } = req.body;
 
     ("inside add address " + number);
 
-    var user = await User.findOne({ Number: number });
+    var user = await _findOne({ Number: number });
 
     if (!user) {
       res.status(404).send({
@@ -37,15 +37,15 @@ exports.addAddress = async (req, res, next) => {
       message: error.message,
     });
   }
-};
+}
 
-exports.deleteAddress = async (req, res, next) => {
+export async function deleteAddress(req, res, next) {
   try {
     const { number, addressid } = req.body;
 
     ("inside delete address " + number);
 
-    var user = await User.findOne({ Number: number });
+    var user = await _findOne({ Number: number });
 
     if (!user) {
       return res.status(404).send({
@@ -69,13 +69,13 @@ exports.deleteAddress = async (req, res, next) => {
     user.Address.splice(idx, 1);
     await user.save();
 
-    var addtodel = Address.findById(addressid);
+    var addtodel = findById(addressid);
 
     if (addtodel.defaultAddress == false)
-      await Address.findByIdAndDelete(addressid);
+      await findByIdAndDelete(addressid);
     else {
-      await Address.findByIdAndDelete(addressid);
-      var defadd = await Address.findOne({ UserId: user._id });
+      await findByIdAndDelete(addressid);
+      var defadd = await findOne({ UserId: user._id });
 
       if (defadd != null) {
         defadd.defaultAddress = true;
@@ -92,15 +92,15 @@ exports.deleteAddress = async (req, res, next) => {
       message: error.message,
     });
   }
-};
+}
 
-exports.updateAddress = async (req, res, next) => {
+export async function updateAddress(req, res, next) {
   try {
     const { addressinfo, addressId } = req.body;
 
     ("inside update address " + addressId);
 
-    await Address.findByIdAndUpdate(addressId, {
+    await findByIdAndUpdate(addressId, {
       Flat_FLoor_Tower: addressinfo["Flat_FLoor_Tower"],
       Recipients_Name: addressinfo["Recipients_Name"],
       Street_Society: addressinfo["Street_Society"],
@@ -117,17 +117,17 @@ exports.updateAddress = async (req, res, next) => {
       message: error.message,
     });
   }
-};
+}
 
-exports.setSelectedAddress = async (req, res, next) => {
+export async function setSelectedAddress(req, res, next) {
   try {
     const { number, addressid } = req.body;
 
     ("inside set address " + addressid);
 
-    var user = await User.findOne({ Number: number });
+    var user = await _findOne({ Number: number });
 
-    var addresses = await Address.find({ UserId: user._id });
+    var addresses = await find({ UserId: user._id });
     for (var i = 0; i < addresses.length; i++) {
       var data = addresses[i];
       if (data._id == addressid) {
@@ -148,4 +148,4 @@ exports.setSelectedAddress = async (req, res, next) => {
       message: error.message,
     });
   }
-};
+}

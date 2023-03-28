@@ -1,11 +1,8 @@
-const { error } = require("console");
-const CartItem = require("../models/cartitem");
-const User = require("../models/user");
-const { findByIdAndDelete, findByIdAndUpdate } = require("../models/category");
-const Category = require("../models/category");
-const Product = require("../models/product");
+import { error } from "console";
+import CartItem, { findByIdAndDelete as _findByIdAndDelete, findByIdAndUpdate as _findByIdAndUpdate, findOne } from "../models/cartitem.js";
+import { findOne as _findOne } from "../models/user.js";
 
-exports.addCartItem = async (req, res) => {
+export async function addCartItem(req, res) {
   try {
     const { userid, productid, itemcount } = req.body;
 
@@ -20,55 +17,55 @@ exports.addCartItem = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.deleteCartItem = async (req, res) => {
+export async function deleteCartItem(req, res) {
   try {
     const { id } = req.params;
 
-    const data = await CartItem.findByIdAndDelete(id);
+    const data = await _findByIdAndDelete(id);
 
     if (!data) res.status(400).json({ error: error.message });
     return res.status(200).json({ success: "Deleted Successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.updateQuantity = async (req, res) => {
+export async function updateQuantity(req, res) {
   try {
     const { id, quantity } = req.body; // cart item ki id h ye na ki userid
 
-    const data = await CartItem.findByIdAndUpdate(id, { ItemCount: quantity });
+    const data = await _findByIdAndUpdate(id, { ItemCount: quantity });
 
     if (!data) res.status(400).json({ error: error.message });
     return res.status(200).json({ success: "Updated Successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.deleteCartItembynumber = async (req, res) => {
+export async function deleteCartItembynumber(req, res) {
   try {
     const { phonenumber, productId } = req.body;
 
     (phonenumber, productId);
 
     // var item = await CartItem.findOneAndRemove({Item: productid});
-    var user = await User.findOne({ Number: phonenumber });
+    var user = await _findOne({ Number: phonenumber });
 
     if (!user) return res.status(400).json({ "message": "error in finding user" });
 
     const userId = user._id;
 
     if (productId && userId) {
-      var cartItem = await CartItem.findOne({ Item: productId, User: userId });
+      var cartItem = await findOne({ Item: productId, User: userId });
 
       if (!cartItem) return res.status(400).json({ "message": "error in finding cartitem" });
     }
 
     const cartItemId = cartItem._id;
-    await CartItem.findByIdAndDelete(cartItemId);
+    await _findByIdAndDelete(cartItemId);
 
     for (var i = 0; i < user.products.length; i++) {
       if (user.products[i].equals(cartItemId)) {
@@ -84,4 +81,4 @@ exports.deleteCartItembynumber = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
