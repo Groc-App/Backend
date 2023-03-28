@@ -1,14 +1,14 @@
 {
   "name": "backend",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "NODE_OPTIONS='--experimental-specifier-resolution=node --trace-warnings' node app.js",
     "dev": "nodemon app.js",
     "deploy": "serverless deploy"
   },
-  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {

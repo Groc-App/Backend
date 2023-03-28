@@ -1,44 +1,47 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const path = require("path");
-const morgan = require("morgan");
-const connectDB = require("./config/db");
+
+import express, { urlencoded, json } from "express";
+import mongoose from "mongoose";
+import { config } from "dotenv";
+import path from "path";
+import morgan from "morgan";
+import connectDB from "./config/db";
 // const auth = require("./routes/auth");
 const app = express();
-var cors = require("cors");
-var cookieParser = require("cookie-parser");
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express')
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
-dotenv.config({ path: "./config/config.env" });
+config({ path: "./config/config.env" });
 
 connectDB();
 
 app.use(cookieParser());
 
-app.use(express.urlencoded({ extended: false }));
+app.use(urlencoded({ extended: false }));
 app.use(cors());
-app.use(express.json());
+app.use(json());
 
 // if (process.env.NODE_ENV === "development") {
 //     app.use(morgan("dev"));
 // }
 /* ---------------------------  Routes --------------------------- */
 
-const authRouter = require("./routes/user/auth");
-const productRouter = require("./routes/products/product.js");
-const categoryRouter = require('./routes/category/category')
-const cartRouter = require("./routes/cart/cartitem");
-const orderRouter = require("./routes/orders/orders");
-const offerRouter = require("./routes/offer/offer");
-const quoteRouter = require("./routes/quote/quote");
-const subscriptionRouter = require("./routes/subscription/subscription");
+import authRouter from "./routes/user/auth.js";
+import productRouter from "./routes/products/product.js";
+import categoryRouter from './routes/category/category.js';
+import cartRouter from "./routes/cart/cartitem.js";
+import orderRouter from "./routes/orders/orders.js";
+import offerRouter from "./routes/offer/offer.js";
+import quoteRouter from "./routes/quote/quote.js";
+import subscriptionRouter from "./routes/subscription/subscription.js";
+import addressRouter from './routes/address/address.js';
+import userRouter from './routes/user/user.js';
 
 app.use("/", authRouter);
-app.use("/address", require('./routes/address/address'));
-app.use("/user", require('./routes/user/user'));
+app.use("/address", addressRouter);
+app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
 app.use("/order", orderRouter);

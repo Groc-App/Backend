@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import { set, connect } from "mongoose";
+import { config } from "dotenv";
 
-dotenv.config({ path: "./config/config.env" });
+config({ path: "./config/config.env" });
 
 const connectDB = async () => {
     try {
-        mongoose.set('strictQuery', false);
-        const conn = mongoose.connect(process.env.MONGO_URI, {
+        set('strictQuery', false);
+        const conn = connect(process.env.MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
@@ -18,4 +18,4 @@ const connectDB = async () => {
     }
 };
 
-module.exports = connectDB;
+export default connectDB;
