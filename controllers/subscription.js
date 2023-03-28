@@ -1,7 +1,4 @@
-import { error } from "console";
 import { findOne } from "../models/user.js";
-import Product from "../models/product.js";
-import Order from "../models/orders";
 import Subscription, { find, findByIdAndUpdate, findByIdAndRemove } from "../models/subscription.js";
 import { Types } from 'mongoose';
 import { findById } from "../models/address.js";
