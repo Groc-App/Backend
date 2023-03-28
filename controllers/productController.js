@@ -2,7 +2,7 @@ import { Category } from "../models/category.js"
 
 import { Product } from "../models/product.js";
 import { MainCategory } from "../models/maincategory.js"
-import { MostSelling } from "./models/mostselling.js";
+import { MostSelling } from "../models/mostselling";
 
 exports.addProduct = async (req, res) => {
   try {
