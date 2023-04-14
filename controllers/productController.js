@@ -290,7 +290,7 @@ export const fetchProductByMainCategoryAndCategory = async (req, res) => {
   try {
     const { mainCategoryId, subCategoryId } = req.query;
     // console.log(req.par)
-    var mainProducts;
+    var mainProductss;
 
     if (mainCategoryId == "null" && subCategoryId == "null") {
       return res.status(404).json({
@@ -298,20 +298,24 @@ export const fetchProductByMainCategoryAndCategory = async (req, res) => {
       });
     } else if (subCategoryId == "null") {
       ("else if");
-      mainProducts = await MainCategory.findById(mainCategoryId).populate(
+      mainProductss = await MainCategory.findById(mainCategoryId).populate(
         "Products"
       );
     } else {
-      mainProducts = await Category.findById(subCategoryId).populate(
+      mainProductss = await Category.findById(subCategoryId).populate(
         "Products"
       );
       // (mainProducts);
     }
-    if (!mainProducts) return res.status(500).json({ error: "No products" });
+    if (!mainProductss) return res.status(500).json({ error: "No products" });
+
+    const mainProduct = mainProductss.Products.filter((product) => {
+      return (product.Name != "Maggi") && (product.Name != "Aloo 1kg");
+    })
 
     return res.status(200).json({
       message: "Success",
-      data: mainProducts.Products,
+      data: mainProduct,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
